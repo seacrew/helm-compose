@@ -1,5 +1,4 @@
-#!/usr/bin/env sh
-set -euf
+#!/usr/bin/env bash
 
 if [ "${HELM_DEBUG:-}" = "1" ] || [ "${HELM_DEBUG:-}" = "true" ] || [ -n "${HELM_SECRETS_DEBUG+x}" ]; then
     set -x
@@ -7,6 +6,10 @@ fi
 
 PLUGIN_NAME="helm-compose"
 GITHUB_REPO="nileger/helm-compose"
+
+[ -z "$HELM_BIN" ] && HELM_BIN=$(command -v helm)
+
+[ -z "$HELM_HOME" ] && HELM_HOME=$(helm env | grep 'HELM_DATA_HOME' | cut -d '=' -f2 | tr -d '"')
 
 # Convert HELM_BIN and HELM_PLUGIN_DIR to unix if cygpath is
 # available. This is the case when using MSYS2 or Cygwin
@@ -18,10 +21,6 @@ if command -v cygpath >/dev/null 2>&1; then
   HELM_PLUGIN_DIR="$(cygpath -u "${HELM_PLUGIN_DIR}")"
 fi
 
-[ -z "$HELM_BIN" ] && HELM_BIN=$(command -v helm)
-
-[ -z "$HELM_HOME" ] && HELM_HOME=$(helm env | grep 'HELM_DATA_HOME' | cut -d '=' -f2 | tr -d '"')
-
 mkdir -p "$HELM_HOME"
 
 : "${HELM_PLUGIN_DIR:="$HELM_HOME/plugins/helm-compose"}"
@@ -29,6 +28,12 @@ mkdir -p "$HELM_HOME"
 if [[ $SKIP_BIN_INSTALL == "1" ]]; then
   echo "Skipping binary install"
   exit
+fi
+
+# which mode is the common installer script running in
+SCRIPT_MODE="install"
+if [ "$1" = "-u" ]; then
+  SCRIPT_MODE="update"
 fi
 
 # initArch discovers the architecture for this system.
@@ -76,42 +81,38 @@ verifySupported() {
 
 # getDownloadURL checks the latest available version.
 getDownloadURL() {
-  local version=$(git -C $HELM_PLUGIN_PATH describe --tags --exact-match 2>/dev/null)
-  if [ -n "$version" ]; then
-    DOWNLOAD_URL="https://github.com/$GITHUB_REPO/releases/download/$version/helm-compose-$OS.tgz"
+  version=$(git -C "$HELM_PLUGIN_DIR" describe --tags --exact-match 2>/dev/null || :)
+  if [ "$SCRIPT_MODE" = "install" ] && [ -n "$version" ]; then
+    DOWNLOAD_URL="https://github.com/$GITHUB_REPO/releases/download/$version/helm-compose-$OS-$ARCH.tgz"
   else
-    # Use the GitHub API to find the download url for this project.
-    local url="https://api.github.com/repos/$GITHUB_REPO/releases/latest"
-    if type "curl" > /dev/null; then
-      DOWNLOAD_URL=$(curl -s $url | grep $OS | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
-    elif type "wget" > /dev/null; then
-      DOWNLOAD_URL=$(wget -q -O - $url | grep $OS | awk '/\"browser_download_url\":/{gsub( /[,\"]/,"", $2); print $2}')
-    fi
+    DOWNLOAD_URL="https://github.com/$GITHUB_REPO/releases/latest/download/helm-compose-$OS-$ARCH.tgz"
   fi
 }
 
 # downloadFile downloads the latest binary package and also the checksum
 # for that binary.
 downloadFile() {
-  PLUGIN_TMP_FILE="/tmp/${PLUGIN_NAME}.tgz"
+  HELM_TMP="$(mktemp -d -t ${PLUGIN_NAME}-XXXXXX)"
+  PLUGIN_TMP_FILE="${HELM_TMP}/${PLUGIN_NAME}.tgz"
   echo "Downloading $DOWNLOAD_URL"
-  if type "curl" > /dev/null; then
-    curl -L "$DOWNLOAD_URL" -o "$PLUGIN_TMP_FILE"
-  elif type "wget" > /dev/null; then
-    wget -q -O "$PLUGIN_TMP_FILE" "$DOWNLOAD_URL"
+  if command -v curl >/dev/null 2>&1; then
+    curl -sSf -L "$DOWNLOAD_URL" >"$PLUGIN_TMP_FILE"
+  elif command -v wget >/dev/null 2>&1; then
+    wget -q -O - "$DOWNLOAD_URL" >"$PLUGIN_TMP_FILE"
   fi
 }
 
 # installFile verifies the SHA256 for the file, then unpacks and
 # installs it.
 installFile() {
-  HELM_TMP="/tmp/$PLUGIN_NAME"
-  mkdir -p "$HELM_TMP"
-  tar xf "$PLUGIN_TMP_FILE" -C "$HELM_TMP"
-  HELM_TMP_BIN="$HELM_TMP/diff/bin/diff"
-  echo "Preparing to install into ${HELM_PLUGIN_PATH}"
-  mkdir -p "$HELM_PLUGIN_PATH/bin"
-  cp "$HELM_TMP_BIN" "$HELM_PLUGIN_PATH/bin"
+  tar xzf "$PLUGIN_TMP_FILE" -C "$HELM_TMP"
+  HELM_TMP_BIN="$HELM_TMP/compose/bin/compose"
+  if [ "${OS}" = "windows" ]; then
+    HELM_TMP_BIN="$HELM_TMP_BIN.exe"
+  fi
+  echo "Preparing to install into ${HELM_PLUGIN_DIR}"
+  mkdir -p "$HELM_PLUGIN_DIR/bin"
+  cp "$HELM_TMP_BIN" "$HELM_PLUGIN_DIR/bin"
 }
 
 # fail_trap is executed if an error occurs.
@@ -119,15 +120,15 @@ fail_trap() {
   result=$?
   if [ "$result" != "0" ]; then
     echo "Failed to install $PLUGIN_NAME"
-    echo "\tFor support, go to https://github.com/databus23/helm-diff."
+    echo "\tFor support, go to https://github.com/$GITHUB_REPO/helm-compose."
   fi
   exit $result
 }
 
 # testVersion tests the installed client to make sure it is working.
 testVersion() {
-  echo "$PLUGIN_NAME installed into $HELM_PLUGIN_PATH/$PLUGIN_NAME"
-  "${HELM_PLUGIN_PATH}/bin/compose" -h
+  echo "$PLUGIN_NAME installed into $HELM_PLUGIN_DIR"
+  #"${HELM_PLUGIN_DIR}/bin/compose" -h
 }
 
 # Execution
