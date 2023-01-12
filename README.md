@@ -1,8 +1,8 @@
-![helm-compose](https://user-images.githubusercontent.com/18513179/212163260-4dbd4374-e05c-4165-955f-f79fe31a1be8.png)
+![helm-compose-banner](https://user-images.githubusercontent.com/18513179/212167009-4f20f337-5525-48fe-b96c-b7e98f56bcb8.png)
 # Helm Compose
 
 # IMPORTANT NOTICE: THIS IS A WORK IN PROGRESS
-As of yet, this plugin should __NOT__ be treaty as a stable tool and shouldn't be used in an production environment.
+As of yet, this plugin should __NOT__ be treated as a stable tool and shouldn't be used in an production environment.
 
 ## About
 Helm Compose is a tool for managing multiple releases for one or many different Helm charts. It is an extension of the package manager idea behind Helm and is heavily inspired by Docker Compose.
