@@ -2,10 +2,9 @@ HELM_HOME := $(shell bash -c 'eval $$(helm env); echo $$HELM_PLUGINS')
 
 .PHONY: install
 install: build
-	echo $(HELM_HOME)
-	mkdir -p $(HELM_HOME)/plugins/helm-compose/bin
-	cp bin/compose $(HELM_HOME)/plugins/helm-compose/bin
-	cp plugin.yaml $(HELM_HOME)/plugins/helm-compose/
+	mkdir -p $(HELM_HOME)/helm-compose/bin
+	cp bin/compose $(HELM_HOME)/helm-compose/bin
+	cp plugin.yaml $(HELM_HOME)/helm-compose/
 
 .PHONY: build
 build:
