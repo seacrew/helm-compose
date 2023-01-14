@@ -23,7 +23,7 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "helm-compose",
+	Use:   "compose",
 	Short: "Compose is a helm plugin to define and manage multiple helm releases as a single entity.",
 	Long: `With the Helm Compose plugin you are able to create a single compose file
 to manage a multitude of releases. Either for deploying one chart multiple times in
@@ -40,12 +40,4 @@ func Execute() {
 }
 
 func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.helm-compose.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
 }
