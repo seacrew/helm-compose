@@ -1,4 +1,4 @@
-![helm-compose-banner](https://user-images.githubusercontent.com/18513179/212167009-4f20f337-5525-48fe-b96c-b7e98f56bcb8.png)
+![helm-compose-banner](https://user-images.githubusercontent.com/18513179/212496531-1d166236-ed88-411d-8403-ad1f94d28846.png)
 # Helm Compose
 
 # IMPORTANT NOTICE: THIS IS A WORK IN PROGRESS
