@@ -15,4 +15,4 @@ releases:
     namespace: database
 
 repositories:
-  bitnami: https://artifacthub.io/packages/helm/bitnami
+  bitnami: https://charts.bitnami.com/bitnami

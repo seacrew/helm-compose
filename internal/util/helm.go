@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -37,6 +38,16 @@ func CompatibleHelmVersion() error {
 	if minVersion.GreaterThan(helmVersion) {
 		return fmt.Errorf("helm compose requires at least helm version %s", minVersion.String())
 	}
+	return nil
+}
+
+func AddHelmRepository(name string, url string) error {
+	output, err := Execute(helm, "repo", "add", "--force-update", name, url)
+
+	if err != nil {
+		return errors.New(output)
+	}
+
 	return nil
 }
 
