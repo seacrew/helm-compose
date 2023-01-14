@@ -1,0 +1,18 @@
+composeVersion: "1.0"
+
+releases:
+  wordpress:
+    chart: bitnami/wordpress
+    chartVersion: 14.3.2
+    namespace: shop
+  wordpress2:
+    chart: bitnami/wordpress
+    chartVersion: 15.2.22
+    namespace: homepage
+  postgres:
+    chart: bitnami/postgresql
+    chartVersion: 12.1.9
+    namespace: database
+
+repositories:
+  bitnami: https://artifacthub.io/packages/helm/bitnami

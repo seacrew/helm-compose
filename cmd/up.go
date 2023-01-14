@@ -27,22 +27,18 @@ var upCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		cmd.SilenceUsage = true
+
 		if err := util.CompatibleHelmVersion(); err != nil {
 			return err
 		}
 
-		config := compose.Config{
-			Releases: map[string]compose.Release{
-				"wordpress": {
-					Chart: "bitnami/wordpress",
-				},
-			},
-			Repositories: map[string]string{
-				"bitnami": "https://charts.bitnami.com/bitnami",
-			},
+		config, err := compose.ParseConfig("")
+		if err != nil {
+			return err
 		}
 
-		return compose.RunUp(&config)
+		return compose.RunUp(config)
 	},
 }
 

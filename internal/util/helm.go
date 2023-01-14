@@ -13,7 +13,7 @@ import (
 var (
 	helm       = os.Getenv("HELM_BIN")
 	versionRE  = regexp.MustCompile(`Version:\s*"([^"]+)"`)
-	minVersion = semver.MustParse("v4.0.0")
+	minVersion = semver.MustParse("v3.0.0")
 )
 
 func CompatibleHelmVersion() error {

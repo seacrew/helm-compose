@@ -1,17 +1,17 @@
 package compose
 
 type Release struct {
-	Name         string                 `json:"name,omitempty"`
-	Chart        string                 `json:"chart,omitempty"`
-	ChartVersion string                 `json:"chartVersion,omitempty"`
-	Namespace    string                 `json:"namespace,omitempty"`
-	KubeContext  string                 `json:"kubeContext,omitempty"`
-	Values       map[string]interface{} `json:"values,omitempty"`
-	ValueFiles   []string               `json:"valueFiles,omitempty"`
+	Name         string                 `yaml:"name,omitempty"`
+	Chart        string                 `yaml:"chart,omitempty"`
+	ChartVersion string                 `yaml:"chartVersion,omitempty"`
+	Namespace    string                 `yaml:"namespace,omitempty"`
+	KubeContext  string                 `yaml:"kubeContext,omitempty"`
+	Values       map[string]interface{} `yaml:"values,omitempty"`
+	ValueFiles   []string               `yaml:"valueFiles,omitempty"`
 }
 
 type Config struct {
-	Version      string             `json:"composeVersion,omitempty"`
-	Releases     map[string]Release `json:"releases,omitempty"`
-	Repositories map[string]string  `json:"repositories,omitempty"`
+	Version      string             `yaml:"composeVersion,omitempty"`
+	Releases     map[string]Release `yaml:"releases,omitempty"`
+	Repositories map[string]string  `yaml:"repositories,omitempty"`
 }
