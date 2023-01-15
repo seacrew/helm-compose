@@ -17,7 +17,6 @@ package cmd
 
 import (
 	"github.com/nileger/helm-compose/internal/compose"
-	"github.com/nileger/helm-compose/internal/util"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +30,7 @@ var upCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cmd.SilenceUsage = true
 
-		if err := util.CompatibleHelmVersion(); err != nil {
+		if err := compose.CompatibleHelmVersion(); err != nil {
 			return err
 		}
 

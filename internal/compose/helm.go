@@ -1,4 +1,4 @@
-package util
+package compose
 
 import (
 	"errors"
@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/Masterminds/semver"
+	"github.com/nileger/helm-compose/internal/util"
 )
 
 var (
@@ -19,7 +20,7 @@ var (
 
 func CompatibleHelmVersion() error {
 	cmd := exec.Command(helm, "version")
-	DebugPrint("Executing %s", strings.Join(cmd.Args, " "))
+	util.DebugPrint("Executing %s", strings.Join(cmd.Args, " "))
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("Failed to run `%s version`: %v", os.Getenv("HELM_BIN"), err)
@@ -41,8 +42,8 @@ func CompatibleHelmVersion() error {
 	return nil
 }
 
-func AddHelmRepository(name string, url string) error {
-	output, err := Execute(helm, "repo", "add", "--force-update", name, url)
+func addHelmRepository(name string, url string) error {
+	output, err := util.Execute(helm, "repo", "add", "--force-update", name, url)
 
 	if err != nil {
 		return errors.New(output)
@@ -51,6 +52,9 @@ func AddHelmRepository(name string, url string) error {
 	return nil
 }
 
-func InstallRelease() error {
+func installHelmRelease(name string, release *Release) error {
+
+	fmt.Printf("Installing release `%s`\n", name)
+
 	return nil
 }

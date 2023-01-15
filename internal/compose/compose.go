@@ -1,13 +1,15 @@
 package compose
 
-import (
-	"github.com/nileger/helm-compose/internal/util"
-)
-
 func RunUp(config *Config) error {
-
 	for name, url := range config.Repositories {
-		if err := util.AddHelmRepository(name, url); err != nil {
+		if err := addHelmRepository(name, url); err != nil {
+			return err
+		}
+	}
+
+	for name, release := range config.Releases {
+		err := installHelmRelease(name, &release)
+		if err != nil {
 			return err
 		}
 	}
