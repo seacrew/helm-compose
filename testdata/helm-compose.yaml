@@ -1,4 +1,7 @@
-composeVersion: "1.0"
+composeVersion: 1.0
+
+name: mycompose
+state: local
 
 releases:
   wordpress:
@@ -13,6 +16,7 @@ releases:
     chart: bitnami/postgresql
     chartVersion: 12.1.9
     namespace: database
+    createNamespace: true
 
 repositories:
   bitnami: https://charts.bitnami.com/bitnami
