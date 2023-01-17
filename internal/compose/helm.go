@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+	"sync"
 
 	"github.com/Masterminds/semver"
 	"github.com/nileger/helm-compose/internal/util"
@@ -52,9 +53,7 @@ func addHelmRepository(name string, url string) error {
 	return nil
 }
 
-func installHelmRelease(name string, release *Release) error {
-
+func installHelmRelease(name string, release *Release, wg *sync.WaitGroup) {
+	defer wg.Done()
 	fmt.Printf("Installing release `%s`\n", name)
-
-	return nil
 }
