@@ -56,4 +56,11 @@ func addHelmRepository(name string, url string) error {
 func installHelmRelease(name string, release *Release, wg *sync.WaitGroup) {
 	defer wg.Done()
 	fmt.Printf("Installing release `%s`\n", name)
+	output, err := util.Execute(helm, "upgrade", "--install", name, release.Chart)
+
+	if err != nil {
+		fmt.Print(output)
+	}
+
+	fmt.Print(output)
 }
