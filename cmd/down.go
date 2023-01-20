@@ -26,8 +26,10 @@ var downCmd = &cobra.Command{
 	Use:   "down",
 	Short: "",
 	Long:  ``,
-	Run: func(cmd *cobra.Command, args []string) {
+	RunE: func(cmd *cobra.Command, args []string) error {
 		fmt.Println("down called")
+
+		return nil
 	},
 }
 
