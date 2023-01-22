@@ -6,7 +6,8 @@ type Release struct {
 	ChartVersion    string                      `yaml:"chartVersion,omitempty"`
 	Namespace       string                      `yaml:"namespace,omitempty"`
 	CreateNamespace bool                        `yaml:"createNamespace,omitempty"`
-	KubeContext     string                      `yaml:"kubeContext,omitempty"`
+	KubeConfig      string                      `yaml:"kubeconfig,omitempty"`
+	KubeContext     string                      `yaml:"kubecontext,omitempty"`
 	Values          map[interface{}]interface{} `yaml:"values,omitempty"`
 	ValueFiles      []string                    `yaml:"valueFiles,omitempty"`
 }

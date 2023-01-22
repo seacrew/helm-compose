@@ -55,8 +55,37 @@ func addHelmRepository(name string, url string) error {
 
 func installHelmRelease(name string, release *Release, wg *sync.WaitGroup) {
 	defer wg.Done()
+
 	fmt.Printf("Installing release `%s`\n", name)
-	output, err := util.Execute(helm, "upgrade", "--install", name, release.Chart)
+
+	var args []string
+
+	args = append(args, "upgrade --install")
+
+	if release.CreateNamespace {
+		args = append(args, "--create-namespace")
+	}
+
+	if release.ChartVersion != "" {
+		args = append(args, fmt.Sprintf("--version %s", release.ChartVersion))
+	}
+
+	if release.Namespace != "" {
+		args = append(args, fmt.Sprintf("--namespace %s", release.Namespace))
+	}
+
+	if release.KubeConfig != "" {
+		args = append(args, fmt.Sprintf("--kubeconfig %s", release.KubeConfig))
+	}
+
+	if release.KubeContext != "" {
+		args = append(args, fmt.Sprintf("--kube-context %s", release.KubeContext))
+	}
+
+	args = append(args, name)
+	args = append(args, release.Chart)
+
+	output, err := util.Execute(helm, args...)
 
 	if err != nil {
 		fmt.Print(output)
