@@ -7,11 +7,11 @@ releases:
   wordpress:
     chart: bitnami/wordpress
     chartVersion: 14.3.2
-    namespace: shop
   wordpress2:
     chart: bitnami/wordpress
     chartVersion: 15.2.22
     namespace: homepage
+    createNamespace: true
   postgres:
     chart: bitnami/postgresql
     chartVersion: 12.1.9
