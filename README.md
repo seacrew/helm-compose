@@ -8,12 +8,12 @@ As of yet, this plugin should __NOT__ be treated as a stable tool and shouldn't 
 Helm Compose is a tool for managing multiple releases for one or many different Helm charts. It is an extension of the package manager idea behind Helm and is heavily inspired by Docker Compose.
 
 # Installation
-Install a specific version (recommended). Click [here](https://github.com/nileger/helm-compose/releases/latest) for the latest. version.
+Install a specific version (recommended). Click [here](https://github.com/seacrew/helm-compose/releases/latest) for the latest. version.
 ```
-helm plugin install https://github.com/nileger/helm-compose --version v1.0.0
+helm plugin install https://github.com/seacrew/helm-compose --version v1.0.0
 ```
 
 Install latest unstable version from main branch.
 ```
-helm plugin install https://github.com/nileger/helm-compose
+helm plugin install https://github.com/seacrew/helm-compose
 ```

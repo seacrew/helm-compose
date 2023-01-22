@@ -1,4 +1,4 @@
-module github.com/nileger/helm-compose
+module github.com/seacrew/helm-compose
 
 go 1.19
 

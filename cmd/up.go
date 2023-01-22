@@ -16,7 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"github.com/nileger/helm-compose/internal/compose"
+	"github.com/seacrew/helm-compose/internal/compose"
 	"github.com/spf13/cobra"
 )
 

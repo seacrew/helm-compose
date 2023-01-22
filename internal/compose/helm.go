@@ -9,7 +9,7 @@ import (
 	"strings"
 
 	"github.com/Masterminds/semver"
-	"github.com/nileger/helm-compose/internal/util"
+	"github.com/seacrew/helm-compose/internal/util"
 )
 
 var (

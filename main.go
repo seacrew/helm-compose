@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/nileger/helm-compose/cmd"
+import "github.com/seacrew/helm-compose/cmd"
 
 func main() {
 	cmd.Execute()
