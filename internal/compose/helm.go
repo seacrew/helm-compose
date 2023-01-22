@@ -7,7 +7,6 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
-	"sync"
 
 	"github.com/Masterminds/semver"
 	"github.com/nileger/helm-compose/internal/util"
@@ -53,33 +52,32 @@ func addHelmRepository(name string, url string) error {
 	return nil
 }
 
-func installHelmRelease(name string, release *Release, wg *sync.WaitGroup) {
-	defer wg.Done()
-
+func installHelmRelease(name string, release *Release) {
 	fmt.Printf("Installing release `%s`\n", name)
 
 	var args []string
 
-	args = append(args, "upgrade --install")
+	args = append(args, "upgrade")
+	args = append(args, "--install")
 
 	if release.CreateNamespace {
 		args = append(args, "--create-namespace")
 	}
 
 	if release.ChartVersion != "" {
-		args = append(args, fmt.Sprintf("--version %s", release.ChartVersion))
+		args = append(args, fmt.Sprintf("--version=%s", release.ChartVersion))
 	}
 
 	if release.Namespace != "" {
-		args = append(args, fmt.Sprintf("--namespace %s", release.Namespace))
+		args = append(args, fmt.Sprintf("--namespace=%s", release.Namespace))
 	}
 
 	if release.KubeConfig != "" {
-		args = append(args, fmt.Sprintf("--kubeconfig %s", release.KubeConfig))
+		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
 	}
 
 	if release.KubeContext != "" {
-		args = append(args, fmt.Sprintf("--kube-context %s", release.KubeContext))
+		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
 	}
 
 	args = append(args, name)

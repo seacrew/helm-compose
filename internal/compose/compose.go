@@ -1,7 +1,5 @@
 package compose
 
-import "sync"
-
 func RunUp(config *Config) error {
 	for name, url := range config.Repositories {
 		if err := addHelmRepository(name, url); err != nil {
@@ -10,14 +8,14 @@ func RunUp(config *Config) error {
 	}
 
 	// @TODO proper job queue system
-	var wg sync.WaitGroup
+	//var wg sync.WaitGroup
 
 	for name, release := range config.Releases {
-		wg.Add(1)
-		go installHelmRelease(name, &release, &wg)
+		//wg.Add(1)
+		installHelmRelease(name, &release)
 	}
 
-	wg.Wait()
+	//wg.Wait()
 
 	return nil
 }
