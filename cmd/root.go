@@ -21,6 +21,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
+// upCmd represents the up command
+var composeFile string
+
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "compose",
@@ -40,4 +43,5 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.PersistentFlags().StringVarP(&composeFile, "file", "f", "", "Compose configuration file")
 }

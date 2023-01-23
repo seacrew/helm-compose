@@ -20,9 +20,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// upCmd represents the up command
-var composeFile string
-
 var upCmd = &cobra.Command{
 	Use:   "up",
 	Short: "",
@@ -45,5 +42,4 @@ var upCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(upCmd)
-	upCmd.Flags().StringVarP(&composeFile, "file", "f", "", "Compose configuration file")
 }

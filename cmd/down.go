@@ -16,8 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
-
+	"github.com/seacrew/helm-compose/internal/compose"
 	"github.com/spf13/cobra"
 )
 
@@ -27,9 +26,18 @@ var downCmd = &cobra.Command{
 	Short: "",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		fmt.Println("down called")
+		cmd.SilenceUsage = true
 
-		return nil
+		if err := compose.CompatibleHelmVersion(); err != nil {
+			return err
+		}
+
+		config, err := compose.ParseConfig(composeFile)
+		if err != nil {
+			return err
+		}
+
+		return compose.RunDown(config)
 	},
 }
 

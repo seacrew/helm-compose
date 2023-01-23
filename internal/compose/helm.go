@@ -1,6 +1,7 @@
 package compose
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"os"
@@ -53,8 +54,6 @@ func addHelmRepository(name string, url string) error {
 }
 
 func installHelmRelease(name string, release *Release) {
-	fmt.Printf("Installing release `%s`\n", name)
-
 	var args []string
 
 	args = append(args, "upgrade")
@@ -83,11 +82,49 @@ func installHelmRelease(name string, release *Release) {
 	args = append(args, name)
 	args = append(args, release.Chart)
 
-	output, err := util.Execute(helm, args...)
+	output, _ := util.Execute(helm, args...)
 
-	if err != nil {
-		fmt.Print(output)
+	scanner := bufio.NewScanner(strings.NewReader(output))
+	for scanner.Scan() {
+		fmt.Println(name + " |\t\t" + scanner.Text())
 	}
 
-	fmt.Print(output)
+	err := scanner.Err()
+
+	if err != nil {
+		fmt.Print(err.Error())
+	}
+}
+
+func uninstallHelmRelease(name string, release *Release) {
+	var args []string
+
+	args = append(args, "uninstall")
+
+	if release.Namespace != "" {
+		args = append(args, fmt.Sprintf("--namespace=%s", release.Namespace))
+	}
+
+	if release.KubeConfig != "" {
+		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
+	}
+
+	if release.KubeContext != "" {
+		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
+	}
+
+	args = append(args, name)
+
+	output, _ := util.Execute(helm, args...)
+
+	scanner := bufio.NewScanner(strings.NewReader(output))
+	for scanner.Scan() {
+		fmt.Println(name + " |\t\t" + scanner.Text())
+	}
+
+	err := scanner.Err()
+
+	if err != nil {
+		fmt.Print(err.Error())
+	}
 }
