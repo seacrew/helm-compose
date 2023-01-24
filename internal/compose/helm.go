@@ -4,11 +4,9 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	"hash/fnv"
 	"os"
 	"os/exec"
 	"regexp"
-	"strconv"
 	"strings"
 
 	"github.com/Masterminds/semver"
@@ -55,52 +53,9 @@ func addHelmRepository(name string, url string) error {
 	return nil
 }
 
-var colors [](func(...interface{}) string) = [](func(...interface{}) string){
-	Color("%s"), // fallback
-	Color("\033[1;32m%s\033[0m"),
-	Color("\033[1;33m%s\033[0m"),
-	Color("\033[1;34m%s\033[0m"),
-	Color("\033[1;35m%s\033[0m"),
-	Color("\033[1;36m%s\033[0m"),
-	Color("\033[1;90m%s\033[0m"),
-	Color("\033[1;92m%s\033[0m"),
-	Color("\033[1;93m%s\033[0m"),
-	Color("\033[1;94m%s\033[0m"),
-	Color("\033[1;95m%s\033[0m"),
-	Color("\033[1;96m%s\033[0m"),
-}
-
-func Color(colorString string) func(...interface{}) string {
-	sprint := func(args ...interface{}) string {
-		return fmt.Sprintf(colorString,
-			fmt.Sprint(args...))
-	}
-	return sprint
-}
-
-func hashColor(s string) func(...interface{}) string {
-	h := fnv.New32a()
-	h.Write([]byte(s))
-
-	hash := fmt.Sprint(h.Sum32())
-	for {
-		subtotal := 0
-		for _, r := range hash {
-			value, _ := strconv.Atoi(string(r))
-			subtotal += value
-		}
-
-		if subtotal < len(colors) {
-			return colors[subtotal]
-		}
-
-		hash = fmt.Sprint(subtotal)
-	}
-}
-
 func installHelmRelease(name string, release *Release) {
 	var args []string
-	color := hashColor(name)
+	color := util.HashColor(name)
 
 	args = append(args, "upgrade")
 	args = append(args, "--install")
@@ -144,7 +99,7 @@ func installHelmRelease(name string, release *Release) {
 
 func uninstallHelmRelease(name string, release *Release) {
 	var args []string
-	color := hashColor(name)
+	color := util.HashColor(name)
 
 	args = append(args, "uninstall")
 
