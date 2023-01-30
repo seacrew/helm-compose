@@ -1,7 +1,8 @@
-composeVersion: 1.0
+apiVersion: 1.0
 
-name: mycompose
-state: local
+compose:
+  name: mycompose
+  state: local
 
 releases:
   wordpress:

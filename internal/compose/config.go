@@ -69,16 +69,16 @@ func ParseConfig(filename string) (*Config, error) {
 	}
 
 	if config.Version == "" {
-		return nil, fmt.Errorf("missing composeVersion in file %s", files[0])
+		return nil, fmt.Errorf("missing apiVersion in file %s", files[0])
 	}
 
 	version, err := semver.NewVersion(config.Version)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse composeVersion: %s", config.Version)
+		return nil, fmt.Errorf("failed to parse apiVersion: %s", config.Version)
 	}
 
 	if semver.MustParse("1.0").GreaterThan(version) {
-		return nil, fmt.Errorf("helm compose requires at least composeVersion 1.0 but got %s", config.Version)
+		return nil, fmt.Errorf("helm compose requires at least apiVersion 1.0 but got %s", config.Version)
 	}
 
 	return &config, nil
