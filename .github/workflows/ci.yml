@@ -22,9 +22,11 @@ jobs:
       - uses: azure/setup-helm@v3
         with:
           version: v3.11.0
+      - name: Install Helm Compose
+        run: make install
       - uses: helm/kind-action@v1.5.0
-      - run: make install
-      - run: helm compose install -f testdata/helm-compose.yaml
+      - name: Run Helm Compose
+        run: helm compose up -f testdata/helm-compose.yaml
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ env.GITHUB_REF_NAME }}-${{ env.GITHUB_RUN_NUMBER }}
