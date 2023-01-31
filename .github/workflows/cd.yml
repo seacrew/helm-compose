@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - docs/*
+      - LICENSES/*
+      - README.md
   workflow_run:
     workflows: [CI]
     types: [completed]
