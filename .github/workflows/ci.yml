@@ -27,9 +27,3 @@ jobs:
       - uses: helm/kind-action@v1.5.0
       - name: Run Helm Compose
         run: helm compose up -f testdata/helm-compose.yaml
-      - uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.GITHUB_REF_NAME }}-${{ env.GITHUB_RUN_NUMBER }}
-          path: |
-            bin/compose
-            plugin.yaml
