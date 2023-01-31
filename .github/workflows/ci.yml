@@ -10,7 +10,7 @@ on:
 name: CI
 
 jobs:
-  ci:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,3 +21,9 @@ jobs:
           cache: true
       - uses: azure/setup-helm@v3
       - run: make install
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: helm/kind-action@v1.5.0
+      - run: helm compose install -f testdata/helm-compose.yaml
