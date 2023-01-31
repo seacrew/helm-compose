@@ -1,8 +1,5 @@
 on:
-  push:
-    branches:
-      - main
-      - workflows
+  workflow_dispatch:
   pull_request:
     branches:
       - main
