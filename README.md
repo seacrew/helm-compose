@@ -24,10 +24,11 @@ Helm Compose makes it easy to define a Compose file containing a list of Release
 A Compose file looks something like this:
 
 ```yaml
-composeVersion: 1.0
+apiVersion: 1.0
 
-name: mycompose
-state: local
+compose:
+  name: mycompose
+  state: local
 
 releases:
   wordpress:
