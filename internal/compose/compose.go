@@ -1,5 +1,13 @@
 package compose
 
+import (
+	"errors"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+)
+
 func RunUp(config *Config) error {
 	for name, url := range config.Repositories {
 		if err := addHelmRepository(name, url); err != nil {
@@ -30,6 +38,28 @@ func RunDown(config *Config) error {
 	}
 
 	//wg.Wait()
+
+	return nil
+}
+
+func processRevision(config *Config) error {
+	encodedConfig, err := encodeComposeConfig(config)
+
+	if err != nil {
+		return fmt.Errorf("Couldn't encode compose config: %s", err.Error())
+	}
+
+	if _, err := os.Stat(".hcstate"); errors.Is(err, os.ErrNotExist) {
+		err := os.Mkdir(".hcstate", os.ModePerm)
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
+	err = ioutil.WriteFile(".hcstate/1", []byte(encodedConfig), 0644)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

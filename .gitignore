@@ -4,6 +4,7 @@ vendor/
 bin/
 build/
 release/
+.hcstate/
 
 # Binaries for programs and plugins
 *.exe
