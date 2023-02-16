@@ -9,15 +9,15 @@ type Release struct {
 	KubeConfig      string                 `yaml:"kubeconfig,omitempty"`
 	KubeContext     string                 `yaml:"kubecontext,omitempty"`
 	Values          map[string]interface{} `yaml:"values,omitempty"`
-	ValueFiles      []string               `yaml:"valueFiles,omitempty"`
+	ValueFiles      []string               `yaml:"valuefiles,omitempty"`
 }
 
 type Config struct {
 	Version string `yaml:"apiVersion,omitempty"`
-	Compose struct {
-		Name  string `yaml:"name,omitempty"`
-		State string `yaml:"state,omitempty"`
-	} `yaml:"compose,omitempty"`
+	State   struct {
+		Name    string `yaml:"name,omitempty"`
+		Storage string `yaml:"storage,omitempty"`
+	} `yaml:"state,omitempty"`
 	Releases     map[string]Release `yaml:"releases,omitempty"`
 	Repositories map[string]string  `yaml:"repositories,omitempty"`
 }
