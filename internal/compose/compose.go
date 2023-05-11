@@ -7,6 +7,11 @@ func RunUp(config *Config) error {
 		}
 	}
 
+	previousConfig, err := loadComposeState(config.State.Name)
+	if err != nil {
+		return err
+	}
+
 	if err := storeComposeConfig(config); err != nil {
 		return err
 	}
@@ -17,6 +22,18 @@ func RunUp(config *Config) error {
 	for name, release := range config.Releases {
 		//wg.Add(1)
 		installHelmRelease(name, &release)
+	}
+
+	if previousConfig == nil {
+		return nil
+	}
+
+	for name, release := range previousConfig.Releases {
+		if _, ok := config.Releases[name]; ok {
+			continue
+		}
+
+		uninstallHelmRelease(name, &release)
 	}
 
 	//wg.Wait()

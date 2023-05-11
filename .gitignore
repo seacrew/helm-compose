@@ -1,4 +1,5 @@
 .vscode
+.hcstate
 
 vendor/
 bin/

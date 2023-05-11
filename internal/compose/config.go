@@ -133,12 +133,6 @@ func storeComposeConfig(config *Config) error {
 }
 
 func storeComposeConfigLocal(name string, encodedConfig *string) error {
-	if _, err := os.Stat(".hcstate"); os.IsNotExist(err) {
-		if err := os.Mkdir(".hcstate", os.ModePerm); err != nil {
-			return err
-		}
-	}
-
 	minimum, maximum, err := getMinimumMaximumForState(name)
 	if err != nil {
 		return err
@@ -162,6 +156,12 @@ func storeComposeConfigLocal(name string, encodedConfig *string) error {
 }
 
 func getMinimumMaximumForState(name string) (int, int, error) {
+	if _, err := os.Stat(".hcstate"); os.IsNotExist(err) {
+		if err := os.Mkdir(".hcstate", os.ModePerm); err != nil {
+			return -1, -1, err
+		}
+	}
+
 	files, err := os.ReadDir(".hcstate")
 	if err != nil {
 		return -1, -1, err
