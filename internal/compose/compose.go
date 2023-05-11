@@ -7,6 +7,10 @@ func RunUp(config *Config) error {
 		}
 	}
 
+	if err := storeComposeConfig(config); err != nil {
+		return err
+	}
+
 	// @TODO proper job queue system
 	//var wg sync.WaitGroup
 
@@ -21,6 +25,15 @@ func RunUp(config *Config) error {
 }
 
 func RunDown(config *Config) error {
+	previousConfig, err := loadComposeState(config.State.Name)
+	if err != nil {
+		return err
+	}
+
+	if previousConfig != nil {
+		config = previousConfig
+	}
+
 	// @TODO proper job queue system
 	//var wg sync.WaitGroup
 
