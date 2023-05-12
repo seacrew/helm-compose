@@ -1,5 +1,7 @@
 package compose
 
+import "sync"
+
 func RunUp(config *Config) error {
 	for name, url := range config.Repositories {
 		if err := addHelmRepository(name, url); err != nil {
@@ -16,27 +18,35 @@ func RunUp(config *Config) error {
 		return err
 	}
 
-	// @TODO proper job queue system
-	//var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
 	for name, release := range config.Releases {
-		//wg.Add(1)
-		installHelmRelease(name, &release)
+		wg.Add(1)
+		go func(name string, release Release) {
+			installHelmRelease(name, &release)
+			wg.Done()
+		}(name, release)
 	}
 
 	if previousConfig == nil {
+		wg.Wait()
 		return nil
 	}
 
 	for name, release := range previousConfig.Releases {
-		if _, ok := config.Releases[name]; ok {
-			continue
-		}
+		wg.Add(1)
+		go func(name string, release Release) {
+			if _, ok := config.Releases[name]; ok {
+				wg.Done()
+				return
+			}
 
-		uninstallHelmRelease(name, &release)
+			uninstallHelmRelease(name, &release)
+			wg.Done()
+		}(name, release)
 	}
 
-	//wg.Wait()
+	wg.Wait()
 
 	return nil
 }
@@ -51,15 +61,22 @@ func RunDown(config *Config) error {
 		config = previousConfig
 	}
 
-	// @TODO proper job queue system
-	//var wg sync.WaitGroup
+	var wg sync.WaitGroup
 
 	for name, release := range config.Releases {
-		//wg.Add(1)
-		uninstallHelmRelease(name, &release)
+		wg.Add(1)
+		go func(name string, release Release) {
+			if _, ok := config.Releases[name]; ok {
+				wg.Done()
+				return
+			}
+
+			uninstallHelmRelease(name, &release)
+			wg.Done()
+		}(name, release)
 	}
 
-	//wg.Wait()
+	wg.Wait()
 
 	return nil
 }
