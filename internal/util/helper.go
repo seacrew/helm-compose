@@ -33,3 +33,19 @@ func Execute(command string, args ...string) (string, error) {
 
 	return text, err
 }
+
+func ConvertJson(obj interface{}) interface{} {
+	switch c := obj.(type) {
+	case map[interface{}]interface{}:
+		m := map[string]interface{}{}
+		for k, v := range c {
+			m[k.(string)] = ConvertJson(v)
+		}
+		return m
+	case []interface{}:
+		for k, v := range c {
+			c[k] = ConvertJson(v)
+		}
+	}
+	return obj
+}

@@ -2,6 +2,7 @@ package compose
 
 import (
 	"bufio"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -78,6 +79,30 @@ func installHelmRelease(name string, release *Release) {
 
 	if release.KubeContext != "" {
 		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
+	}
+
+	for _, file := range release.ValueFiles {
+		args = append(args, fmt.Sprintf("--values=%s", file))
+	}
+
+	for _, file := range release.ValueFiles {
+		args = append(args, fmt.Sprintf("--values=%s", file))
+	}
+
+	var json_values []string
+	for key := range release.Values {
+		data := util.ConvertJson(release.Values[key])
+		values, err := json.Marshal(data)
+		if err != nil {
+			fmt.Println(color(name + " |\t\tError: " + err.Error()))
+			return
+		}
+
+		json_values = append(json_values, fmt.Sprintf("%s=%s", key, values))
+	}
+
+	if len(json_values) > 0 {
+		args = append(args, fmt.Sprintf("--set-json=%s", strings.Join(json_values, ",")))
 	}
 
 	args = append(args, name)
