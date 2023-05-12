@@ -144,7 +144,7 @@ func storeComposeConfigLocal(name string, encodedConfig *string) error {
 		return err
 	}
 
-	if minimum > maximum-30 {
+	if minimum > maximum-10 {
 		return nil
 	}
 

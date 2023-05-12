@@ -19,8 +19,9 @@ import (
 	"bytes"
 	"compress/gzip"
 	"encoding/base64"
-	"encoding/json"
 	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
 )
 
 var b64 = base64.StdEncoding
@@ -30,7 +31,7 @@ var magicGzip = []byte{0x1f, 0x8b, 0x08}
 // encodeComposeConfig encodes the config file returning a base64 encoded
 // gzipped string representation, or error.
 func encodeComposeConfig(config *Config) (string, error) {
-	b, err := json.Marshal(config)
+	b, err := yaml.Marshal(config)
 	if err != nil {
 		return "", err
 	}
@@ -70,7 +71,7 @@ func decodeComposeConfig(data string) (*Config, error) {
 
 	var config Config
 	// unmarshal release object bytes
-	if err := json.Unmarshal(b, &config); err != nil {
+	if err := yaml.Unmarshal(b, &config); err != nil {
 		return nil, err
 	}
 	return &config, nil
