@@ -81,11 +81,6 @@ func RunDown(config *Config) error {
 	for name, release := range config.Releases {
 		wg.Add(1)
 		go func(name string, release Release) {
-			if _, ok := config.Releases[name]; ok {
-				wg.Done()
-				return
-			}
-
 			uninstallHelmRelease(name, &release)
 			wg.Done()
 		}(name, release)
