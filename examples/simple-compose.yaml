@@ -1,0 +1,21 @@
+apiVersion: 1.0
+
+state:
+  name: simple
+  storage: local
+
+releases:
+  default:
+    chart: bitnami/nginx
+    chartVersion: 14.2.1
+  jekyll:
+    chart: bitnami/nginx
+    chartVersion: 14.2.1
+    values:
+      cloneStaticSiteFromGit:
+        enabled: true
+        repository: https://github.com/jekyll/jekyll
+        branch: gh-pages
+
+repositories:
+  bitnami: https://charts.bitnami.com/bitnami

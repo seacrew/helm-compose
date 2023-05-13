@@ -1,0 +1,9 @@
+wordpressUsername: user
+wordpressEmail: user@example.com
+allowEmptyPassword: false
+mariadb:
+  primary:
+    persistence:
+      enabled: false
+persistence:
+  enabled: false

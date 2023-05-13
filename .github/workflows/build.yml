@@ -12,7 +12,7 @@ on:
     types: [completed]
     branches: [main]
 
-name: CD
+name: Build
 
 jobs:
   cd:
