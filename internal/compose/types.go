@@ -24,7 +24,7 @@ type Release struct {
 	KubeConfig      string                 `yaml:"kubeconfig,omitempty"`
 	KubeContext     string                 `yaml:"kubecontext,omitempty"`
 	Values          map[string]interface{} `yaml:"values,omitempty"`
-	ValueFiles      []string               `yaml:"valuefiles,omitempty"`
+	ValueFiles      []string               `yaml:"valueFiles,omitempty"`
 }
 
 type Config struct {

@@ -100,10 +100,6 @@ func installHelmRelease(name string, release *Release) {
 		args = append(args, fmt.Sprintf("--values=%s", file))
 	}
 
-	for _, file := range release.ValueFiles {
-		args = append(args, fmt.Sprintf("--values=%s", file))
-	}
-
 	var json_values []string
 	for key := range release.Values {
 		data := util.ConvertJson(release.Values[key])
