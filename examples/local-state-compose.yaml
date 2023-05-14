@@ -1,0 +1,15 @@
+apiVersion: 1.0
+
+name: local
+storage:
+  type: local
+  nameOverride: new-name
+  path: .override
+
+releases:
+  default:
+    chart: bitnami/nginx
+    chartVersion: 14.2.1
+
+repositories:
+  bitnami: https://charts.bitnami.com/bitnami

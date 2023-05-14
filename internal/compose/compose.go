@@ -15,7 +15,9 @@ limitations under the License.
 */
 package compose
 
-import "sync"
+import (
+	"sync"
+)
 
 func RunUp(config *Config) error {
 	for name, url := range config.Repositories {
@@ -24,7 +26,7 @@ func RunUp(config *Config) error {
 		}
 	}
 
-	previousConfig, err := loadComposeState(config.State.Name)
+	previousConfig, err := loadComposeState(config)
 	if err != nil {
 		return err
 	}
@@ -67,7 +69,7 @@ func RunUp(config *Config) error {
 }
 
 func RunDown(config *Config) error {
-	previousConfig, err := loadComposeState(config.State.Name)
+	previousConfig, err := loadComposeState(config)
 	if err != nil {
 		return err
 	}

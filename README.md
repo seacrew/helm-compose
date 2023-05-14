@@ -49,9 +49,10 @@ A Helm Compose file looks something like this:
 ```yaml
 apiVersion: 1.0
 
-state:
-  name: mycompose
-  storage: local
+name: mycompose
+storage:
+  type: local # default
+  path: .hcstate # default
 
 releases:
   wordpress:
@@ -80,25 +81,27 @@ The compose file is a [YAML](https://yaml.org/) file for defining your Helm rele
 - Multiple interdependent helm chart deployments (in the same or different namespaces)
 - Multiple deployments in multiple k8s clusters
 
-### `state`
+### `storage`
 
 To keep track of the changes in your compose file. A snapshot / state of your compose file is stored every time you make an update. Similar to how helm stores single release information as a secret inside the same namespace as the release. With helm compose you have two options:
 
-`local` (default): Stores the 10 lastest states inside the .hcstate directory
-
 ```yaml
-state:
-  name: mycompose
-  storage: local
+name: mycompose
+
+storage:
+  type: local # default value
+  path: .hcstate # default value
+  numberOfStates: 10 # default value
 ```
 
 `kubernetes`: Similar to helm itself this option stores the 10 latest states as secrets inside a specified namespace
 
 ```yaml
-state:
-  name: mycompose
-  storage: kubernetes
-  namespace: states
+name: mycompose
+
+storage:
+  type: kubernetes
+  namespace: default # default value
 ```
 
 ### `releases`

@@ -27,12 +27,26 @@ type Release struct {
 	ValueFiles      []string               `yaml:"valueFiles,omitempty"`
 }
 
+type StorageLocal struct {
+}
+
+type StorageKubernetes struct {
+}
+
+type Storage struct {
+	Type           string `yaml:"type,omitempty"`
+	NameOverride   string `yaml:"nameOverride,omitempty"`
+	NumberOfStates int    `yaml:"numberOfStates,omitempty"`
+	// Local storage fields
+	Path string `yaml:"path,omitempty"`
+	// K8s storage fields
+	Namespace string `yaml:"namespace,omitempty"`
+}
+
 type Config struct {
-	Version string `yaml:"apiVersion,omitempty"`
-	State   struct {
-		Name    string `yaml:"name,omitempty"`
-		Storage string `yaml:"storage,omitempty"`
-	} `yaml:"state,omitempty"`
+	Version      string             `yaml:"apiVersion,omitempty"`
+	Name         string             `yaml:"name,omitempty"`
+	Storage      Storage            `yaml:"storage,omitempty"`
 	Releases     map[string]Release `yaml:"releases,omitempty"`
 	Repositories map[string]string  `yaml:"repositories,omitempty"`
 }
