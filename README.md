@@ -19,7 +19,7 @@ Helm Compose is a tool for managing multiple releases for one or many different 
 Install a specific version (recommended). Click [here](https://github.com/seacrew/helm-compose/releases/latest) for the latest. version.
 
 ```
-helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-alpha.3
+helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.1
 ```
 
 Install latest unstable version from main branch.
@@ -72,6 +72,8 @@ releases:
 repositories:
   bitnami: https://charts.bitnami.com/bitnami
 ```
+
+Check out the [examples](https://github.com/seacrew/helm-compose/tree/main/examples) directory
 
 ## Compose file reference
 
