@@ -33,8 +33,16 @@ type Release struct {
 	KubeContext      string                 `yaml:"kubecontext,omitempty"`
 	CAFile           string                 `yaml:"caFile,omitempty"`
 	CertFile         string                 `yaml:"certFile,omitempty"`
+	KeyFile          string                 `yaml:"keyFile,omitempty"`
+	Timeout          string                 `yaml:"timeout,omitempty"`
 	Values           map[string]interface{} `yaml:"values,omitempty"`
 	ValueFiles       []string               `yaml:"valueFiles,omitempty"`
+
+	// Uninstall flags
+	DeletionStrategy string `yaml:"deletionStrategy,omitempty"`
+	DeletionTimeout  string `yaml:"deletionTimeout,omitempty"`
+	DeletionNoHooks  bool   `yaml:"deletionNoHooks,omitempty"`
+	KeepHistory      bool   `yaml:"keepHistory,omitempty"`
 }
 
 type StorageLocal struct {

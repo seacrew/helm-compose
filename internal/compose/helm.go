@@ -38,16 +38,19 @@ var (
 func CompatibleHelmVersion() error {
 	cmd := exec.Command(helm, "version")
 	util.DebugPrint("Executing %s", strings.Join(cmd.Args, " "))
+
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return fmt.Errorf("Failed to run `%s version`: %v", os.Getenv("HELM_BIN"), err)
 	}
+
 	versionOutput := string(output)
 
 	matches := versionRE.FindStringSubmatch(versionOutput)
 	if matches == nil {
 		return fmt.Errorf("Failed to find version in output %#v", versionOutput)
 	}
+
 	helmVersion, err := semver.NewVersion(matches[1])
 	if err != nil {
 		return fmt.Errorf("Failed to parse version %#v: %v", matches[1], err)
@@ -130,6 +133,14 @@ func installHelmRelease(name string, release *Release) {
 		args = append(args, fmt.Sprintf("--cert-file=%s", release.CertFile))
 	}
 
+	if release.KeyFile != "" {
+		args = append(args, fmt.Sprintf("--key-file=%s", release.KeyFile))
+	}
+
+	if release.Timeout != "" {
+		args = append(args, fmt.Sprintf("--timeout=%s", release.Timeout))
+	}
+
 	if release.KubeConfig != "" {
 		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
 	}
@@ -191,6 +202,22 @@ func uninstallHelmRelease(name string, release *Release) {
 
 	if release.KubeContext != "" {
 		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
+	}
+
+	if release.DeletionStrategy != "" {
+		args = append(args, fmt.Sprintf("--cascade=%s", release.DeletionStrategy))
+	}
+
+	if release.DeletionTimeout != "" {
+		args = append(args, fmt.Sprintf("--timeout=%s", release.DeletionTimeout))
+	}
+
+	if release.DeletionNoHooks {
+		args = append(args, "--no-hooks")
+	}
+
+	if release.KeepHistory {
+		args = append(args, "--keep-history")
 	}
 
 	args = append(args, name)
