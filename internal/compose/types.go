@@ -16,15 +16,25 @@ limitations under the License.
 package compose
 
 type Release struct {
-	Name            string                 `yaml:"name,omitempty"`
-	Chart           string                 `yaml:"chart,omitempty"`
-	ChartVersion    string                 `yaml:"chartVersion,omitempty"`
-	Namespace       string                 `yaml:"namespace,omitempty"`
-	CreateNamespace bool                   `yaml:"createNamespace,omitempty"`
-	KubeConfig      string                 `yaml:"kubeconfig,omitempty"`
-	KubeContext     string                 `yaml:"kubecontext,omitempty"`
-	Values          map[string]interface{} `yaml:"values,omitempty"`
-	ValueFiles      []string               `yaml:"valueFiles,omitempty"`
+	Name             string                 `yaml:"name,omitempty"`
+	Chart            string                 `yaml:"chart,omitempty"`
+	ChartVersion     string                 `yaml:"chartVersion,omitempty"`
+	Namespace        string                 `yaml:"namespace,omitempty"`
+	ForceUpdate      bool                   `yaml:"forceUpdate,omitempty"`
+	HistoryMax       int                    `yaml:"historyMax,omitempty"`
+	CreateNamespace  bool                   `yaml:"createNamespace,omitempty"`
+	CleanUpOnFail    bool                   `yaml:"cleanupOnFail,omitempty"`
+	DependencyUpdate bool                   `yaml:"dependencyUpdate,omitempty"`
+	SkipTLSVerify    bool                   `yaml:"skipTlsVerify,omitempty"`
+	SkipCRDs         bool                   `yaml:"skipCrds,omitempty"`
+	PostRenderer     string                 `yaml:"postRenderer,omitempty"`
+	PostRendererArgs []string               `yaml:"postRendererArgs,omitempty"`
+	KubeConfig       string                 `yaml:"kubeconfig,omitempty"`
+	KubeContext      string                 `yaml:"kubecontext,omitempty"`
+	CAFile           string                 `yaml:"caFile,omitempty"`
+	CertFile         string                 `yaml:"certFile,omitempty"`
+	Values           map[string]interface{} `yaml:"values,omitempty"`
+	ValueFiles       []string               `yaml:"valueFiles,omitempty"`
 }
 
 type StorageLocal struct {
