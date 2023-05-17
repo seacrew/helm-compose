@@ -1,0 +1,19 @@
+site_name: Helm Compose Documentation
+docs_dir: docs
+repo_url: https://github.com/seacrew/helm-compose
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.path
+    - navigation.indexes
+    - navigation.footer
+
+plugins:
+  - table-reader
+  - search
+  - autolinks
+  - drawio_file
+  - git-revision-date-localized:
+      enable_creation_date: true

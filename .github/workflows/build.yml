@@ -1,21 +1,23 @@
+name: Build
+
 on:
   workflow_dispatch:
   push:
     branches:
       - main
     paths-ignore:
+      - .github/*
       - docs/*
       - LICENSES/*
       - README.md
+      - mkdocs.yaml
   workflow_run:
     workflows: [CI]
     types: [completed]
     branches: [main]
 
-name: Build
-
 jobs:
-  cd:
+  build:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event.workflow_run.conclusion == 'success' }}
     steps:
