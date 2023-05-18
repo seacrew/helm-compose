@@ -4,8 +4,15 @@ repo_url: https://github.com/seacrew/helm-compose
 
 theme:
   name: material
+  logo: https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg
+  favicon: https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg
+  palette:
+    primary: indigo
+    accent: cyan
   features:
-    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.expand
     - navigation.path
     - navigation.indexes
     - navigation.footer
@@ -17,3 +24,22 @@ plugins:
   - drawio_file
   - git-revision-date-localized:
       enable_creation_date: true
+
+markdown_extensions:
+  - abbr
+  - tables
+
+extra:
+  copyright: Copyright &copy; 2023 Seacrew Authors
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/seacrew
+  version:
+    provider: mike
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
