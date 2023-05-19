@@ -75,7 +75,6 @@ func addHelmRepository(name string, url string) error {
 
 func installHelmRelease(name string, release *cfg.Release) {
 	var args []string
-	cp := util.NewColorPrinter(name)
 
 	args = append(args, "upgrade")
 	args = append(args, "--install")
@@ -159,6 +158,7 @@ func installHelmRelease(name string, release *cfg.Release) {
 		data := util.ConvertJson(release.Values[key])
 		values, err := json.Marshal(data)
 		if err != nil {
+			cp := util.NewColorPrinter(name)
 			cp.Printf("%s |\t\t%s", name, err)
 			return
 		}
@@ -173,23 +173,11 @@ func installHelmRelease(name string, release *cfg.Release) {
 	args = append(args, name)
 	args = append(args, release.Chart)
 
-	output, _ := util.Execute(helm, args...)
-
-	scanner := bufio.NewScanner(strings.NewReader(output))
-	for scanner.Scan() {
-		cp.Printf("%s |\t\t%s", name, scanner.Text())
-	}
-
-	err := scanner.Err()
-
-	if err != nil {
-		cp.Printf(err.Error())
-	}
+	helmExec(name, args)
 }
 
 func uninstallHelmRelease(name string, release *cfg.Release) {
 	var args []string
-	cp := util.NewColorPrinter(name)
 
 	args = append(args, "uninstall")
 
@@ -223,6 +211,11 @@ func uninstallHelmRelease(name string, release *cfg.Release) {
 
 	args = append(args, name)
 
+	helmExec(name, args)
+}
+
+func helmExec(name string, args []string) {
+	cp := util.NewColorPrinter(name)
 	output, _ := util.Execute(helm, args...)
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
