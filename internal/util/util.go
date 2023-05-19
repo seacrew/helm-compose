@@ -17,6 +17,7 @@ package util
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"os/exec"
 	"strings"
@@ -63,4 +64,24 @@ func ConvertJson(obj interface{}) interface{} {
 		}
 	}
 	return obj
+}
+
+func MinMax(ints []int) (int, int) {
+	if len(ints) == 0 {
+		return 0, 0
+	}
+
+	minimum, maximum := math.MaxInt, 0
+
+	for _, i := range ints {
+		if i > maximum {
+			maximum = i
+		}
+
+		if i < minimum {
+			minimum = i
+		}
+	}
+
+	return minimum, maximum
 }

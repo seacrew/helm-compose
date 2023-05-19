@@ -13,7 +13,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package compose
+package config
+
+type Config struct {
+	Version      string             `yaml:"apiVersion,omitempty"`
+	State        State              `yaml:"state,omitempty"`
+	Releases     map[string]Release `yaml:"releases,omitempty"`
+	Repositories map[string]string  `yaml:"repositories,omitempty"`
+}
 
 type Release struct {
 	Name             string                 `yaml:"name,omitempty"`
@@ -45,26 +52,20 @@ type Release struct {
 	KeepHistory      bool   `yaml:"keepHistory,omitempty"`
 }
 
-type StorageLocal struct {
-}
-
-type StorageKubernetes struct {
-}
-
-type Storage struct {
-	Type           string `yaml:"type,omitempty"`
-	NameOverride   string `yaml:"nameOverride,omitempty"`
-	NumberOfStates int    `yaml:"numberOfStates,omitempty"`
+type State struct {
+	Type           ProviderType `yaml:"type,omitempty"`
+	Name           string       `yaml:"name,omitempty"`
+	NumberOfStates int          `yaml:"numberOfStates,omitempty"`
 	// Local storage fields
 	Path string `yaml:"path,omitempty"`
 	// K8s storage fields
 	Namespace string `yaml:"namespace,omitempty"`
 }
 
-type Config struct {
-	Version      string             `yaml:"apiVersion,omitempty"`
-	Name         string             `yaml:"name,omitempty"`
-	Storage      Storage            `yaml:"storage,omitempty"`
-	Releases     map[string]Release `yaml:"releases,omitempty"`
-	Repositories map[string]string  `yaml:"repositories,omitempty"`
-}
+type ProviderType string
+
+const (
+	Local      ProviderType = "local"
+	Kubernetes ProviderType = "kubernetes"
+	S3         ProviderType = "s3"
+)

@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"github.com/seacrew/helm-compose/internal/compose"
+	"github.com/seacrew/helm-compose/internal/config"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +33,7 @@ var downCmd = &cobra.Command{
 			return err
 		}
 
-		config, err := compose.ParseConfigFile(composeFile)
+		config, err := config.ParseConfigFile(composeFile)
 		if err != nil {
 			return err
 		}

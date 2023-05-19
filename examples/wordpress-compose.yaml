@@ -1,7 +1,7 @@
 apiVersion: 1.0
 
-name: wordpress
-storage:
+state:
+  name: wordpress
   type: local
 
 releases:

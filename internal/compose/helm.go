@@ -26,6 +26,7 @@ import (
 	"strings"
 
 	"github.com/Masterminds/semver"
+	cfg "github.com/seacrew/helm-compose/internal/config"
 	"github.com/seacrew/helm-compose/internal/util"
 )
 
@@ -72,9 +73,9 @@ func addHelmRepository(name string, url string) error {
 	return nil
 }
 
-func installHelmRelease(name string, release *Release) {
+func installHelmRelease(name string, release *cfg.Release) {
 	var args []string
-	color := util.HashColor(name)
+	cp := util.NewColorPrinter(name)
 
 	args = append(args, "upgrade")
 	args = append(args, "--install")
@@ -158,7 +159,7 @@ func installHelmRelease(name string, release *Release) {
 		data := util.ConvertJson(release.Values[key])
 		values, err := json.Marshal(data)
 		if err != nil {
-			fmt.Println(color(name + " |\t\tError: " + err.Error()))
+			cp.Printf("%s |\t\t%s", name, err)
 			return
 		}
 
@@ -176,19 +177,19 @@ func installHelmRelease(name string, release *Release) {
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	for scanner.Scan() {
-		fmt.Println(color(name + " |\t\t" + scanner.Text()))
+		cp.Printf("%s |\t\t%s", name, scanner.Text())
 	}
 
 	err := scanner.Err()
 
 	if err != nil {
-		fmt.Print(err.Error())
+		cp.Printf(err.Error())
 	}
 }
 
-func uninstallHelmRelease(name string, release *Release) {
+func uninstallHelmRelease(name string, release *cfg.Release) {
 	var args []string
-	color := util.HashColor(name)
+	cp := util.NewColorPrinter(name)
 
 	args = append(args, "uninstall")
 
@@ -226,12 +227,12 @@ func uninstallHelmRelease(name string, release *Release) {
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	for scanner.Scan() {
-		fmt.Println(color(name + " |\t\t" + scanner.Text()))
+		cp.Printf("%s |\t\t%s", name, scanner.Text())
 	}
 
 	err := scanner.Err()
 
 	if err != nil {
-		fmt.Print(err.Error())
+		cp.Printf(err.Error())
 	}
 }

@@ -17,21 +17,24 @@ package compose
 
 import (
 	"sync"
+
+	cfg "github.com/seacrew/helm-compose/internal/config"
+	"github.com/seacrew/helm-compose/internal/state"
 )
 
-func RunUp(config *Config) error {
+func RunUp(config *cfg.Config) error {
 	for name, url := range config.Repositories {
 		if err := addHelmRepository(name, url); err != nil {
 			return err
 		}
 	}
 
-	previousConfig, err := loadComposeState(config)
+	previousConfig, err := state.Load(config)
 	if err != nil {
 		return err
 	}
 
-	if err := storeComposeConfig(config); err != nil {
+	if err := state.Store(config); err != nil {
 		return err
 	}
 
@@ -39,7 +42,7 @@ func RunUp(config *Config) error {
 
 	for name, release := range config.Releases {
 		wg.Add(1)
-		go func(name string, release Release) {
+		go func(name string, release cfg.Release) {
 			installHelmRelease(name, &release)
 			wg.Done()
 		}(name, release)
@@ -52,7 +55,7 @@ func RunUp(config *Config) error {
 
 	for name, release := range previousConfig.Releases {
 		wg.Add(1)
-		go func(name string, release Release) {
+		go func(name string, release cfg.Release) {
 			if _, ok := config.Releases[name]; ok {
 				wg.Done()
 				return
@@ -68,8 +71,8 @@ func RunUp(config *Config) error {
 	return nil
 }
 
-func RunDown(config *Config) error {
-	previousConfig, err := loadComposeState(config)
+func RunDown(config *cfg.Config) error {
+	previousConfig, err := state.Load(config)
 	if err != nil {
 		return err
 	}
@@ -82,7 +85,7 @@ func RunDown(config *Config) error {
 
 	for name, release := range config.Releases {
 		wg.Add(1)
-		go func(name string, release Release) {
+		go func(name string, release cfg.Release) {
 			uninstallHelmRelease(name, &release)
 			wg.Done()
 		}(name, release)

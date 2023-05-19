@@ -23,7 +23,22 @@ import (
 	"github.com/jwalton/go-supportscolor"
 )
 
-var colors [](func(...interface{}) string) = [](func(...interface{}) string){
+type ColorPrinter struct {
+	colorFunc func(...interface{}) string
+}
+
+func NewColorPrinter(s string) *ColorPrinter {
+	c := hashColor(s)
+	return &ColorPrinter{
+		colorFunc: c,
+	}
+}
+
+func (c ColorPrinter) Printf(format string, a ...any) {
+	fmt.Printf(c.colorFunc(format)+"\n", a...)
+}
+
+var colorFuncs [](func(...interface{}) string) = [](func(...interface{}) string){
 	color("%s"), // fallback
 	color("\033[1;32m%s\033[0m"),
 	color("\033[1;33m%s\033[0m"),
@@ -46,9 +61,9 @@ func color(colorString string) func(...interface{}) string {
 	return sprint
 }
 
-func HashColor(s string) func(...interface{}) string {
+func hashColor(s string) func(...interface{}) string {
 	if !supportscolor.Stdout().SupportsColor {
-		return colors[0]
+		return colorFuncs[0]
 	}
 
 	h := fnv.New32a()
@@ -62,8 +77,8 @@ func HashColor(s string) func(...interface{}) string {
 			subtotal += value
 		}
 
-		if subtotal < len(colors) {
-			return colors[subtotal]
+		if subtotal < len(colorFuncs) {
+			return colorFuncs[subtotal]
 		}
 
 		hash = fmt.Sprint(subtotal)
