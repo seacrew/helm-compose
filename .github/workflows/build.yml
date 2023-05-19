@@ -6,9 +6,9 @@ on:
     branches:
       - main
     paths-ignore:
-      - .github/*
-      - docs/*
-      - LICENSES/*
+      - .github/**
+      - docs/**
+      - LICENSES/**
       - README.md
       - mkdocs.yaml
   workflow_run:
