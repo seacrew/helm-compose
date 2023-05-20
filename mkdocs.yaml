@@ -10,8 +10,7 @@ theme:
     primary: indigo
     accent: cyan
   features:
-    - navigation.tabs
-    - navigation.tabs.sticky
+    - navigation.sections
     - navigation.expand
     - navigation.path
     - navigation.indexes
