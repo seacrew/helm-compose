@@ -1,3 +1,7 @@
-# Introduction
+![helm-compose-banner](https://user-images.githubusercontent.com/18513179/212496531-1d166236-ed88-411d-8403-ad1f94d28846.png)
+
+[![Build Status](https://github.com/seacrew/helm-compose/actions/workflows/build.yml/badge.svg)](https://github.com/seacrew/helm-compose/actions/workflows/build.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/seacrew/helm-compose)](https://goreportcard.com/report/github.com/seacrew/helm-compose)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/seacrew/helm-compose)](https://github.com/seacrew/helm-compose/releases/latest)
 
 Helm Compose is a tool for managing multiple releases for one or many different Helm charts. It is an extension of the package manager idea behind Helm and is heavily inspired by Docker Compose.
