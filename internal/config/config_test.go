@@ -20,13 +20,22 @@ import (
 	"testing"
 )
 
-func TestParseConfig(t *testing.T) {
-
-	config, err := ParseConfigFile("../../testdata/helm-compose.yaml")
+func TestParseSimpleConfig(t *testing.T) {
+	config, err := ParseConfigFile("../../examples/simple-compose.yaml")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Fatal(config)
+	if config.State.Name != "simple" {
+		log.Fatalf("Was expecting state name 'simple' but got '%s'", config.State.Name)
+	}
+
+	if config.State.Type != Local {
+		log.Fatalf("Was expecting state provider type '%s' but got '%s'", Local, config.State.Type)
+	}
+
+	if len(config.Releases) != 2 {
+		log.Fatalf("Was expecting 2 release but got %d", len(config.Releases))
+	}
 }
