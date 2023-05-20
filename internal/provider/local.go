@@ -87,8 +87,10 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 		return nil
 	}
 
-	if err := os.Remove(fmt.Sprintf("%s/%s-%d", p.path, p.name, minimum)); err != nil {
-		return err
+	for i := minimum; i <= maximum-p.numberOfStates; i++ {
+		if err := os.Remove(fmt.Sprintf("%s/%s-%d", p.path, p.name, i)); err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	return nil
