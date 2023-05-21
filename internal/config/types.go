@@ -17,7 +17,7 @@ package config
 
 type Config struct {
 	Version      string             `yaml:"apiVersion,omitempty"`
-	State        State              `yaml:"state,omitempty"`
+	Storage      Storage            `yaml:"storage,omitempty"`
 	Releases     map[string]Release `yaml:"releases,omitempty"`
 	Repositories map[string]string  `yaml:"repositories,omitempty"`
 }
@@ -52,10 +52,10 @@ type Release struct {
 	KeepHistory      bool   `yaml:"keepHistory,omitempty"`
 }
 
-type State struct {
-	Type           ProviderType `yaml:"type,omitempty"`
-	Name           string       `yaml:"name,omitempty"`
-	NumberOfStates int          `yaml:"numberOfStates,omitempty"`
+type Storage struct {
+	Type              ProviderType `yaml:"type,omitempty"`
+	Name              string       `yaml:"name,omitempty"`
+	NumberOfRevisions int          `yaml:"numberOfRevisions,omitempty"`
 	// Local storage fields
 	Path string `yaml:"path,omitempty"`
 	// K8s storage fields

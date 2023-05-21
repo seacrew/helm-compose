@@ -21,7 +21,7 @@ Helm Compose is a tool for managing multiple releases for one or many different 
 Install a specific version (recommended). Click [here](https://github.com/seacrew/helm-compose/releases/latest) for the latest. version.
 
 ```
-helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.1
+helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.2
 ```
 
 Install latest unstable version from main branch.
@@ -51,7 +51,7 @@ A Helm Compose file looks something like this:
 ```yaml
 apiVersion: 1.0
 
-state:
+storage:
   name: mycompose
   type: local # default
   path: .hcstate # default
@@ -87,23 +87,14 @@ The compose file is a [YAML](https://yaml.org/) file for defining your Helm rele
 
 ### `storage`
 
-To keep track of the changes in your compose file. A snapshot / state of your compose file is stored every time you make an update. Similar to how helm stores single release information as a secret inside the same namespace as the release. With helm compose you have two options:
+To keep track of the changes in your compose file. A revision (snapshot) of your compose file is stored every time you make an update. Similar to how helm stores revisions of your releases as a secret inside the same namespace as the release:
 
 ```yaml
-state:
+storage:
   name: mycompose
   type: local # default value
   path: .hcstate # default value
-  numberOfStates: 10 # default value
-```
-
-`kubernetes`: Similar to helm itself this option stores the 10 latest states as secrets inside a specified namespace
-
-```yaml
-state:
-  name: mycompose
-  type: kubernetes
-  namespace: default # default value
+  numberOfRevisions: 10 # default value
 ```
 
 ### `releases`

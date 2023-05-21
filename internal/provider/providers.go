@@ -36,9 +36,9 @@ type Provider interface {
 	get(revision int) (*[]byte, error)
 }
 
-func newProvider(providerConfig *cfg.State) (Provider, error) {
-	if providerConfig.NumberOfStates <= 0 {
-		providerConfig.NumberOfStates = 10
+func newProvider(providerConfig *cfg.Storage) (Provider, error) {
+	if providerConfig.NumberOfRevisions <= 0 {
+		providerConfig.NumberOfRevisions = 10
 	}
 
 	switch providerConfig.Type {
@@ -54,7 +54,7 @@ func newProvider(providerConfig *cfg.State) (Provider, error) {
 }
 
 func Load(config *cfg.Config) (*cfg.Config, error) {
-	provider, err := newProvider(&config.State)
+	provider, err := newProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func Load(config *cfg.Config) (*cfg.Config, error) {
 }
 
 func Store(config *cfg.Config) error {
-	provider, err := newProvider(&config.State)
+	provider, err := newProvider(&config.Storage)
 	if err != nil {
 		return err
 	}
@@ -93,7 +93,7 @@ func Store(config *cfg.Config) error {
 }
 
 func List(config *cfg.Config) ([]ReleaseRevision, error) {
-	provider, err := newProvider(&config.State)
+	provider, err := newProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +107,7 @@ func List(config *cfg.Config) ([]ReleaseRevision, error) {
 }
 
 func Get(revision int, config *cfg.Config) (*string, error) {
-	provider, err := newProvider(&config.State)
+	provider, err := newProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}

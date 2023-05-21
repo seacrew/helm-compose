@@ -5,7 +5,7 @@ repo_url: https://github.com/seacrew/helm-compose
 nav:
   - Home: 'index.md'
   - 'Quick Start': 'quick-start.md'
-  - 'State Providers': 'state-providers.md'
+  - 'Revision Providers': 'revision-providers.md'
 
 theme:
   name: material

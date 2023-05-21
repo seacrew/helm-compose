@@ -1,6 +1,6 @@
 apiVersion: 1.0
 
-state:
+storage:
   name: local
   type: local
   path: .override

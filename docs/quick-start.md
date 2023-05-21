@@ -35,7 +35,7 @@ A Helm Compose file looks something like this:
 ```yaml
 apiVersion: 1.0
 
-state:
+storage:
   name: mycompose
   type: local # default
   path: .hcstate # default

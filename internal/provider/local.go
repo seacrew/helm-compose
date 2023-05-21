@@ -30,16 +30,16 @@ const (
 )
 
 type LocalProvider struct {
-	name           string
-	path           string
-	numberOfStates int
+	name              string
+	path              string
+	numberOfRevisions int
 }
 
-func newLocal(providerConfig *cfg.State) *LocalProvider {
+func newLocal(providerConfig *cfg.Storage) *LocalProvider {
 	provider := LocalProvider{
-		name:           providerConfig.Name,
-		path:           providerConfig.Path,
-		numberOfStates: providerConfig.NumberOfStates,
+		name:              providerConfig.Name,
+		path:              providerConfig.Path,
+		numberOfRevisions: providerConfig.NumberOfRevisions,
 	}
 
 	if len(provider.path) == 0 {
@@ -56,7 +56,7 @@ func (p LocalProvider) load() (*[]byte, error) {
 		}
 	}
 
-	_, maximum, err := minMaxLocal(p.name, p.path)
+	_, maximum, err := minMax(p.name, p.path)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (p LocalProvider) load() (*[]byte, error) {
 }
 
 func (p LocalProvider) store(encodedConfig *string) error {
-	minimum, maximum, err := minMaxLocal(p.name, p.path)
+	minimum, maximum, err := minMax(p.name, p.path)
 	if err != nil {
 		return err
 	}
@@ -85,11 +85,11 @@ func (p LocalProvider) store(encodedConfig *string) error {
 		return err
 	}
 
-	if minimum > maximum-p.numberOfStates {
+	if minimum > maximum-p.numberOfRevisions {
 		return nil
 	}
 
-	for i := minimum; i <= maximum-p.numberOfStates; i++ {
+	for i := minimum; i <= maximum-p.numberOfRevisions; i++ {
 		if err := os.Remove(fmt.Sprintf(pathFormat, p.path, p.name, i)); err != nil {
 			fmt.Println(err)
 		}
@@ -106,7 +106,7 @@ func (p LocalProvider) list() ([]ReleaseRevision, error) {
 
 	r, _ := regexp.Compile(fmt.Sprintf("^%s-(\\d+)$", p.name))
 
-	states := []ReleaseRevision{}
+	revisions := []ReleaseRevision{}
 	for _, file := range files {
 		if file.IsDir() {
 			continue
@@ -117,7 +117,7 @@ func (p LocalProvider) list() ([]ReleaseRevision, error) {
 			continue
 		}
 
-		state, err := strconv.Atoi(matches[1])
+		revision, err := strconv.Atoi(matches[1])
 		if err != nil {
 			return nil, err
 		}
@@ -127,14 +127,14 @@ func (p LocalProvider) list() ([]ReleaseRevision, error) {
 			return nil, err
 		}
 
-		states = append(states, ReleaseRevision{state, info.ModTime()})
+		revisions = append(revisions, ReleaseRevision{revision, info.ModTime()})
 	}
 
-	return states, nil
+	return revisions, nil
 }
 
-func (p LocalProvider) get(state int) (*[]byte, error) {
-	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, state))
+func (p LocalProvider) get(revision int) (*[]byte, error) {
+	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, revision))
 	if err != nil {
 		return nil, err
 	}
@@ -142,7 +142,7 @@ func (p LocalProvider) get(state int) (*[]byte, error) {
 	return &file, nil
 }
 
-func minMaxLocal(name string, path string) (int, int, error) {
+func minMax(name string, path string) (int, int, error) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return -1, -1, err
@@ -150,7 +150,7 @@ func minMaxLocal(name string, path string) (int, int, error) {
 
 	r, _ := regexp.Compile(fmt.Sprintf("^%s-(\\d+)$", name))
 
-	states := []int{}
+	revisions := []int{}
 	for _, file := range files {
 		if file.IsDir() {
 			continue
@@ -161,14 +161,14 @@ func minMaxLocal(name string, path string) (int, int, error) {
 			continue
 		}
 
-		state, err := strconv.Atoi(matches[1])
+		revision, err := strconv.Atoi(matches[1])
 		if err != nil {
 			return -1, -1, nil
 		}
 
-		states = append(states, state)
+		revisions = append(revisions, revision)
 	}
 
-	minimum, maximum := util.MinMax(states)
+	minimum, maximum := util.MinMax(revisions)
 	return minimum, maximum, nil
 }

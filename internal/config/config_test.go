@@ -27,12 +27,12 @@ func TestParseSimpleConfig(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	if config.State.Name != "simple" {
-		log.Fatalf("Was expecting state name 'simple' but got '%s'", config.State.Name)
+	if config.Storage.Name != "simple" {
+		log.Fatalf("Was expecting revision name 'simple' but got '%s'", config.Storage.Name)
 	}
 
-	if config.State.Type != Local {
-		log.Fatalf("Was expecting state provider type '%s' but got '%s'", Local, config.State.Type)
+	if config.Storage.Type != Local {
+		log.Fatalf("Was expecting revision provider type '%s' but got '%s'", Local, config.Storage.Type)
 	}
 
 	if len(config.Releases) != 2 {
