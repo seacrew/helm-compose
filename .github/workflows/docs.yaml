@@ -26,5 +26,6 @@ jobs:
             mkdocs-
             fontawesome_
             mike
-      - run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin mkdocs-table-reader-plugin fontawesome_markdown mike
+            pydown-extensions
+      - run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin mkdocs-table-reader-plugin fontawesome_markdown mike pymdown-extensions
       - run: mkdocs gh-deploy --force

@@ -32,6 +32,13 @@ plugins:
 markdown_extensions:
   - abbr
   - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
 
 extra:
   copyright: Copyright &copy; 2023 Seacrew Authors
