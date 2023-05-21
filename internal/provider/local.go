@@ -25,6 +25,10 @@ import (
 	"github.com/seacrew/helm-compose/internal/util"
 )
 
+const (
+	pathFormat = "%s/%s-%d"
+)
+
 type LocalProvider struct {
 	name           string
 	path           string
@@ -59,7 +63,7 @@ func (p LocalProvider) Load() (*[]byte, error) {
 		return nil, nil
 	}
 
-	file, err := os.ReadFile(fmt.Sprintf("%s/%s-%d", p.path, p.name, maximum))
+	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, maximum))
 	if err != nil {
 		return nil, err
 	}
@@ -79,7 +83,7 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 
 	maximum = maximum + 1
 
-	if err := os.WriteFile(fmt.Sprintf("%s/%s-%d", p.path, p.name, maximum), []byte(*encodedConfig), 0644); err != nil {
+	if err := os.WriteFile(fmt.Sprintf(pathFormat, p.path, p.name, maximum), []byte(*encodedConfig), 0644); err != nil {
 		return err
 	}
 
@@ -88,7 +92,7 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 	}
 
 	for i := minimum; i <= maximum-p.numberOfStates; i++ {
-		if err := os.Remove(fmt.Sprintf("%s/%s-%d", p.path, p.name, i)); err != nil {
+		if err := os.Remove(fmt.Sprintf(pathFormat, p.path, p.name, i)); err != nil {
 			fmt.Println(err)
 		}
 	}

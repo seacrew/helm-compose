@@ -153,7 +153,7 @@ func installHelmRelease(name string, release *cfg.Release) {
 		args = append(args, fmt.Sprintf("--values=%s", file))
 	}
 
-	var json_values []string
+	var jsonValues []string
 	for key := range release.Values {
 		data := util.ConvertJson(release.Values[key])
 		values, err := json.Marshal(data)
@@ -163,11 +163,11 @@ func installHelmRelease(name string, release *cfg.Release) {
 			return
 		}
 
-		json_values = append(json_values, fmt.Sprintf("%s=%s", key, values))
+		jsonValues = append(jsonValues, fmt.Sprintf("%s=%s", key, values))
 	}
 
-	if len(json_values) > 0 {
-		args = append(args, fmt.Sprintf("--set-json=%s", strings.Join(json_values, ",")))
+	if len(jsonValues) > 0 {
+		args = append(args, fmt.Sprintf("--set-json=%s", strings.Join(jsonValues, ",")))
 	}
 
 	args = append(args, name)
