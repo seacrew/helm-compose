@@ -19,22 +19,17 @@ import (
 	"fmt"
 
 	cfg "github.com/seacrew/helm-compose/internal/config"
-	"github.com/seacrew/helm-compose/internal/provider"
+	prov "github.com/seacrew/helm-compose/internal/provider"
 )
 
-type StateProvider interface {
-	Load() (*[]byte, error)
-	Store(encodedConfig *string) error
-}
-
-func NewProvider(providerConfig *cfg.State) (StateProvider, error) {
+func NewProvider(providerConfig *cfg.State) (prov.Provider, error) {
 	if providerConfig.NumberOfStates <= 0 {
 		providerConfig.NumberOfStates = 10
 	}
 
 	switch providerConfig.Type {
 	case cfg.Local:
-		return provider.NewLocal(providerConfig), nil
+		return prov.NewLocal(providerConfig), nil
 	case cfg.Kubernetes:
 		return nil, fmt.Errorf("provider type kubernetes is not yet implemented")
 	case cfg.S3:

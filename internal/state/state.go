@@ -17,6 +17,8 @@ package state
 
 import (
 	cfg "github.com/seacrew/helm-compose/internal/config"
+	prov "github.com/seacrew/helm-compose/internal/provider"
+	"gopkg.in/yaml.v2"
 )
 
 func Load(config *cfg.Config) (*cfg.Config, error) {
@@ -56,4 +58,43 @@ func Store(config *cfg.Config) error {
 	}
 
 	return nil
+}
+
+func List(config *cfg.Config) ([]prov.ReleaseRevision, error) {
+	provider, err := NewProvider(&config.State)
+	if err != nil {
+		return nil, err
+	}
+
+	revisions, err := provider.List()
+	if err != nil {
+		return nil, err
+	}
+
+	return revisions, nil
+}
+
+func Get(revision int, config *cfg.Config) (*string, error) {
+	provider, err := NewProvider(&config.State)
+	if err != nil {
+		return nil, err
+	}
+
+	data, err := provider.Get(revision)
+	if err != nil {
+		return nil, err
+	}
+
+	revConfig, err := decodeComposeConfig(string(*data))
+	if err != nil {
+		return nil, err
+	}
+
+	b, err := yaml.Marshal(revConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	revYaml := string(b)
+	return &revYaml, nil
 }

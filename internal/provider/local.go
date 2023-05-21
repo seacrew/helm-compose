@@ -100,6 +100,58 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 	return nil
 }
 
+func (p LocalProvider) List() ([]ReleaseRevision, error) {
+	if len(p.path) == 0 {
+		p.path = ".hcstate"
+	}
+
+	files, err := os.ReadDir(p.path)
+	if err != nil {
+		return nil, err
+	}
+
+	r, _ := regexp.Compile(fmt.Sprintf("^%s-(\\d+)$", p.name))
+
+	states := []ReleaseRevision{}
+	for _, file := range files {
+		if file.IsDir() {
+			continue
+		}
+
+		matches := r.FindStringSubmatch(file.Name())
+		if len(matches) == 0 {
+			continue
+		}
+
+		state, err := strconv.Atoi(matches[1])
+		if err != nil {
+			return nil, err
+		}
+
+		info, err := file.Info()
+		if err != nil {
+			return nil, err
+		}
+
+		states = append(states, ReleaseRevision{state, info.ModTime()})
+	}
+
+	return states, nil
+}
+
+func (p LocalProvider) Get(state int) (*[]byte, error) {
+	if len(p.path) == 0 {
+		p.path = ".hcstate"
+	}
+
+	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, state))
+	if err != nil {
+		return nil, err
+	}
+
+	return &file, nil
+}
+
 func minMax(name string, path string) (int, int, error) {
 	files, err := os.ReadDir(path)
 	if err != nil {

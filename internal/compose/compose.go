@@ -16,6 +16,7 @@ limitations under the License.
 package compose
 
 import (
+	"fmt"
 	"sync"
 
 	cfg "github.com/seacrew/helm-compose/internal/config"
@@ -92,6 +93,34 @@ func RunDown(config *cfg.Config) error {
 	}
 
 	wg.Wait()
+
+	return nil
+}
+
+func ListRevisions(config *cfg.Config) error {
+	revisions, err := state.List(config)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("| Date             | Revision |\n")
+	fmt.Printf("| ---------------- | -------- |\n")
+	for _, rev := range revisions {
+		fmt.Printf("| %d-%02d-%02d %02d:%02d | %8d |\n",
+			rev.DateTime.Year(), rev.DateTime.Month(), rev.DateTime.Day(),
+			rev.DateTime.Hour(), rev.DateTime.Minute(), rev.Revision)
+	}
+
+	return nil
+}
+
+func GetRevision(rev int, config *cfg.Config) error {
+	revision, err := state.Get(rev, config)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("%s\n", *revision)
 
 	return nil
 }
