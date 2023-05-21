@@ -4,6 +4,8 @@
 
 [![Build Status](https://github.com/seacrew/helm-compose/actions/workflows/build.yml/badge.svg)](https://github.com/seacrew/helm-compose/actions/workflows/build.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/seacrew/helm-compose)](https://goreportcard.com/report/github.com/seacrew/helm-compose)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=seacrew_helm-compose&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=seacrew_helm-compose)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=seacrew_helm-compose&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=seacrew_helm-compose)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/seacrew/helm-compose)](https://github.com/seacrew/helm-compose/releases/latest)
 
 # IMPORTANT NOTICE: THIS IS A WORK IN PROGRESS
