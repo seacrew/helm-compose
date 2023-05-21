@@ -9,11 +9,25 @@ nav:
 
 theme:
   name: material
-  logo: https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg
-  favicon: https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg
+  logo: https://user-images.githubusercontent.com/18513179/239762487-ec236277-f782-4da3-8a23-692ad017bb92.svg
+  favicon: https://user-images.githubusercontent.com/18513179/239762487-ec236277-f782-4da3-8a23-692ad017bb92.svg
   palette:
-    primary: indigo
-    accent: cyan
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
   features:
     - navigation.sections
     - navigation.expand
@@ -21,6 +35,9 @@ theme:
     - navigation.indexes
     - navigation.footer
     - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
 
 plugins:
   - table-reader

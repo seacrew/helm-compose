@@ -1,5 +1,5 @@
 name: compose
-version: 1.0.0-alpha.3
+version: 1.0.0-beta.2
 usage: Compose is a helm plugin to define and manage multiple helm releases as single entity.
 command: $HELM_PLUGIN_DIR/bin/compose
 hooks:

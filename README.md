@@ -1,18 +1,10 @@
-![helm-compose-banner](https://user-images.githubusercontent.com/18513179/212496531-1d166236-ed88-411d-8403-ad1f94d28846.png)
-
-# Helm Compose
+![helm-compose-banner](https://user-images.githubusercontent.com/18513179/239762814-77e442b9-35aa-4c45-90b0-5d133954cf39.svg)
 
 [![Build Status](https://github.com/seacrew/helm-compose/actions/workflows/build.yml/badge.svg)](https://github.com/seacrew/helm-compose/actions/workflows/build.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/seacrew/helm-compose)](https://goreportcard.com/report/github.com/seacrew/helm-compose)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=seacrew_helm-compose&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=seacrew_helm-compose)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=seacrew_helm-compose&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=seacrew_helm-compose)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/seacrew/helm-compose)](https://github.com/seacrew/helm-compose/releases/latest)
-
-# IMPORTANT NOTICE: THIS IS A WORK IN PROGRESS
-
-As of yet, this plugin should **NOT** be treated as a stable tool and shouldn't be used in an production environment.
-
-## About
 
 Helm Compose is a tool for managing multiple releases for one or many different Helm charts. It is an extension of the package manager idea behind Helm and is heavily inspired by Docker Compose.
 

@@ -8,7 +8,7 @@ Install a specific version (recommended). Click [here](https://github.com/seacre
 helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.1
 ```
 
-Install latest unstable version from main branch.
+Install latest version.
 
 ```
 helm plugin install https://github.com/seacrew/helm-compose
