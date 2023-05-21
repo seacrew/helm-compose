@@ -20,7 +20,12 @@ import (
 	"math"
 	"os"
 	"os/exec"
+	"regexp"
 	"strings"
+)
+
+var (
+	re = regexp.MustCompile(`\$\{(.*?)\}`)
 )
 
 func IsDebug() bool {
@@ -62,6 +67,14 @@ func ConvertJson(obj interface{}) interface{} {
 		for k, v := range c {
 			c[k] = ConvertJson(v)
 		}
+	case string:
+		str := obj.(string)
+		matches := re.FindStringSubmatch(str)
+		for _, match := range matches {
+			str = strings.Replace(str, "${"+match+"}", os.Getenv(match), 1)
+		}
+
+		return str
 	}
 	return obj
 }
