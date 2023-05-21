@@ -4,13 +4,13 @@
 
 Install a specific version (recommended). Click [here](https://github.com/seacrew/helm-compose/releases/latest) for the latest. version.
 
-```bash
+```
 helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.1
 ```
 
 Install latest unstable version from main branch.
 
-```bash
+```
 helm plugin install https://github.com/seacrew/helm-compose
 ```
 
@@ -20,14 +20,14 @@ Helm Compose makes it easy to define a Compose file containing a list of Release
 
 Install your releases:
 
-```bash
-$ helm compose up -f helm-compose.yaml
+```
+helm compose up -f helm-compose.yaml
 ```
 
 Uninstall your releases
 
-```bash
-$ helm compose down -f helm-compose.yaml
+```
+helm compose down -f helm-compose.yaml
 ```
 
 A Helm Compose file looks something like this:

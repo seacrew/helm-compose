@@ -20,6 +20,7 @@ theme:
     - navigation.path
     - navigation.indexes
     - navigation.footer
+    - content.code.copy
 
 plugins:
   - table-reader
