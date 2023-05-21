@@ -13,7 +13,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package state
+package util
 
 import (
 	"bytes"
@@ -31,7 +31,7 @@ var magicGzip = []byte{0x1f, 0x8b, 0x08}
 
 // encodeComposeConfig encodes the config file returning a base64 encoded
 // gzipped string representation, or error.
-func encodeComposeConfig(config *c.Config) (string, error) {
+func EncodeComposeConfig(config *c.Config) (string, error) {
 	b, err := yaml.Marshal(config)
 	if err != nil {
 		return "", err
@@ -52,7 +52,7 @@ func encodeComposeConfig(config *c.Config) (string, error) {
 // decodeComposeConfig decodes the bytes of data into a compose
 // config. Data must contain a base64 encoded gzipped string of a
 // valid release, otherwise an error is returned.
-func decodeComposeConfig(data string) (*c.Config, error) {
+func DecodeComposeConfig(data string) (*c.Config, error) {
 	// base64 decode string
 	b, err := b64.DecodeString(data)
 	if err != nil {

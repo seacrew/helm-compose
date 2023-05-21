@@ -13,27 +13,59 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-package state
+package provider
 
 import (
+	"fmt"
+	"time"
+
 	cfg "github.com/seacrew/helm-compose/internal/config"
-	prov "github.com/seacrew/helm-compose/internal/provider"
+	"github.com/seacrew/helm-compose/internal/util"
 	"gopkg.in/yaml.v2"
 )
 
+type ReleaseRevision struct {
+	Revision int
+	DateTime time.Time
+}
+
+type Provider interface {
+	load() (*[]byte, error)
+	store(encodedConfig *string) error
+	list() ([]ReleaseRevision, error)
+	get(revision int) (*[]byte, error)
+}
+
+func newProvider(providerConfig *cfg.State) (Provider, error) {
+	if providerConfig.NumberOfStates <= 0 {
+		providerConfig.NumberOfStates = 10
+	}
+
+	switch providerConfig.Type {
+	case cfg.Local:
+		return newLocal(providerConfig), nil
+	case cfg.Kubernetes:
+		return nil, fmt.Errorf("provider type kubernetes is not yet implemented")
+	case cfg.S3:
+		return nil, fmt.Errorf("provider type s3 is not yet implemented")
+	default:
+		return nil, fmt.Errorf("unknown provider type %q", providerConfig.Type)
+	}
+}
+
 func Load(config *cfg.Config) (*cfg.Config, error) {
-	provider, err := NewProvider(&config.State)
+	provider, err := newProvider(&config.State)
 	if err != nil {
 		return nil, err
 	}
 
-	data, err := provider.Load()
+	data, err := provider.load()
 
 	if data == nil {
 		return nil, nil
 	}
 
-	prevConfig, err := decodeComposeConfig(string(*data))
+	prevConfig, err := util.DecodeComposeConfig(string(*data))
 	if err != nil {
 		return nil, err
 	}
@@ -42,31 +74,31 @@ func Load(config *cfg.Config) (*cfg.Config, error) {
 }
 
 func Store(config *cfg.Config) error {
-	provider, err := NewProvider(&config.State)
+	provider, err := newProvider(&config.State)
 	if err != nil {
 		return err
 	}
 
-	encodedConfig, err := encodeComposeConfig(config)
+	encodedConfig, err := util.EncodeComposeConfig(config)
 
 	if err != nil {
 		return err
 	}
 
-	if err := provider.Store(&encodedConfig); err != nil {
+	if err := provider.store(&encodedConfig); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func List(config *cfg.Config) ([]prov.ReleaseRevision, error) {
-	provider, err := NewProvider(&config.State)
+func List(config *cfg.Config) ([]ReleaseRevision, error) {
+	provider, err := newProvider(&config.State)
 	if err != nil {
 		return nil, err
 	}
 
-	revisions, err := provider.List()
+	revisions, err := provider.list()
 	if err != nil {
 		return nil, err
 	}
@@ -75,17 +107,17 @@ func List(config *cfg.Config) ([]prov.ReleaseRevision, error) {
 }
 
 func Get(revision int, config *cfg.Config) (*string, error) {
-	provider, err := NewProvider(&config.State)
+	provider, err := newProvider(&config.State)
 	if err != nil {
 		return nil, err
 	}
 
-	data, err := provider.Get(revision)
+	data, err := provider.get(revision)
 	if err != nil {
 		return nil, err
 	}
 
-	revConfig, err := decodeComposeConfig(string(*data))
+	revConfig, err := util.DecodeComposeConfig(string(*data))
 	if err != nil {
 		return nil, err
 	}

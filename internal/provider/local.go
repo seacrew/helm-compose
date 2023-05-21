@@ -35,7 +35,7 @@ type LocalProvider struct {
 	numberOfStates int
 }
 
-func NewLocal(providerConfig *cfg.State) *LocalProvider {
+func newLocal(providerConfig *cfg.State) *LocalProvider {
 	provider := LocalProvider{
 		name:           providerConfig.Name,
 		path:           providerConfig.Path,
@@ -49,14 +49,14 @@ func NewLocal(providerConfig *cfg.State) *LocalProvider {
 	return &provider
 }
 
-func (p LocalProvider) Load() (*[]byte, error) {
+func (p LocalProvider) load() (*[]byte, error) {
 	if _, err := os.Stat(p.path); os.IsNotExist(err) {
 		if err := os.Mkdir(p.path, os.ModePerm); err != nil {
 			return nil, err
 		}
 	}
 
-	_, maximum, err := minMax(p.name, p.path)
+	_, maximum, err := minMaxLocal(p.name, p.path)
 	if err != nil {
 		return nil, err
 	}
@@ -73,8 +73,8 @@ func (p LocalProvider) Load() (*[]byte, error) {
 	return &file, nil
 }
 
-func (p LocalProvider) Store(encodedConfig *string) error {
-	minimum, maximum, err := minMax(p.name, p.path)
+func (p LocalProvider) store(encodedConfig *string) error {
+	minimum, maximum, err := minMaxLocal(p.name, p.path)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 	return nil
 }
 
-func (p LocalProvider) List() ([]ReleaseRevision, error) {
+func (p LocalProvider) list() ([]ReleaseRevision, error) {
 	files, err := os.ReadDir(p.path)
 	if err != nil {
 		return nil, err
@@ -133,7 +133,7 @@ func (p LocalProvider) List() ([]ReleaseRevision, error) {
 	return states, nil
 }
 
-func (p LocalProvider) Get(state int) (*[]byte, error) {
+func (p LocalProvider) get(state int) (*[]byte, error) {
 	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, state))
 	if err != nil {
 		return nil, err
@@ -142,7 +142,7 @@ func (p LocalProvider) Get(state int) (*[]byte, error) {
 	return &file, nil
 }
 
-func minMax(name string, path string) (int, int, error) {
+func minMaxLocal(name string, path string) (int, int, error) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return -1, -1, err

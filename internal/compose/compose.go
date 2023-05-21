@@ -20,7 +20,7 @@ import (
 	"sync"
 
 	cfg "github.com/seacrew/helm-compose/internal/config"
-	"github.com/seacrew/helm-compose/internal/state"
+	prov "github.com/seacrew/helm-compose/internal/provider"
 )
 
 func RunUp(config *cfg.Config) error {
@@ -30,12 +30,12 @@ func RunUp(config *cfg.Config) error {
 		}
 	}
 
-	previousConfig, err := state.Load(config)
+	previousConfig, err := prov.Load(config)
 	if err != nil {
 		return err
 	}
 
-	if err := state.Store(config); err != nil {
+	if err := prov.Store(config); err != nil {
 		return err
 	}
 
@@ -73,7 +73,7 @@ func RunUp(config *cfg.Config) error {
 }
 
 func RunDown(config *cfg.Config) error {
-	previousConfig, err := state.Load(config)
+	previousConfig, err := prov.Load(config)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func RunDown(config *cfg.Config) error {
 }
 
 func ListRevisions(config *cfg.Config) error {
-	revisions, err := state.List(config)
+	revisions, err := prov.List(config)
 	if err != nil {
 		return err
 	}
@@ -115,7 +115,7 @@ func ListRevisions(config *cfg.Config) error {
 }
 
 func GetRevision(rev int, config *cfg.Config) error {
-	revision, err := state.Get(rev, config)
+	revision, err := prov.Get(rev, config)
 	if err != nil {
 		return err
 	}
