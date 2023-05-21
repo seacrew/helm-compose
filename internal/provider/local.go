@@ -36,18 +36,20 @@ type LocalProvider struct {
 }
 
 func NewLocal(providerConfig *cfg.State) *LocalProvider {
-	return &LocalProvider{
+	provider := LocalProvider{
 		name:           providerConfig.Name,
 		path:           providerConfig.Path,
 		numberOfStates: providerConfig.NumberOfStates,
 	}
+
+	if len(provider.path) == 0 {
+		provider.path = ".hcstate"
+	}
+
+	return &provider
 }
 
 func (p LocalProvider) Load() (*[]byte, error) {
-	if len(p.path) == 0 {
-		p.path = ".hcstate"
-	}
-
 	if _, err := os.Stat(p.path); os.IsNotExist(err) {
 		if err := os.Mkdir(p.path, os.ModePerm); err != nil {
 			return nil, err
@@ -72,10 +74,6 @@ func (p LocalProvider) Load() (*[]byte, error) {
 }
 
 func (p LocalProvider) Store(encodedConfig *string) error {
-	if len(p.path) == 0 {
-		p.path = ".hcstate"
-	}
-
 	minimum, maximum, err := minMax(p.name, p.path)
 	if err != nil {
 		return err
@@ -101,10 +99,6 @@ func (p LocalProvider) Store(encodedConfig *string) error {
 }
 
 func (p LocalProvider) List() ([]ReleaseRevision, error) {
-	if len(p.path) == 0 {
-		p.path = ".hcstate"
-	}
-
 	files, err := os.ReadDir(p.path)
 	if err != nil {
 		return nil, err
@@ -140,10 +134,6 @@ func (p LocalProvider) List() ([]ReleaseRevision, error) {
 }
 
 func (p LocalProvider) Get(state int) (*[]byte, error) {
-	if len(p.path) == 0 {
-		p.path = ".hcstate"
-	}
-
 	file, err := os.ReadFile(fmt.Sprintf(pathFormat, p.path, p.name, state))
 	if err != nil {
 		return nil, err
