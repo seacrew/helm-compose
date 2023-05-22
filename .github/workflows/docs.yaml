@@ -26,10 +26,7 @@ jobs:
           key: mkdocs-cache-${{ env.cache_id }}
           path: .cache
           restore-keys: |
-            mike
             mkdocs-
-            fontawesome_
-            pydown-extensions
       - name: Run setup mkdocs dependencies
         run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin fontawesome_markdown mike pymdown-extensions
       - name: Run mkdocs deployment
