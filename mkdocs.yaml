@@ -26,7 +26,6 @@ theme:
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
-
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: custom
@@ -34,7 +33,6 @@ theme:
       toggle:
         icon: material/brightness-4
         name: Switch to light mode
-
   features:
     - navigation.sections
     - navigation.expand
@@ -47,12 +45,10 @@ extra_css:
   - stylesheets/extra.css
 
 plugins:
-  - table-reader
   - search
   - autolinks
   - drawio_file
-  - git-revision-date-localized:
-      enable_creation_date: true
+  - git-revision-date-localized
 
 markdown_extensions:
   - abbr

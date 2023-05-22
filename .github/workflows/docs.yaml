@@ -14,18 +14,27 @@ jobs:
     if: github.event.repository.fork == false
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v4
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - name: Run generate cache key
+        run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v3
         with:
           key: mkdocs-cache-${{ env.cache_id }}
           path: .cache
           restore-keys: |
+            mike
             mkdocs-
             fontawesome_
-            mike
             pydown-extensions
-      - run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin mkdocs-table-reader-plugin fontawesome_markdown mike pymdown-extensions
-      - run: mkdocs gh-deploy --force
+      - name: Run setup mkdocs dependencies
+        run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin fontawesome_markdown mike pymdown-extensions
+      - name: Run mkdocs deployment
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mike deploy -b gh-pages -p -F mkdocs.yaml 1.0 latest
+          #mike set-default -b gh-pages -p -F mkdocs.yaml latest

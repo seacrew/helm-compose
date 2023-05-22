@@ -2,12 +2,12 @@
 
 ## storage
 
-More details regarding the available storage providers and all options can be foudn [here](storage-providers.md).
+More details regarding the available storage providers and all options can be found [here.](storage-providers.md)
 
 ```yaml
 storage:
-	name: my-compose
-	type: local
+  name: my-compose
+  type: local
 ```
 
 | Option            | Type   | Description | Required | Default |
@@ -20,8 +20,8 @@ storage:
 
 ```yaml
 releases:
-	my-website:
-		chart: bitnami/wordpress
+  my-website:
+    chart: bitnami/wordpress
 ```
 
 | Option           | Type   | Description | Required | Default        |
