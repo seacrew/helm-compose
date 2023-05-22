@@ -1,58 +1,66 @@
 # Compose File Reference
 
-```go
-type Config struct {
-	Version      string             `yaml:"apiVersion,omitempty"`
-	Storage      Storage            `yaml:"storage,omitempty"`
-	Releases     map[string]Release `yaml:"releases,omitempty"`
-	Repositories map[string]string  `yaml:"repositories,omitempty"`
-}
+## storage
 
-type Release struct {
-	Name             string                 `yaml:"name,omitempty"`
-	Chart            string                 `yaml:"chart,omitempty"`
-	ChartVersion     string                 `yaml:"chartVersion,omitempty"`
-	Namespace        string                 `yaml:"namespace,omitempty"`
-	ForceUpdate      bool                   `yaml:"forceUpdate,omitempty"`
-	HistoryMax       int                    `yaml:"historyMax,omitempty"`
-	CreateNamespace  bool                   `yaml:"createNamespace,omitempty"`
-	CleanUpOnFail    bool                   `yaml:"cleanupOnFail,omitempty"`
-	DependencyUpdate bool                   `yaml:"dependencyUpdate,omitempty"`
-	SkipTLSVerify    bool                   `yaml:"skipTlsVerify,omitempty"`
-	SkipCRDs         bool                   `yaml:"skipCrds,omitempty"`
-	PostRenderer     string                 `yaml:"postRenderer,omitempty"`
-	PostRendererArgs []string               `yaml:"postRendererArgs,omitempty"`
-	KubeConfig       string                 `yaml:"kubeconfig,omitempty"`
-	KubeContext      string                 `yaml:"kubecontext,omitempty"`
-	CAFile           string                 `yaml:"caFile,omitempty"`
-	CertFile         string                 `yaml:"certFile,omitempty"`
-	KeyFile          string                 `yaml:"keyFile,omitempty"`
-	Timeout          string                 `yaml:"timeout,omitempty"`
-	Values           map[string]interface{} `yaml:"values,omitempty"`
-	ValueFiles       []string               `yaml:"valueFiles,omitempty"`
+More details regarding the available storage providers and all options can be foudn [here](storage-providers.md).
 
-	// Uninstall flags
-	DeletionStrategy string `yaml:"deletionStrategy,omitempty"`
-	DeletionTimeout  string `yaml:"deletionTimeout,omitempty"`
-	DeletionNoHooks  bool   `yaml:"deletionNoHooks,omitempty"`
-	KeepHistory      bool   `yaml:"keepHistory,omitempty"`
-}
+```yaml
+storage:
+	name: my-compose
+	type: local
+```
 
-type Storage struct {
-	Type              ProviderType `yaml:"type,omitempty"`
-	Name              string       `yaml:"name,omitempty"`
-	NumberOfRevisions int          `yaml:"numberOfRevisions,omitempty"`
-	// Local storage fields
-	Path string `yaml:"path,omitempty"`
-	// K8s storage fields
-	Namespace string `yaml:"namespace,omitempty"`
-}
+| Option            | Type   | Description | Required | Default |
+| ----------------- | ------ | ----------- | -------- | ------- |
+| name              | string |             | true     |         |
+| type              | string |             | false    | local   |
+| numberOfRevisions | int    |             | false    | 10      |
 
-type ProviderType string
+## releases
 
-const (
-	Local      ProviderType = "local"
-	Kubernetes ProviderType = "kubernetes"
-	S3         ProviderType = "s3"
-)
+```yaml
+releases:
+	my-website:
+		chart: bitnami/wordpress
+```
+
+| Option           | Type   | Description | Required | Default        |
+| ---------------- | ------ | ----------- | -------- | -------------- |
+| name             | string |             | false    |                |
+| chart            | string |             | true     |                |
+| chartVersion     | string |             | false    | latest         |
+| forceUpdate      | bool   |             | false    | false          |
+| historyMax       | int    |             | false    | 10             |
+| createNamespace  | bool   |             | false    | false          |
+| cleanUpOnFail    | bool   |             | false    | false          |
+| dependencyUpdate | bool   |             | false    | false          |
+| skipTlsVerify    | bool   |             | false    | false          |
+| skipCrds         | bool   |             | false    | false          |
+| postRenderer     | string |             | false    |                |
+| postRendererArgs | array  |             | false    |                |
+| kubeconfig       | string |             | false    | ~/.kube/config |
+| kubecontext      | string |             | false    |                |
+| caFile           | string |             | false    |                |
+| certFile         | string |             | false    |                |
+| keyFile          | string |             | false    |                |
+| timeout          | string |             | false    | 5m             |
+| values           | map    |             | false    |                |
+| valueFiles       | string |             | false    | 5m             |
+
+Uninstall options:
+
+| Option           | Type   | Description | Required | Default    |
+| ---------------- | ------ | ----------- | -------- | ---------- |
+| deletionStrategy | string |             | false    | background |
+| deletionTimeout  | string |             | false    | 5m         |
+| deletionNoHooks  | bool   |             | false    | false      |
+| keepHistory      | bool   |             | false    | false      |
+
+## repositories
+
+A map of repository names and their respective urls.
+
+```yaml
+repositories:
+  bitnami: https://charts.bitnami.com/bitnami
 ```

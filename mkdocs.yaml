@@ -6,6 +6,7 @@ nav:
   - Home: "index.md"
   - "Quick Start": "quick-start.md"
   - "Key Features and Use Cases": "key-features-and-use-cases.md"
+  - "Compose File Reference": "compose-file-reference.md"
   - "Storage Providers": "storage-providers.md"
   - Commands:
       - "helm compose up": "commands/up.md"
@@ -16,7 +17,7 @@ nav:
 theme:
   name: material
   logo: https://user-images.githubusercontent.com/18513179/239762487-ec236277-f782-4da3-8a23-692ad017bb92.svg
-  favicon: https://user-images.githubusercontent.com/18513179/239762487-ec236277-f782-4da3-8a23-692ad017bb92.svg
+  favicon: https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default

@@ -15,7 +15,7 @@ repositories:
 
 The main feature of `helm-compose` is the ability to define a multitude of releases inside a single file. `helm-compose` supports single kubernetes-cluster and multi-cluster setups.
 
-### Single cluster example
+### Single cluster
 
 Define as many releases as you would like for one or more namespaces. Release name have to be unique.
 
@@ -35,7 +35,7 @@ repositories:
   bitnami: https://charts.bitnami.com/bitnami
 ```
 
-### Multi cluster example
+### Multi cluster
 
 You can either use the `kubeconfig` paramter to point to a different path and/or use `kubecontext` to select a specific context inside your kubeconfig.
 
@@ -95,4 +95,4 @@ storage:
 
 ### Usage
 
-You can list your revisions and get the content of your previous revisions via the [`helm compose list`](commands/list) and [`helm compose get`](commands/get) commands.
+You can list your revisions and get the content of your previous revisions via the [`helm compose list`](commands/list.md) and [`helm compose get`](commands/get.md) commands.
