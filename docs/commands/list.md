@@ -20,7 +20,7 @@ Global Flags:
 
 ## Example
 
-```bash
+```
 $ helm compose list
 
 | Date             | Revision |

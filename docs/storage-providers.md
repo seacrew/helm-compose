@@ -2,11 +2,11 @@
 
 Following options are applied regardless of the selected provider.
 
-| Option             | Type         | Description                              | Default |
-| ------------------ | ------------ | ---------------------------------------- | ------- |
-| `name`             | string       | The name of your revision files.         |         |
-| `type`             | ProviderType | The name of a revision storage provider. | `local` |
-| `numberOfRevision` | uint         | The number of revisions to be stored.    | 10      |
+| Option              | Type         | Description                              | Default |
+| ------------------- | ------------ | ---------------------------------------- | ------- |
+| `name`              | string       | The name of your revision files.         |         |
+| `type`              | ProviderType | The name of a revision storage provider. | `local` |
+| `numberOfRevisions` | uint         | The number of revisions to be stored.    | 10      |
 
 ## Local
 
