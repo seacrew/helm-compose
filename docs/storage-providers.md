@@ -1,4 +1,4 @@
-# Revision Storage Providers
+# Storage Providers
 
 Following options are applied regardless of the selected provider.
 

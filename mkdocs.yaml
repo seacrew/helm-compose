@@ -3,9 +3,15 @@ docs_dir: docs
 repo_url: https://github.com/seacrew/helm-compose
 
 nav:
-  - Home: 'index.md'
-  - 'Quick Start': 'quick-start.md'
-  - 'Revision Providers': 'revision-providers.md'
+  - Home: "index.md"
+  - "Quick Start": "quick-start.md"
+  - "Storage Providers": "storage-providers.md"
+  - "Key Features and Use Cases": "key-features-and-use-cases.md"
+  - Commands:
+      - "helm compose up": "commands/up.md"
+      - "helm compose down": "commands/down.md"
+      - "helm compose list": "commands/list.md"
+      - "helm compose get": "commands/get.md"
 
 theme:
   name: material
@@ -67,7 +73,7 @@ extra:
     provider: mike
   consent:
     title: Cookie consent
-    description: >- 
+    description: >-
       We use cookies to recognize your repeated visits and preferences, as well
       as to measure the effectiveness of our documentation and whether users
       find what they're searching for. With your consent, you're helping us to
