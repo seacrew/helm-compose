@@ -5,8 +5,8 @@ repo_url: https://github.com/seacrew/helm-compose
 nav:
   - Home: "index.md"
   - "Quick Start": "quick-start.md"
-  - "Storage Providers": "storage-providers.md"
   - "Key Features and Use Cases": "key-features-and-use-cases.md"
+  - "Storage Providers": "storage-providers.md"
   - Commands:
       - "helm compose up": "commands/up.md"
       - "helm compose down": "commands/down.md"
