@@ -372,6 +372,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#rollback" class="md-nav__link">
+    Rollback
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -609,6 +616,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#rollback" class="md-nav__link">
+    Rollback
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -703,13 +717,27 @@
 </span></code></pre></div>
 <h3 id="usage">Usage</h3>
 <p>You can list your revisions and get the content of your previous revisions via the <a href="../commands/list/"><code>helm compose list</code></a> and <a href="../commands/get/"><code>helm compose get</code></a> commands.</p>
+<h3 id="rollback">Rollback</h3>
+<p>Just select a revision you want to go back to. You can check the content with the <code>helm compose get</code> command and parse it directly into any <code>helm compose</code> command like so:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>helm<span class="w"> </span>compose<span class="w"> </span>list
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">|</span><span class="w"> </span>Date<span class="w">             </span><span class="p">|</span><span class="w"> </span>Revision<span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">|</span><span class="w"> </span>----------------<span class="w"> </span><span class="p">|</span><span class="w"> </span>--------<span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">|</span><span class="w"> </span><span class="m">2023</span>-05-24<span class="w"> </span><span class="m">23</span>:56<span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">12</span><span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">|</span><span class="w"> </span><span class="m">2023</span>-05-24<span class="w"> </span><span class="m">23</span>:56<span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">13</span><span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="p">|</span><span class="w"> </span><span class="m">2023</span>-05-24<span class="w"> </span><span class="m">23</span>:57<span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">14</span><span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">|</span><span class="w"> </span><span class="m">2023</span>-05-24<span class="w"> </span><span class="m">23</span>:57<span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">15</span><span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">|</span><span class="w"> </span><span class="m">2023</span>-05-24<span class="w"> </span><span class="m">23</span>:57<span class="w"> </span><span class="p">|</span><span class="w">       </span><span class="m">16</span><span class="w"> </span><span class="p">|</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="c1"># select revision 15 and use the pipe | operator to parse the content back into compose up with -f -</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>helm<span class="w"> </span>compose<span class="w"> </span>get<span class="w"> </span><span class="m">15</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>helm<span class="w"> </span>compose<span class="w"> </span>up<span class="w"> </span>-f<span class="w"> </span>-
+</span></code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 22, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 24, 2023</span>
       
     
   </small>
