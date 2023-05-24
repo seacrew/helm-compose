@@ -16,7 +16,9 @@ limitations under the License.
 package config
 
 import (
+	"bufio"
 	"fmt"
+	"io"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -56,6 +58,22 @@ func ParseConfigFile(filename string) (*Config, error) {
 	var files []string
 	if filename == "" {
 		files = findComposeConfig()
+	} else if filename == "-" {
+		reader := bufio.NewReader(os.Stdin)
+
+		data := []byte{}
+		for {
+			b, err := reader.ReadBytes('\n')
+			if err == io.EOF {
+				break
+			} else if err != nil {
+				return nil, err
+			}
+
+			data = append(data, b...)
+		}
+
+		return parseConfig(data)
 	} else if _, err := os.Stat(filename); err != nil {
 		return nil, fmt.Errorf("provided configuration file not found")
 	} else {

@@ -23,9 +23,13 @@ Stores your compose revisions similar to helm releases inside secrets in a kuber
 | Option        | Type   | Description                                        | Default         |
 | ------------- | ------ | -------------------------------------------------- | --------------- |
 | `namespace`   | string | The namespace to store your revisions in.          | default         |
-| `kubeconfig`  | string | The path to your kubeconfig file                   | ~/kube/config   |
+| `kubeconfig`  | string | The path to your kubeconfig file                   | ~/.kube/config  |
 | `kubecontext` | string | The context to use from your specified kubeconfig. | current-context |
 
 ## S3
+
+Not yet implemented
+
+## GCS
 
 Not yet implemented

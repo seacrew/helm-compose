@@ -96,3 +96,21 @@ storage:
 ### Usage
 
 You can list your revisions and get the content of your previous revisions via the [`helm compose list`](commands/list.md) and [`helm compose get`](commands/get.md) commands.
+
+### Rollback
+
+Just select a revision you want to go back to. You can check the content with the `helm compose get` command and parse it directly into any `helm compose` command like so:
+
+```bash
+$ helm compose list
+| Date             | Revision |
+| ---------------- | -------- |
+| 2023-05-24 23:56 |       12 |
+| 2023-05-24 23:56 |       13 |
+| 2023-05-24 23:57 |       14 |
+| 2023-05-24 23:57 |       15 |
+| 2023-05-24 23:57 |       16 |
+
+# select revision 15 and use the pipe | operator to parse the content back into compose up with -f -
+helm compose get 15 | helm compose up -f -
+```
