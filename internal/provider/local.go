@@ -56,7 +56,7 @@ func (p LocalProvider) load() (*[]byte, error) {
 		}
 	}
 
-	_, maximum, err := minMax(p.name, p.path)
+	_, maximum, err := p.minMax(p.name, p.path)
 	if err != nil {
 		return nil, err
 	}
@@ -74,7 +74,7 @@ func (p LocalProvider) load() (*[]byte, error) {
 }
 
 func (p LocalProvider) store(encodedConfig *string) error {
-	minimum, maximum, err := minMax(p.name, p.path)
+	minimum, maximum, err := p.minMax(p.name, p.path)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func (p LocalProvider) store(encodedConfig *string) error {
 	return nil
 }
 
-func (p LocalProvider) list() ([]ReleaseRevision, error) {
+func (p LocalProvider) list() ([]ComposeRevision, error) {
 	files, err := os.ReadDir(p.path)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (p LocalProvider) list() ([]ReleaseRevision, error) {
 
 	r, _ := regexp.Compile(fmt.Sprintf("^%s-(\\d+)$", p.name))
 
-	revisions := []ReleaseRevision{}
+	revisions := []ComposeRevision{}
 	for _, file := range files {
 		if file.IsDir() {
 			continue
@@ -127,7 +127,7 @@ func (p LocalProvider) list() ([]ReleaseRevision, error) {
 			return nil, err
 		}
 
-		revisions = append(revisions, ReleaseRevision{revision, info.ModTime()})
+		revisions = append(revisions, ComposeRevision{revision, info.ModTime()})
 	}
 
 	return revisions, nil
@@ -142,7 +142,7 @@ func (p LocalProvider) get(revision int) (*[]byte, error) {
 	return &file, nil
 }
 
-func minMax(name string, path string) (int, int, error) {
+func (p LocalProvider) minMax(name string, path string) (int, int, error) {
 	files, err := os.ReadDir(path)
 	if err != nil {
 		return -1, -1, err

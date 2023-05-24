@@ -59,7 +59,9 @@ type Storage struct {
 	// Local storage fields
 	Path string `yaml:"path,omitempty"`
 	// K8s storage fields
-	Namespace string `yaml:"namespace,omitempty"`
+	Namespace   string `yaml:"namespace,omitempty"`
+	KubeConfig  string `yaml:"kubeconfig,omitempty"`
+	KubeContext string `yaml:"kubecontext,omitempty"`
 }
 
 type ProviderType string

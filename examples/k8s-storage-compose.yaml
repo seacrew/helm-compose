@@ -1,0 +1,13 @@
+apiVersion: 1.0
+
+storage:
+  name: k8s-test
+  type: kubernetes
+  numberOfRevisions: 5
+
+releases:
+  k8s-nginx:
+    chart: bitnami/nginx
+
+repositories:
+  bitnami: https://charts.bitnami.com/bitnami

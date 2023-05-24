@@ -17,6 +17,7 @@ package provider
 
 import (
 	"fmt"
+	"sort"
 	"time"
 
 	cfg "github.com/seacrew/helm-compose/internal/config"
@@ -24,7 +25,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type ReleaseRevision struct {
+type ComposeRevision struct {
 	Revision int
 	DateTime time.Time
 }
@@ -32,20 +33,30 @@ type ReleaseRevision struct {
 type Provider interface {
 	load() (*[]byte, error)
 	store(encodedConfig *string) error
-	list() ([]ReleaseRevision, error)
+	list() ([]ComposeRevision, error)
 	get(revision int) (*[]byte, error)
 }
 
+var provider Provider
+
 func newProvider(providerConfig *cfg.Storage) (Provider, error) {
+	if provider != nil {
+		return provider, nil
+	}
+
 	if providerConfig.NumberOfRevisions <= 0 {
 		providerConfig.NumberOfRevisions = 10
 	}
 
+	var err error
+
 	switch providerConfig.Type {
 	case cfg.Local:
-		return newLocal(providerConfig), nil
+		provider = newLocal(providerConfig)
+		return provider, nil
 	case cfg.Kubernetes:
-		return nil, fmt.Errorf("provider type kubernetes is not yet implemented")
+		provider, err = newKubernetes(providerConfig)
+		return provider, err
 	case cfg.S3:
 		return nil, fmt.Errorf("provider type s3 is not yet implemented")
 	default:
@@ -92,7 +103,7 @@ func Store(config *cfg.Config) error {
 	return nil
 }
 
-func List(config *cfg.Config) ([]ReleaseRevision, error) {
+func List(config *cfg.Config) ([]ComposeRevision, error) {
 	provider, err := newProvider(&config.Storage)
 	if err != nil {
 		return nil, err
@@ -102,6 +113,10 @@ func List(config *cfg.Config) ([]ReleaseRevision, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	sort.Slice(revisions, func(i, j int) bool {
+		return revisions[i].Revision < revisions[j].Revision
+	})
 
 	return revisions, nil
 }

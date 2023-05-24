@@ -10,7 +10,7 @@ Following options are applied regardless of the selected provider.
 
 ## Local
 
-Stores your compose revision locally inside the `.hcstate` directory next to your `helm-compose.yaml`.
+Stores your compose revisions locally inside the `.hcstate` directory next to your `helm-compose.yaml`.
 
 | Option | Type   | Description                                                                                           | Default    |
 | ------ | ------ | ----------------------------------------------------------------------------------------------------- | ---------- |
@@ -18,11 +18,13 @@ Stores your compose revision locally inside the `.hcstate` directory next to you
 
 ## Kubernetes
 
-Not yet implemented
+Stores your compose revisions similar to helm releases inside secrets in a kubernetes cluster namespace.
 
-| Option      | Type   | Description                               | Default |
-| ----------- | ------ | ----------------------------------------- | ------- |
-| `namespace` | string | The namespace to store your revisions in. | default |
+| Option        | Type   | Description                                        | Default         |
+| ------------- | ------ | -------------------------------------------------- | --------------- |
+| `namespace`   | string | The namespace to store your revisions in.          | default         |
+| `kubeconfig`  | string | The path to your kubeconfig file                   | ~/kube/config   |
+| `kubecontext` | string | The context to use from your specified kubeconfig. | current-context |
 
 ## S3
 

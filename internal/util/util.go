@@ -98,3 +98,7 @@ func MinMax(ints []int) (int, int) {
 
 	return minimum, maximum
 }
+
+func NewBool(b bool) *bool {
+	return &b
+}
