@@ -1,4 +1,4 @@
-![helm-compose-banner](https://user-images.githubusercontent.com/18513179/239762814-77e442b9-35aa-4c45-90b0-5d133954cf39.svg)
+![helm-compose-banner](https://user-images.githubusercontent.com/18513179/240495789-e76890d3-f0f9-48b9-9d18-89e53effe65b.png)
 
 [![Build Status](https://github.com/seacrew/helm-compose/actions/workflows/build.yml/badge.svg)](https://github.com/seacrew/helm-compose/actions/workflows/build.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/seacrew/helm-compose)](https://goreportcard.com/report/github.com/seacrew/helm-compose)
