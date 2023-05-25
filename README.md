@@ -16,7 +16,7 @@ Install a specific version (recommended). Click [here](https://github.com/seacre
 helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.2
 ```
 
-Install latest unstable version from main branch.
+Install the latest version.
 
 ```
 helm plugin install https://github.com/seacrew/helm-compose
@@ -69,49 +69,6 @@ repositories:
 
 Check out the [examples](https://github.com/seacrew/helm-compose/tree/main/examples) directory
 
-## Compose file reference
+## Documentation
 
-The compose file is a [YAML](https://yaml.org/) file for defining your Helm releases and necessary Helm repositories. This allows you manage multiple releases. Scenarios in which this might be useful:
-
-- Multiple deployments of the same helm chart but with different versions (in the same or different namespaces)
-- Multiple interdependent helm chart deployments (in the same or different namespaces)
-- Multiple deployments in multiple k8s clusters
-
-### `storage`
-
-To keep track of the changes in your compose file. A revision (snapshot) of your compose file is stored every time you make an update. Similar to how helm stores revisions of your releases as a secret inside the same namespace as the release:
-
-```yaml
-storage:
-  name: mycompose
-  type: local # default value
-  path: .hcstate # default value
-  numberOfRevisions: 10 # default value
-```
-
-### `releases`
-
-You can define as many releases as you want to treat them as a single entity. All fields are optional except for the chart.
-
-```yaml
-releases:
-  wordpress:
-    chart: your-chart
-    chartVersion: 1.0.0
-    namespace: your-namespace
-    createNamespace: false
-    kubeconfig: # Path to your custom Kubeconfig
-    kubecontext: your-kube-context
-    valuefiles: [] # list of value files to be used
-    values: # your custom values
-      key: value
-```
-
-### `repositories`
-
-You can define as many repositories as you want and need for your charts to be available.
-
-```yaml
-repositories:
-  bitnami: https://charts.bitnami.com/bitnami
-```
+Checkout the complete [documentation.](https://seacrew.github.io/helm-compose/)
