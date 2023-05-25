@@ -540,10 +540,10 @@
 
 <h1 id="compose-file-reference">Compose File Reference</h1>
 <h2 id="storage">storage</h2>
-<p>More details regarding the available storage providers and all options can be found <a href="../storage-providers/">here.</a></p>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">storage</span><span class="p">:</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-compose</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">local</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">numberOfRevisions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 </span></code></pre></div>
 <table>
 <thead>
@@ -559,26 +559,27 @@
 <tr>
 <td>name</td>
 <td>string</td>
-<td></td>
+<td>Name to be used to store revisions with a storage provider.</td>
 <td>true</td>
 <td></td>
 </tr>
 <tr>
 <td>type</td>
 <td>string</td>
-<td></td>
+<td>Type / name of the storage provider you want to use. By default local files will be stored.</td>
 <td>false</td>
 <td>local</td>
 </tr>
 <tr>
 <td>numberOfRevisions</td>
 <td>int</td>
-<td></td>
+<td>Number of revisions to be stored and to be able to rollback to.</td>
 <td>false</td>
 <td>10</td>
 </tr>
 </tbody>
 </table>
+<p>More details regarding the available storage providers and provider specific options can be found <a href="../storage-providers/">here.</a></p>
 <h2 id="releases">releases</h2>
 <div class="language-yaml highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">releases</span><span class="p">:</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">my-website</span><span class="p">:</span>
@@ -605,133 +606,133 @@
 <tr>
 <td>chart</td>
 <td>string</td>
-<td></td>
+<td>Name of the chart to be used.</td>
 <td>true</td>
 <td></td>
 </tr>
 <tr>
 <td>chartVersion</td>
 <td>string</td>
-<td></td>
+<td>Version of the chart to be used.</td>
 <td>false</td>
 <td>latest</td>
 </tr>
 <tr>
 <td>forceUpdate</td>
 <td>bool</td>
-<td></td>
+<td>Force resource updates through a replacement strategy</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>historyMax</td>
 <td>int</td>
-<td></td>
+<td>Limit the maximum number of revisions saved per release.</td>
 <td>false</td>
 <td>10</td>
 </tr>
 <tr>
 <td>createNamespace</td>
 <td>bool</td>
-<td></td>
+<td>Create the release namespace if not present</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>cleanUpOnFail</td>
 <td>bool</td>
-<td></td>
+<td>Allow deletion of new resources created in this upgrade when upgrade fails.</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>dependencyUpdate</td>
 <td>bool</td>
-<td></td>
+<td>Update dependencies if they are missing before installing the chart</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>skipTlsVerify</td>
 <td>bool</td>
-<td></td>
+<td>Skip tls certificate checks for the chart download</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>skipCrds</td>
 <td>bool</td>
-<td></td>
+<td>If set, no CRDs will be installed.</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>postRenderer</td>
 <td>string</td>
-<td></td>
+<td>The path to an executable to be used for post rendering. If it exists in $PATH, the binary will be used, otherwise it will try to look for the executable at the given path</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>postRendererArgs</td>
 <td>array</td>
-<td></td>
+<td>An argument to the post-renderer (can specify multiple) (default [])</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>kubeconfig</td>
 <td>string</td>
-<td></td>
+<td>Path to the kubeconfig file</td>
 <td>false</td>
 <td>~/.kube/config</td>
 </tr>
 <tr>
 <td>kubecontext</td>
 <td>string</td>
-<td></td>
+<td>Name of the kubeconfig context to use</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>caFile</td>
 <td>string</td>
-<td></td>
+<td>Verify certificates of HTTPS-enabled servers using this CA bundle</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>certFile</td>
 <td>string</td>
-<td></td>
+<td>Identify HTTPS client using this SSL certificate file</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>keyFile</td>
 <td>string</td>
-<td></td>
+<td>Identify HTTPS client using this SSL key file</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>timeout</td>
 <td>string</td>
-<td></td>
+<td>Time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)</td>
 <td>false</td>
 <td>5m</td>
 </tr>
 <tr>
 <td>values</td>
 <td>map</td>
-<td></td>
+<td>Map of values with highest priority to overwrite any values in the chart values or your additional values files. (Allows for usage of environment variables.)</td>
 <td>false</td>
 <td></td>
 </tr>
 <tr>
 <td>valueFiles</td>
 <td>string</td>
-<td></td>
+<td>List of paths to value files.</td>
 <td>false</td>
 <td>5m</td>
 </tr>
@@ -752,28 +753,28 @@
 <tr>
 <td>deletionStrategy</td>
 <td>string</td>
-<td></td>
+<td>Must be "background", "orphan", or "foreground". Selects the deletion cascading strategy for the dependents.</td>
 <td>false</td>
 <td>background</td>
 </tr>
 <tr>
 <td>deletionTimeout</td>
 <td>string</td>
-<td></td>
+<td>Time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)</td>
 <td>false</td>
 <td>5m</td>
 </tr>
 <tr>
 <td>deletionNoHooks</td>
 <td>bool</td>
-<td></td>
+<td>Prevent hooks from running during uninstallation</td>
 <td>false</td>
 <td>false</td>
 </tr>
 <tr>
 <td>keepHistory</td>
 <td>bool</td>
-<td></td>
+<td>Remove all associated resources and mark the release as deleted, but retain the release history</td>
 <td>false</td>
 <td>false</td>
 </tr>
@@ -790,7 +791,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 22, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 25, 2023</span>
       
     
   </small>
