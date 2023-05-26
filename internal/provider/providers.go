@@ -39,7 +39,7 @@ type Provider interface {
 
 var provider Provider
 
-func newProvider(providerConfig *cfg.Storage) (Provider, error) {
+func getProvider(providerConfig *cfg.Storage) (Provider, error) {
 	if provider != nil {
 		return provider, nil
 	}
@@ -65,7 +65,7 @@ func newProvider(providerConfig *cfg.Storage) (Provider, error) {
 }
 
 func Load(config *cfg.Config) (*cfg.Config, error) {
-	provider, err := newProvider(&config.Storage)
+	provider, err := getProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}
@@ -85,7 +85,7 @@ func Load(config *cfg.Config) (*cfg.Config, error) {
 }
 
 func Store(config *cfg.Config) error {
-	provider, err := newProvider(&config.Storage)
+	provider, err := getProvider(&config.Storage)
 	if err != nil {
 		return err
 	}
@@ -104,7 +104,7 @@ func Store(config *cfg.Config) error {
 }
 
 func List(config *cfg.Config) ([]ComposeRevision, error) {
-	provider, err := newProvider(&config.Storage)
+	provider, err := getProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}
@@ -122,7 +122,7 @@ func List(config *cfg.Config) ([]ComposeRevision, error) {
 }
 
 func Get(revision int, config *cfg.Config) (*string, error) {
-	provider, err := newProvider(&config.Storage)
+	provider, err := getProvider(&config.Storage)
 	if err != nil {
 		return nil, err
 	}
