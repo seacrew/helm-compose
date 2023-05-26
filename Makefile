@@ -1,4 +1,5 @@
 HELM_HOME := $(shell bash -c 'eval $$(helm env); echo $$HELM_PLUGINS')
+LDFLAGS := -s -w
 
 .PHONY: install
 install: build
