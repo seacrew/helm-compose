@@ -36,6 +36,11 @@ import (
 	"k8s.io/client-go/tools/clientcmd"
 )
 
+const (
+	secretNameFormat  = "helm.compose.%s.v%d"
+	secretNamePattern = "^helm.compose.%s.v(\\d+)$"
+)
+
 type KubernetesProvider struct {
 	name              string
 	numberOfRevisions int
@@ -143,7 +148,7 @@ func (p KubernetesProvider) store(encodedConfig *string) error {
 
 	secret := &corev1.Secret{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      fmt.Sprintf("helm.compose.%s.v%d", p.name, revision),
+			Name:      fmt.Sprintf(secretNameFormat, p.name, revision),
 			Namespace: p.namespace,
 			Labels: map[string]string{
 				"app.kubernetes.io/managed-by": "Helm-Compose",
@@ -167,7 +172,7 @@ func (p KubernetesProvider) store(encodedConfig *string) error {
 	}
 
 	for i := minimum; i <= revision-p.numberOfRevisions; i++ {
-		if err = p.client.CoreV1().Secrets(p.namespace).Delete(context.Background(), fmt.Sprintf("helm.compose.%s.v%d", p.name, i), metav1.DeleteOptions{}); err != nil {
+		if err = p.client.CoreV1().Secrets(p.namespace).Delete(context.Background(), fmt.Sprintf(secretNameFormat, p.name, i), metav1.DeleteOptions{}); err != nil {
 			fmt.Println(err)
 		}
 	}
@@ -187,7 +192,7 @@ func (p KubernetesProvider) list() ([]ComposeRevision, error) {
 
 	revisions := []ComposeRevision{}
 
-	r, err := regexp.Compile(fmt.Sprintf("^helm.compose.%s.v(\\d+)$", p.name))
+	r, err := regexp.Compile(fmt.Sprintf(secretNamePattern, p.name))
 	if err != nil {
 		return nil, err
 	}
@@ -210,7 +215,7 @@ func (p KubernetesProvider) list() ([]ComposeRevision, error) {
 }
 
 func (p KubernetesProvider) get(revision int) (*[]byte, error) {
-	secret, err := p.client.CoreV1().Secrets(p.namespace).Get(context.Background(), fmt.Sprintf("helm.compose.%s.v%d", p.name, revision), metav1.GetOptions{})
+	secret, err := p.client.CoreV1().Secrets(p.namespace).Get(context.Background(), fmt.Sprintf(secretNameFormat, p.name, revision), metav1.GetOptions{})
 	if err != nil {
 		return nil, err
 	}
@@ -230,7 +235,7 @@ func (p KubernetesProvider) minMax(secrets []corev1.Secret) (int, int, *corev1.S
 
 	minimum, maximum := math.MaxInt, 0
 
-	r, err := regexp.Compile(fmt.Sprintf("^helm.compose.%s.v(\\d+)$", p.name))
+	r, err := regexp.Compile(fmt.Sprintf(secretNamePattern, p.name))
 	if err != nil {
 		return -1, -1, nil, err
 	}
