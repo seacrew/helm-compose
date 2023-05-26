@@ -24,7 +24,7 @@ import (
 // downCmd represents the down command
 var downCmd = &cobra.Command{
 	Use:   "down",
-	Short: "",
+	Short: "This command uninstalls all releases defined in your compose file.",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cmd.SilenceUsage = true

@@ -26,7 +26,7 @@ import (
 
 var getCmd = &cobra.Command{
 	Use:   "get [REVISION]",
-	Short: "",
+	Short: "This command retrieves the decoded content from the revision id you specify.",
 	Long:  ``,
 	Args:  cobra.ExactArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {

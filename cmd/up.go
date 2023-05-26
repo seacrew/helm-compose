@@ -23,7 +23,7 @@ import (
 
 var upCmd = &cobra.Command{
 	Use:   "up",
-	Short: "",
+	Short: "This command installs or upgrades all the releases defined in your compose file and uninstalls releases that have been removed since the last revision.",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cmd.SilenceUsage = true

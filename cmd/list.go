@@ -23,7 +23,7 @@ import (
 
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "",
+	Short: "This command lists the revisions ids for your compose file.",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		cmd.SilenceUsage = true
