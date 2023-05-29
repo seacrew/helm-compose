@@ -15,7 +15,7 @@
         <link rel="next" href="../key-features-and-use-cases/">
       
       <link rel="icon" href="https://user-images.githubusercontent.com/18513179/212496536-76db8b48-fe7c-42a3-b851-da1f281e1ad6.svg">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.14">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.15">
     
     
       
@@ -23,10 +23,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.26e3688c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ecc896b0.min.css">
       
       
 
@@ -527,7 +527,7 @@
 <h1 id="quick-start">Quick Start</h1>
 <h2 id="installation">Installation</h2>
 <p>Install a specific version (recommended). Click <a href="https://github.com/seacrew/helm-compose/releases/latest">here</a> for the latest version.</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.2
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0
 </span></code></pre></div>
 <p>Install latest version.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>helm plugin install https://github.com/seacrew/helm-compose
@@ -566,6 +566,18 @@
 </span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="nt">repositories</span><span class="p">:</span>
 </span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">  </span><span class="nt">bitnami</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://charts.bitnami.com/bitnami</span>
 </span></code></pre></div>
+<p>All <code>helm-compose</code> commands accept the <code>-f</code> flag to pass your compose file location. Otherwise <code>helm-compose</code> will automatically look for a list of file names inside your current directory:</p>
+<ul>
+<li>helm-compose.yaml</li>
+<li>helm-compose.yml</li>
+<li>helmcompose.yaml</li>
+<li>helm-compose.yml</li>
+<li>helmcompose.yaml</li>
+<li>helmcompose.yml</li>
+<li>helmcompose</li>
+<li>compose.yaml</li>
+<li>compose.yml</li>
+</ul>
 <p>Check out the <a href="https://github.com/seacrew/helm-compose/tree/main/examples">helm compose examples</a>.</p>
 
   <hr>
@@ -573,7 +585,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 25, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 29, 2023</span>
       
     
   </small>
