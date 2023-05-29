@@ -33,5 +33,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          mike deploy -b gh-pages -p -F mkdocs.yaml 1.0 latest
+          mike deploy -b gh-pages -p -F mkdocs.yaml 1.1 latest
           #mike set-default -b gh-pages -p -F mkdocs.yaml latest
