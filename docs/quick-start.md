@@ -5,7 +5,7 @@
 Install a specific version (recommended). Click [here](https://github.com/seacrew/helm-compose/releases/latest) for the latest version.
 
 ```
-helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0-beta.2
+helm plugin install https://github.com/seacrew/helm-compose --version 1.0.0
 ```
 
 Install latest version.
@@ -58,5 +58,17 @@ releases:
 repositories:
   bitnami: https://charts.bitnami.com/bitnami
 ```
+
+All `helm-compose` commands accept the `-f` flag to pass your compose file location. Otherwise `helm-compose` will automatically look for a list of file names inside your current directory:
+
+- helm-compose.yaml
+- helm-compose.yml
+- helmcompose.yaml
+- helm-compose.yml
+- helmcompose.yaml
+- helmcompose.yml
+- helmcompose
+- compose.yaml
+- compose.yml
 
 Check out the [helm compose examples](https://github.com/seacrew/helm-compose/tree/main/examples).

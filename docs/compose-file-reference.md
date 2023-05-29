@@ -27,7 +27,6 @@ releases:
 
 | Option           | Type   | Description                                                                                                                                                                 | Required | Default        |
 | ---------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------- |
-| name             | string |                                                                                                                                                                             | false    |                |
 | chart            | string | Name of the chart to be used.                                                                                                                                               | true     |                |
 | chartVersion     | string | Version of the chart to be used.                                                                                                                                            | false    | latest         |
 | forceUpdate      | bool   | Force resource updates through a replacement strategy                                                                                                                       | false    | false          |

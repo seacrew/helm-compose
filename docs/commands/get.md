@@ -7,7 +7,7 @@ Get a previous revision of your `helm-compose.yaml`
 The following command will return the previous `helm-compose.yaml` content on stdout.
 
 ```
-helm compose get [REVISION] [flags]
+helm compose get [revision] [flags]
 ```
 
 ## Options

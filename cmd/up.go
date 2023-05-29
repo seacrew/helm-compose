@@ -32,7 +32,7 @@ var upCmd = &cobra.Command{
 			return err
 		}
 
-		config, err := config.ParseConfigFile(composeFile)
+		config, err := config.ParseComposeFile(composeFile)
 		if err != nil {
 			return err
 		}

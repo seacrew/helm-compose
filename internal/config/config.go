@@ -54,7 +54,7 @@ func findComposeConfig() []string {
 	return files
 }
 
-func ParseConfigFile(filename string) (*Config, error) {
+func ParseComposeFile(filename string) (*Config, error) {
 	var files []string
 	if filename == "" {
 		files = findComposeConfig()
@@ -73,19 +73,19 @@ func ParseConfigFile(filename string) (*Config, error) {
 			data = append(data, b...)
 		}
 
-		return parseConfig(data)
+		return parseComposeData(data)
 	} else if _, err := os.Stat(filename); err != nil {
-		return nil, fmt.Errorf("provided configuration file not found")
+		return nil, fmt.Errorf("provided compose file not found")
 	} else {
 		files = []string{filename}
 	}
 
 	if len(files) == 0 {
-		return nil, fmt.Errorf("no configuration file found")
+		return nil, fmt.Errorf("no compose file found")
 	}
 
 	if len(files) > 1 {
-		return nil, fmt.Errorf("expects only one configuration file but found multiple: %v", files)
+		return nil, fmt.Errorf("expected only one compose file but found multiple: %v", files)
 	}
 
 	file, err := os.ReadFile(files[0])
@@ -93,28 +93,36 @@ func ParseConfigFile(filename string) (*Config, error) {
 		return nil, err
 	}
 
-	return parseConfig(file)
+	return parseComposeData(file)
 }
 
-func parseConfig(data []byte) (*Config, error) {
+func parseComposeData(data []byte) (*Config, error) {
 	config := Config{}
 	err := yaml.Unmarshal(data, &config)
 	if err != nil {
 		return nil, err
 	}
 
+	if err := ValidateCompose(&config); err != nil {
+		return nil, err
+	}
+
+	return &config, nil
+}
+
+func ValidateCompose(config *Config) error {
 	if config.Version == "" {
-		return nil, fmt.Errorf("missing apiVersion in config")
+		return fmt.Errorf("missing apiVersion in config")
 	}
 
 	version, err := semver.NewVersion(config.Version)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse apiVersion: %s", config.Version)
+		return fmt.Errorf("failed to parse apiVersion: %s", config.Version)
 	}
 
 	if semver.MustParse("1.0").GreaterThan(version) {
-		return nil, fmt.Errorf("helm compose requires at least apiVersion 1.0 but got %s", config.Version)
+		return fmt.Errorf("helm compose requires at least apiVersion 1.0 but got %s", config.Version)
 	}
 
-	return &config, nil
+	return nil
 }

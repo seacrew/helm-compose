@@ -21,7 +21,7 @@ import (
 )
 
 func TestParseSimpleConfig(t *testing.T) {
-	config, err := ParseConfigFile("../../examples/simple-compose.yaml")
+	config, err := ParseComposeFile("../../examples/simple-compose.yaml")
 
 	if err != nil {
 		log.Fatal(err)

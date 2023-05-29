@@ -1,8 +1,10 @@
 # Key Features and Use Cases
 
+The main idea behind `helm-compose` is to control / configure all helm related options as code by providing a compose file structure to configure everything you need to setup your helm based infrastructure.
+
 ## Repository handling
 
-Automatic installation of all necessary repositories you define as a dependency in your `helm-compose.yaml` before triggering the installation of your releases.
+Configuration based installation of all necessary repositories you define as a dependency in your `helm-compose.yaml` before triggering the installation of your releases.
 
 ```yaml
 apiVersion: 1.0
@@ -13,11 +15,11 @@ repositories:
 
 ## Multi release handling
 
-The main feature of `helm-compose` is the ability to define a multitude of releases inside a single file. `helm-compose` supports single kubernetes-cluster and multi-cluster setups.
+The main feature of `helm-compose` is the ability to define a multitude of releases inside a single file. `helm-compose` supports single kubernetes-cluster and multi-cluster configuration.
 
 ### Single cluster
 
-Define as many releases as you would like for one or more namespaces. Release name have to be unique.
+Define as many releases as you would like for one or more namespaces.
 
 ```yaml
 apiVersion: 1.0
@@ -37,7 +39,7 @@ repositories:
 
 ### Multi cluster
 
-You can either use the `kubeconfig` paramter to point to a different path and/or use `kubecontext` to select a specific context inside your kubeconfig.
+You can either use the `kubeconfig` options to point to a different path and use the `kubecontext` to select a specific context inside your kubeconfig.
 
 ```yaml
 apiVersion: 1.0
@@ -59,7 +61,9 @@ repositories:
 
 ### Environment variables
 
-`helm-compose` allows to parse environment variables inside your values block. Syntax: `${MY_ENV_VARIABLE}`.
+`helm-compose` is able to inject environment variables inside your values block to deal with secrets that shouldn't be committed to your source control.
+
+Syntax: `${MY_ENV_VARIABLE}`.
 
 ```bash
 export WORDPRESS_ADMIN_PASSWORD="xxx"

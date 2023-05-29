@@ -25,7 +25,7 @@ import (
 )
 
 var getCmd = &cobra.Command{
-	Use:   "get [REVISION]",
+	Use:   "get [revision]",
 	Short: "This command retrieves the decoded content from the revision id you specify.",
 	Long:  ``,
 	Args:  cobra.ExactArgs(1),
@@ -36,7 +36,7 @@ var getCmd = &cobra.Command{
 			return err
 		}
 
-		config, err := config.ParseConfigFile(composeFile)
+		config, err := config.ParseComposeFile(composeFile)
 		if err != nil {
 			return err
 		}
