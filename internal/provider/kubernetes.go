@@ -49,7 +49,7 @@ type KubernetesProvider struct {
 	listOptions       *metav1.ListOptions
 }
 
-func newKubernetes(providerConfig *cfg.Storage) (*KubernetesProvider, error) {
+func newKubernetesProvider(providerConfig *cfg.Storage) (*KubernetesProvider, error) {
 	namespace := providerConfig.Namespace
 	if len(namespace) == 0 {
 		namespace = "default"
@@ -93,7 +93,7 @@ func newKubernetes(providerConfig *cfg.Storage) (*KubernetesProvider, error) {
 		LabelSelector: labels.Set(labelSelector.MatchLabels).String(),
 	}
 
-	provider := KubernetesProvider{
+	provider := &KubernetesProvider{
 		name:              providerConfig.Name,
 		numberOfRevisions: providerConfig.NumberOfRevisions,
 		namespace:         namespace,
@@ -101,7 +101,7 @@ func newKubernetes(providerConfig *cfg.Storage) (*KubernetesProvider, error) {
 		listOptions:       &listOptions,
 	}
 
-	return &provider, nil
+	return provider, nil
 }
 
 func (p KubernetesProvider) load() (*[]byte, error) {

@@ -52,13 +52,14 @@ func getProvider(providerConfig *cfg.Storage) (Provider, error) {
 
 	switch providerConfig.Type {
 	case cfg.Local:
-		provider = newLocal(providerConfig)
+		provider = newLocalProvider(providerConfig)
 		return provider, nil
 	case cfg.Kubernetes:
-		provider, err = newKubernetes(providerConfig)
+		provider, err = newKubernetesProvider(providerConfig)
 		return provider, err
 	case cfg.S3:
-		return nil, fmt.Errorf("provider type s3 is not yet implemented")
+		provider, err = newS3Provider(providerConfig)
+		return provider, err
 	default:
 		return nil, fmt.Errorf("unknown provider type %q", providerConfig.Type)
 	}

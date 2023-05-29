@@ -35,7 +35,7 @@ type LocalProvider struct {
 	numberOfRevisions int
 }
 
-func newLocal(providerConfig *cfg.Storage) *LocalProvider {
+func newLocalProvider(providerConfig *cfg.Storage) *LocalProvider {
 	provider := LocalProvider{
 		name:              providerConfig.Name,
 		path:              providerConfig.Path,
