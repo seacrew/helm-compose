@@ -64,9 +64,11 @@ type Storage struct {
 	KubeContext string `yaml:"kubecontext,omitempty"`
 	// S3 storage fields
 	S3Bucket         string `yaml:"s3bucket,omitempty"`
+	S3Prefix         string `yaml:"s3prefix,omitempty"`
 	S3Region         string `yaml:"s3region,omitempty"`
 	S3Endpoint       string `yaml:"s3endpoint,omitempty"`
 	S3Insecure       bool   `yaml:"s3insecure,omitempty"`
+	S3DisableSSL     bool   `yaml:"s3disableSSL,omitempty"`
 	S3ForcePathStyle bool   `yaml:"s3forcePathStyle,omitempty"`
 }
 

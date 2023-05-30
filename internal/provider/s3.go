@@ -16,6 +16,9 @@ limitations under the License.
 package provider
 
 import (
+	"crypto/tls"
+	"net/http"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
@@ -27,6 +30,8 @@ import (
 type S3Provider struct {
 	name              string
 	numberOfRevisions int
+	bucket            *string
+	prefix            *string
 	lister            *s3.S3
 	uploader          *s3manager.Uploader
 	downloader        *s3manager.Downloader
@@ -43,8 +48,15 @@ func newS3Provider(providerConfig *cfg.Storage) (*S3Provider, error) {
 		config.Endpoint = &providerConfig.S3Endpoint
 	}
 
-	if providerConfig.S3Insecure {
+	if providerConfig.S3DisableSSL {
 		config.DisableSSL = util.NewBool(true)
+	}
+
+	if providerConfig.S3Insecure {
+		tr := &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
+		config.HTTPClient = &http.Client{Transport: tr}
 	}
 
 	if providerConfig.S3ForcePathStyle {
@@ -59,6 +71,8 @@ func newS3Provider(providerConfig *cfg.Storage) (*S3Provider, error) {
 	provider := &S3Provider{
 		name:              providerConfig.Name,
 		numberOfRevisions: providerConfig.NumberOfRevisions,
+		bucket:            &providerConfig.S3Bucket,
+		prefix:            &providerConfig.S3Prefix,
 		lister:            s3.New(sess),
 		uploader:          s3manager.NewUploader(sess),
 		downloader:        s3manager.NewDownloader(sess),

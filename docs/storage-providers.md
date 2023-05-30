@@ -28,7 +28,17 @@ Stores your compose revisions similar to helm releases inside secrets in a kuber
 
 ## S3
 
-Not yet implemented
+Stores your compose revisions inside a s3 bucket.
+
+| Option           | Type   | Description                                                                                                | Required | Default                                                                                                 |
+| ---------------- | ------ | ---------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------- |
+| s3bucket         | string | Specify the bucket name to upload to and download from.                                                    | true     |                                                                                                         |
+| s3prefix         | string | Specify the object prefix (directory) for the revisions to be uploaded to and downloaded from.             | false    |                                                                                                         |
+| s3region         | string | Set a custom S3 region.                                                                                    | false    | By default the region will be read from AWS configuration files or the AWS_REGION environment variable. |
+| s3endpoint       | string | Set a custom S3 endpoint / host url.                                                                       | false    | Default AWS S3 service endpoint based on the region.                                                    |
+| s3insecure       | bool   | Disable the verification of the servers certificate chain and hostname.                                    | false    | false                                                                                                   |
+| s3disableSSL     | bool   | Disable the usage of SSL / https.                                                                          | false    | false                                                                                                   |
+| s3forcePathStyle | bool   | Enforce to use path style. Especially useful for none AWS S3 provider which often only support path style. | false    | false                                                                                                   |
 
 ## GCS
 
