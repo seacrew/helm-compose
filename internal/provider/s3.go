@@ -17,7 +17,10 @@ package provider
 
 import (
 	"crypto/tls"
+	"fmt"
 	"net/http"
+	"regexp"
+	"strconv"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -25,6 +28,11 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	cfg "github.com/seacrew/helm-compose/internal/config"
 	"github.com/seacrew/helm-compose/internal/util"
+)
+
+const (
+	s3ObjectNameFormat  = "%s.v%d.hcstate"
+	s3ObjectNamePattern = "%s.v(\\d+).hcstate$"
 )
 
 type S3Provider struct {
@@ -88,9 +96,37 @@ func (p S3Provider) load() (*[]byte, error) {
 func (p S3Provider) store(encodedConfig *string) error {
 	return nil
 }
+
 func (p S3Provider) list() ([]ComposeRevision, error) {
-	return nil, nil
+	resp, err := p.lister.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: p.bucket, Prefix: p.prefix})
+	if err != nil {
+		return nil, err
+	}
+
+	var revisions []ComposeRevision
+
+	r, err := regexp.Compile(fmt.Sprintf(s3ObjectNamePattern, p.name))
+	if err != nil {
+		return nil, err
+	}
+
+	for _, item := range resp.Contents {
+		matches := r.FindStringSubmatch(*item.Key)
+		if len(matches) == 0 {
+			continue
+		}
+
+		revision, err := strconv.Atoi(matches[1])
+		if err != nil {
+			return nil, err
+		}
+
+		revisions = append(revisions, ComposeRevision{revision, *item.LastModified})
+	}
+
+	return revisions, nil
 }
+
 func (p S3Provider) get(revision int) (*[]byte, error) {
 	return nil, nil
 }

@@ -72,6 +72,9 @@ func Load(config *cfg.Config) (*cfg.Config, error) {
 	}
 
 	data, err := provider.load()
+	if err != nil {
+		return nil, err
+	}
 
 	if data == nil {
 		return nil, nil
