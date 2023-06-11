@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"math"
 	"net/http"
+	"os"
 	"regexp"
 	"strconv"
 
@@ -52,6 +53,10 @@ func newS3Provider(providerConfig *cfg.Storage) (*S3Provider, error) {
 
 	if len(providerConfig.S3Region) > 0 {
 		config.Region = &providerConfig.S3Region
+	} else if os.Getenv("AWS_REGION") != "" {
+		config.Region = aws.String(os.Getenv("AWS_REGION"))
+	} else {
+		return nil, fmt.Errorf("AWS region not specified")
 	}
 
 	if len(providerConfig.S3Endpoint) > 0 {
