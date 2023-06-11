@@ -16,8 +16,10 @@ limitations under the License.
 package provider
 
 import (
+	"bytes"
 	"crypto/tls"
 	"fmt"
+	"math"
 	"net/http"
 	"regexp"
 	"strconv"
@@ -90,10 +92,84 @@ func newS3Provider(providerConfig *cfg.Storage) (*S3Provider, error) {
 }
 
 func (p S3Provider) load() (*[]byte, error) {
-	return nil, nil
+	resp, err := p.lister.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: p.bucket, Prefix: p.prefix})
+	if err != nil {
+		return nil, err
+	}
+
+	if len(resp.Contents) == 0 {
+		return nil, nil
+	}
+
+	_, _, latest, err := p.minMax(resp.Contents)
+	if err != nil {
+		return nil, err
+	}
+
+	if latest == nil {
+		return nil, nil
+	}
+
+	buff := &aws.WriteAtBuffer{}
+	if _, err := p.downloader.Download(buff, &s3.GetObjectInput{Bucket: p.bucket, Key: latest.Key}); err != nil {
+		return nil, err
+	}
+
+	content := buff.Bytes()
+	return &content, nil
 }
 
 func (p S3Provider) store(encodedConfig *string) error {
+	resp, err := p.lister.ListObjectsV2(&s3.ListObjectsV2Input{Bucket: p.bucket, Prefix: p.prefix})
+	if err != nil {
+		return err
+	}
+
+	if len(resp.Contents) == 0 {
+		return nil
+	}
+
+	minimum, maximum, _, err := p.minMax(resp.Contents)
+	if err != nil {
+		return err
+	}
+
+	revision := maximum + 1
+
+	key := fmt.Sprintf(s3ObjectNameFormat, p.name, revision)
+	if len(*p.prefix) > 0 {
+		key = fmt.Sprintf("%s/%s", *p.prefix, key)
+	}
+
+	reader := bytes.NewReader([]byte(*encodedConfig))
+
+	_, err = p.uploader.Upload(
+		&s3manager.UploadInput{
+			Bucket: p.bucket,
+			Key:    &key,
+			Body:   reader,
+		})
+
+	if err != nil {
+		return err
+	}
+
+	if minimum > revision-p.numberOfRevisions {
+		return nil
+	}
+
+	for i := minimum; i < revision-p.numberOfRevisions; i++ {
+		key := fmt.Sprintf(s3ObjectNameFormat, p.name, i)
+		if len(*p.prefix) > 0 {
+			key = fmt.Sprintf("%s/%s", *p.prefix, key)
+		}
+
+		_, err := p.lister.DeleteObject(&s3.DeleteObjectInput{Bucket: p.bucket, Key: &key})
+		if err != nil {
+			fmt.Println(err)
+		}
+	}
+
 	return nil
 }
 
@@ -128,5 +204,56 @@ func (p S3Provider) list() ([]ComposeRevision, error) {
 }
 
 func (p S3Provider) get(revision int) (*[]byte, error) {
-	return nil, nil
+	key := fmt.Sprintf(s3ObjectNameFormat, p.name, revision)
+	if len(*p.prefix) > 0 {
+		key = fmt.Sprintf("%s/%s", *p.prefix, key)
+	}
+
+	buff := &aws.WriteAtBuffer{}
+	_, err := p.downloader.Download(buff,
+		&s3.GetObjectInput{
+			Bucket: p.bucket,
+			Key:    &key,
+		})
+
+	if err != nil {
+		return nil, err
+	}
+
+	content := buff.Bytes()
+	return &content, nil
+}
+
+func (p S3Provider) minMax(objects []*s3.Object) (int, int, *s3.Object, error) {
+	minimum, maximum := math.MaxInt, 0
+	var latest *s3.Object
+
+	r, err := regexp.Compile(fmt.Sprintf(s3ObjectNamePattern, p.name))
+	if err != nil {
+		return -1, -1, nil, err
+	}
+
+	for _, item := range objects {
+		matches := r.FindStringSubmatch(*item.Key)
+
+		if len(matches) == 0 {
+			continue
+		}
+
+		revision, err := strconv.Atoi(matches[1])
+		if err != nil {
+			return -1, -1, nil, err
+		}
+
+		if revision < minimum {
+			minimum = revision
+		}
+
+		if revision > maximum {
+			maximum = revision
+			latest = item
+		}
+	}
+
+	return minimum, maximum, latest, nil
 }

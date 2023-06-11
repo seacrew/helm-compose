@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/Masterminds/semver v1.5.0
+	github.com/aws/aws-sdk-go v1.44.271
 	github.com/jwalton/go-supportscolor v1.1.0
 	github.com/spf13/cobra v1.6.1
 	gopkg.in/yaml.v2 v2.4.0
@@ -11,11 +12,7 @@ require (
 	k8s.io/client-go v0.27.2
 )
 
-require (
-	github.com/aws/aws-sdk-go v1.44.271 // indirect
-	github.com/jmespath/go-jmespath v0.4.0 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
-)
+require github.com/jmespath/go-jmespath v0.4.0 // indirect
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
