@@ -1,0 +1,25 @@
+apiVersion: 1.0
+
+storage:
+  name: s3-test
+  type: s3
+  s3bucket: helm-compose
+  s3region: eu-central-1
+  s3prefix: wordpress
+
+releases:
+  wordpress:
+    chart: bitnami/wordpress
+    chartVersion: 14.3.2
+    namespace: wordpress
+    createNamespace: true
+    valueFiles:
+      - ./values/wordpress.yaml
+    values:
+      wordpressBlogName: Awesome Site
+      wordpressPassword: "${WORDPRESS_PASSWORD}}"
+      mariadb.auth:
+        rootPassword: "${MARIADB_ROOT_PASSWORD}}"
+
+repositories:
+  bitnami: https://charts.bitnami.com/bitnami

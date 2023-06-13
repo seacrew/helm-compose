@@ -1,6 +1,7 @@
-# Changes since 1.1.0
+# Changes since 1.1.1
 
--
+# 1.1.1
+- bugfix: when the target bucket is empty no state files are written
 
 # 1.1.0
 

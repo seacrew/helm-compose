@@ -130,10 +130,6 @@ func (p S3Provider) store(encodedConfig *string) error {
 		return err
 	}
 
-	if len(resp.Contents) == 0 {
-		return nil
-	}
-
 	minimum, maximum, _, err := p.minMax(resp.Contents)
 	if err != nil {
 		return err
@@ -230,6 +226,10 @@ func (p S3Provider) get(revision int) (*[]byte, error) {
 }
 
 func (p S3Provider) minMax(objects []*s3.Object) (int, int, *s3.Object, error) {
+	if len(objects) == 0 {
+		return 0, 0, nil, nil
+	}
+
 	minimum, maximum := math.MaxInt, 0
 	var latest *s3.Object
 
