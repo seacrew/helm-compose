@@ -18,6 +18,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
 
       - name: Update and create tag
         run: |
@@ -34,15 +37,13 @@ jobs:
           sed -i 's\^version:.*\version: ${{ inputs.version }}\g' plugin.yaml
 
           # Update changelog
-          sed -i 's\# Changes since\# \g' CHANGELOG.md
+          sed -i 's\# Changes since .*\# ${{ inputs.version }}\g' CHANGELOG.md
           echo -e "# Changes since ${{ inputs.version }}\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
           # Commit, tag and push
           git commit -am "docs: release ${{ inputs.version }}"
-          git tag ${{ inputs.version }}
-
-          git push --set-upstream origin release/v${{ inputs.version }} 
-          git push origin ${{ inputs.version }}
+          git tag ${{ inputs.version }} -am "${{ inputs.version }}"
+          git push --follow-tags --set-upstream origin release/v${{ inputs.version }} 
 
       - name: Create release
         env:
@@ -52,7 +53,7 @@ jobs:
           gh release create "${TAG}" \
               --title="${TAG}" \
               --generate-notes \
-              --draft
+              --prerelease
 
       - name: Create PR
         env:
