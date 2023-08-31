@@ -44,6 +44,8 @@ releases:
 | certFile         | string | Identify HTTPS client using this SSL certificate file                                                                                                                       | false    |                |
 | keyFile          | string | Identify HTTPS client using this SSL key file                                                                                                                               | false    |                |
 | timeout          | string | Time to wait for any individual Kubernetes operation (like Jobs for hooks) (default 5m0s)                                                                                   | false    | 5m             |
+| wait             | bool   | Waits until all Pods are in a ready state                                                                                                                                   | false    |
+
 | values           | map    | Map of values with highest priority to overwrite any values in the chart values or your additional values files. (Allows for usage of environment variables.)               | false    |                |
 | valueFiles       | string | List of paths to value files.                                                                                                                                               | false    | 5m             |
 

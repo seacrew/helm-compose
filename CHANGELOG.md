@@ -1,4 +1,8 @@
-# Changes since 1.1.2
+# Changes since 1.1.3
+
+# 1.1.3
+- feat: add wait option
+
 # 1.1.2
 - chore: dependency upgrades
 
