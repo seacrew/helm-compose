@@ -54,4 +54,4 @@ jobs:
             gh release upload ${TAG} ${FILE} --clobber
           done
 
-          gh release edit ${TAG} --latest
+          gh release edit ${TAG} --latest --prerelease=false
