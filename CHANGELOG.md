@@ -1,4 +1,5 @@
-# Changes since 1.1.1
+# Changes since 1.1.2
+# 1.1.2
 - chore: dependency upgrades
 
 # 1.1.1

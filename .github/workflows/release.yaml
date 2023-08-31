@@ -34,7 +34,7 @@ jobs:
           sed -i 's\^version:.*\version: ${{ inputs.version }}\g' plugin.yaml
 
           # Update changelog
-          sed -i 's\# Changes since\# \g' CHANGELOG.md
+          sed -i 's\# Changes since .*\# ${{ inputs.version }}\g' CHANGELOG.md
           echo -e "# Changes since ${{ inputs.version }}\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
           # Commit, tag and push
