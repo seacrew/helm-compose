@@ -14,6 +14,7 @@ permissions:
 jobs:
   release:
     name: release
+    runs-on: ubuntu-latest
     steps:
       - name: Update and create tag
         run: |

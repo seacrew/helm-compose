@@ -1,4 +1,5 @@
 # Changes since 1.1.1
+- chore: dependency upgrades
 
 # 1.1.1
 - bugfix: when the target bucket is empty no state files are written
