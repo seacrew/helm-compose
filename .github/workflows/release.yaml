@@ -1,0 +1,46 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number of the new release'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: release
+    steps:
+      - name: Update and create tag
+        run: |
+          # Update version in documentation and helm plugin config
+          sed -i 's\--version .*\--version ${{ inputs.version }}\g' docs/quick-start.md
+          sed -i 's\--version .*\--version ${{ inputs.version }}\g' README.md
+          sed -i 's\^version:.*\version: ${{ inputs.version }}\g' plugin.yaml
+
+          # Update changelog
+          sed -i 's\# Changes since\# \g' CHANGELOG.md
+          echo -e "# Changes since ${{ inputs.version }}\n$(cat CHANGELOG.md)" > CHANGELOG.md
+
+          # Setup git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Commit, tag and push
+          git commit -m "release ${{ inputs.version }}"
+          git tag ${{ inputs.version }}
+          git push --follow-tags
+
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.version }}
+        run: |
+          gh release create "${TAG}" \
+              --title="${TAG}" \
+              --generate-notes \
+              --draft
