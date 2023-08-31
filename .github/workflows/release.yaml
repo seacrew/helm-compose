@@ -10,14 +10,24 @@ on:
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   release:
     name: release
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+
       - name: Update and create tag
         run: |
+          # Setup git
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Create release branch
+          git checkout -b release/v${{ inputs.version }}
+
           # Update version in documentation and helm plugin config
           sed -i 's\--version .*\--version ${{ inputs.version }}\g' docs/quick-start.md
           sed -i 's\--version .*\--version ${{ inputs.version }}\g' README.md
@@ -27,14 +37,12 @@ jobs:
           sed -i 's\# Changes since\# \g' CHANGELOG.md
           echo -e "# Changes since ${{ inputs.version }}\n$(cat CHANGELOG.md)" > CHANGELOG.md
 
-          # Setup git
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           # Commit, tag and push
-          git commit -m "release ${{ inputs.version }}"
+          git commit -am "docs: release ${{ inputs.version }}"
           git tag ${{ inputs.version }}
-          git push --follow-tags
+
+          git push --set-upstream origin release/v${{ inputs.version }} 
+          git push origin ${{ inputs.version }}
 
       - name: Create release
         env:
@@ -45,3 +53,9 @@ jobs:
               --title="${TAG}" \
               --generate-notes \
               --draft
+
+      - name: Create PR
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create -B main -H release/v${{ inputs.version }} --title 'docs: release ${{ inputs.version }}' --body 'Created by Github action'
