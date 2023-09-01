@@ -141,6 +141,10 @@ func installHelmRelease(name string, release *cfg.Release) {
 		args = append(args, fmt.Sprintf("--timeout=%s", release.Timeout))
 	}
 
+	if release.Wait {
+		args = append(args, "--wait")
+	}
+
 	if release.KubeConfig != "" {
 		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
 	}

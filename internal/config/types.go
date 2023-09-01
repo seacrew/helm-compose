@@ -42,6 +42,7 @@ type Release struct {
 	CertFile         string                 `yaml:"certFile,omitempty"`
 	KeyFile          string                 `yaml:"keyFile,omitempty"`
 	Timeout          string                 `yaml:"timeout,omitempty"`
+	Wait             bool                   `yaml:"wait,omitempty"`
 	Values           map[string]interface{} `yaml:"values,omitempty"`
 	ValueFiles       []string               `yaml:"valueFiles,omitempty"`
 
