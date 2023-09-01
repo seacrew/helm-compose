@@ -1,6 +1,4 @@
-# Changes since 1.1.3
-
-# 1.1.3
+# Changes since 1.1.2
 - feat: add wait option
 
 # 1.1.2
