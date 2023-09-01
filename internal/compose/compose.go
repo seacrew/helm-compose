@@ -35,8 +35,10 @@ func RunUp(config *cfg.Config) error {
 		return err
 	}
 
-	if err := prov.Store(config); err != nil {
-		return err
+	if !config.Equal(previousConfig) {
+		if err := prov.Store(config); err != nil {
+			return err
+		}
 	}
 
 	var wg sync.WaitGroup

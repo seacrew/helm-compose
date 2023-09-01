@@ -15,6 +15,16 @@ limitations under the License.
 */
 package config
 
+import "reflect"
+
+type ProviderType string
+
+const (
+	Local      ProviderType = "local"
+	Kubernetes ProviderType = "kubernetes"
+	S3         ProviderType = "s3"
+)
+
 type Config struct {
 	Version      string             `yaml:"apiVersion,omitempty"`
 	Storage      Storage            `yaml:"storage,omitempty"`
@@ -73,10 +83,36 @@ type Storage struct {
 	S3ForcePathStyle bool   `yaml:"s3forcePathStyle,omitempty"`
 }
 
-type ProviderType string
+func (c *Config) Equal(o *Config) bool {
+	if o == nil {
+		return false
+	}
 
-const (
-	Local      ProviderType = "local"
-	Kubernetes ProviderType = "kubernetes"
-	S3         ProviderType = "s3"
-)
+	if c.Version != o.Version {
+		return false
+	}
+
+	if c.Storage != o.Storage {
+		return false
+	}
+
+	if len(c.Releases) != len(o.Releases) {
+		return false
+	}
+
+	if !reflect.DeepEqual(c.Releases, o.Releases) {
+		return false
+	}
+
+	if len(c.Repositories) != len(o.Repositories) {
+		return false
+	}
+
+	for key, value := range c.Repositories {
+		if val, ok := o.Repositories[key]; !ok || val != value {
+			return false
+		}
+	}
+
+	return true
+}
