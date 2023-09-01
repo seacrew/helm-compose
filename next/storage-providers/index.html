@@ -628,6 +628,7 @@
 <th>Description</th>
 <th>Required</th>
 <th>Default</th>
+<th>ApiVersion</th>
 </tr>
 </thead>
 <tbody>
@@ -637,6 +638,7 @@
 <td>Name to be used to store revisions with a storage provider.</td>
 <td>true</td>
 <td></td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>type</td>
@@ -644,6 +646,7 @@
 <td>Type / name of the storage provider you want to use. By default local files will be stored.</td>
 <td>false</td>
 <td>local</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>numberOfRevisions</td>
@@ -651,6 +654,7 @@
 <td>Number of revisions to be stored and to be able to rollback to.</td>
 <td>false</td>
 <td>10</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -664,6 +668,7 @@
 <th>Description</th>
 <th>Required</th>
 <th>Default</th>
+<th>ApiVersion</th>
 </tr>
 </thead>
 <tbody>
@@ -673,6 +678,7 @@
 <td>The directory path to store your revisions (Relative to the directory you execute <code>helm compose</code> in).</td>
 <td>false</td>
 <td>.hcstate</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -686,6 +692,7 @@
 <th>Description</th>
 <th>Required</th>
 <th>Default</th>
+<th>ApiVersion</th>
 </tr>
 </thead>
 <tbody>
@@ -695,6 +702,7 @@
 <td>The namespace to store your revisions in.</td>
 <td>false</td>
 <td>default</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>kubeconfig</td>
@@ -702,6 +710,7 @@
 <td>The path to your kubeconfig file</td>
 <td>false</td>
 <td>~/.kube/config</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>kubecontext</td>
@@ -709,6 +718,7 @@
 <td>The context to use from your specified kubeconfig.</td>
 <td>false</td>
 <td>current-context</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -722,6 +732,7 @@
 <th>Description</th>
 <th>Required</th>
 <th>Default</th>
+<th>ApiVersion</th>
 </tr>
 </thead>
 <tbody>
@@ -731,6 +742,7 @@
 <td>Specify the bucket name to upload to and download from.</td>
 <td>true</td>
 <td></td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3prefix</td>
@@ -738,6 +750,7 @@
 <td>Specify the object prefix (directory) for the revisions to be uploaded to and downloaded from.</td>
 <td>false</td>
 <td>(root path)</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3region</td>
@@ -745,6 +758,7 @@
 <td>Set a custom S3 region.</td>
 <td>false</td>
 <td>By default the region will be read from the AWS_REGION environment variable.</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3endpoint</td>
@@ -752,6 +766,7 @@
 <td>Set a custom S3 endpoint / host url.</td>
 <td>false</td>
 <td>Default AWS S3 service endpoint.</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3insecure</td>
@@ -759,6 +774,7 @@
 <td>Disable the verification of the servers certificate chain and hostname.</td>
 <td>false</td>
 <td>false</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3disableSSL</td>
@@ -766,6 +782,7 @@
 <td>Disable the usage of SSL / https.</td>
 <td>false</td>
 <td>false</td>
+<td>1.0</td>
 </tr>
 <tr>
 <td>s3forcePathStyle</td>
@@ -773,6 +790,7 @@
 <td>Enforce to use path style. Especially useful for none AWS S3 provider which often only support path style.</td>
 <td>false</td>
 <td>false</td>
+<td>1.0</td>
 </tr>
 </tbody>
 </table>
@@ -784,7 +802,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">June 11, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 1, 2023</span>
       
     
   </small>
