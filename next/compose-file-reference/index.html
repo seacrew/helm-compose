@@ -782,21 +782,16 @@
 <td>5m</td>
 </tr>
 <tr>
-<td>values</td>
-<td>map</td>
-<td>Map of values with highest priority to overwrite any values in the chart values or your additional values files. (Allows for usage of environment variables.)</td>
+<td>wait</td>
+<td>bool</td>
+<td>Waits until all Pods are in a ready state,  It will wait for as long as the --timeout value</td>
 <td>false</td>
 <td></td>
 </tr>
-<tr>
-<td>valueFiles</td>
-<td>string</td>
-<td>List of paths to value files.</td>
-<td>false</td>
-<td>5m</td>
-</tr>
 </tbody>
 </table>
+<p>| values           | map    | Map of values with highest priority to overwrite any values in the chart values or your additional values files. (Allows for usage of environment variables.)               | false    |                |
+| valueFiles       | string | List of paths to value files.                                                                                                                                               | false    | 5m             |</p>
 <p>Uninstall options:</p>
 <table>
 <thead>
@@ -850,7 +845,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">May 29, 2023</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 1, 2023</span>
       
     
   </small>
