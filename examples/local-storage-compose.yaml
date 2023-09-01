@@ -1,4 +1,4 @@
-apiVersion: 1.0
+apiVersion: 1.1
 
 storage:
   name: local
@@ -9,6 +9,7 @@ releases:
   default:
     chart: bitnami/nginx
     chartVersion: 14.2.1
+    wait: true
 
 repositories:
   bitnami: https://charts.bitnami.com/bitnami

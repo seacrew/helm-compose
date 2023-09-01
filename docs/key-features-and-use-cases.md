@@ -7,7 +7,7 @@ The main idea behind `helm-compose` is to control / configure all helm related o
 Configuration based installation of all necessary repositories you define as a dependency in your `helm-compose.yaml` before triggering the installation of your releases.
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 repositories:
   bitnami: https://charts.bitnami.com/bitnami
@@ -22,7 +22,7 @@ The main feature of `helm-compose` is the ability to define a multitude of relea
 Define as many releases as you would like for one or more namespaces.
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 releases:
   wordpress:
@@ -42,7 +42,7 @@ repositories:
 You can either use the `kubeconfig` options to point to a different path and use the `kubecontext` to select a specific context inside your kubeconfig.
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 releases:
   wordpress-dev:
@@ -72,7 +72,7 @@ helm compose up
 ```
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 releases:
   wordpress:
@@ -89,7 +89,7 @@ Revisions are essentially snapshots of your current `helm-compose.yaml`. Every t
 ### Configuration
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 storage:
   name: wordpress

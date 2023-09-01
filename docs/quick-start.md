@@ -33,7 +33,7 @@ helm compose down -f helm-compose.yaml
 A Helm Compose file looks something like this:
 
 ```yaml
-apiVersion: 1.0
+apiVersion: 1.1
 
 storage:
   name: mycompose

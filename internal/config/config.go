@@ -27,6 +27,11 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+var (
+	V1_0 = semver.MustParse("1.0")
+	V1_1 = semver.MustParse("1.1")
+)
+
 func findComposeConfig() []string {
 	var files []string
 	filenames := []string{
@@ -103,14 +108,14 @@ func parseComposeData(data []byte) (*Config, error) {
 		return nil, err
 	}
 
-	if err := ValidateCompose(&config); err != nil {
+	if err := validateCompose(&config); err != nil {
 		return nil, err
 	}
 
 	return &config, nil
 }
 
-func ValidateCompose(config *Config) error {
+func validateCompose(config *Config) error {
 	if config.Version == "" {
 		return fmt.Errorf("missing apiVersion in config")
 	}
@@ -120,8 +125,34 @@ func ValidateCompose(config *Config) error {
 		return fmt.Errorf("failed to parse apiVersion: %s", config.Version)
 	}
 
-	if semver.MustParse("1.0").GreaterThan(version) {
+	if version.LessThan(V1_0) {
 		return fmt.Errorf("helm compose requires at least apiVersion 1.0 but got %s", config.Version)
+	}
+
+	if err := validateComposeFeatures(version, config); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func validateComposeFeatures(version *semver.Version, config *Config) error {
+	if err := validateCompose1_1(version, config); err != nil {
+		return fmt.Errorf("apiVersion 1.1+ necessary: %s", err)
+	}
+
+	return nil
+}
+
+func validateCompose1_1(version *semver.Version, config *Config) error {
+	if version.GreaterThan(V1_0) {
+		return nil
+	}
+
+	for name, release := range config.Releases {
+		if release.Wait {
+			return fmt.Errorf("trying to use 'wait' in release '%s'", name)
+		}
 	}
 
 	return nil

@@ -85,10 +85,6 @@ func Load(config *cfg.Config) (*cfg.Config, error) {
 		return nil, err
 	}
 
-	if err := cfg.ValidateCompose(prevConfig); err != nil {
-		return nil, fmt.Errorf("couldn't load previous revision %s", err.Error())
-	}
-
 	return prevConfig, nil
 }
 
