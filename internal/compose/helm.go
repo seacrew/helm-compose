@@ -117,10 +117,6 @@ func installHelmRelease(name string, release *cfg.Release) {
 		args = append(args, "--skip-crds")
 	}
 
-	if release.Wait {
-		args = append(args, "--wait")
-	}
-
 	if release.PostRenderer != "" {
 		args = append(args, fmt.Sprintf("--post-renderer=%s", release.PostRenderer))
 	}
@@ -143,6 +139,10 @@ func installHelmRelease(name string, release *cfg.Release) {
 
 	if release.Timeout != "" {
 		args = append(args, fmt.Sprintf("--timeout=%s", release.Timeout))
+	}
+
+	if release.Wait {
+		args = append(args, "--wait")
 	}
 
 	if release.KubeConfig != "" {
