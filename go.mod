@@ -4,9 +4,10 @@ go 1.19
 
 require (
 	github.com/Masterminds/semver v1.5.0
-	github.com/aws/aws-sdk-go v1.44.334
+	github.com/aws/aws-sdk-go v1.45.2
 	github.com/jwalton/go-supportscolor v1.2.0
 	github.com/spf13/cobra v1.7.0
+	github.com/stretchr/testify v1.8.4
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/apimachinery v0.28.1
 	k8s.io/client-go v0.28.1
@@ -16,8 +17,6 @@ require (
 	github.com/google/gnostic-models v0.6.8 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
-	github.com/stretchr/objx v0.5.0 // indirect
-	github.com/stretchr/testify v1.8.4 // indirect
 )
 
 require (
