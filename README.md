@@ -6,7 +6,7 @@
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=seacrew_helm-compose&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=seacrew_helm-compose)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/seacrew/helm-compose)](https://github.com/seacrew/helm-compose/releases/latest)
 
-Helm Compose is a tool for managing multiple releases of one or many different Helm charts. It is heavily inspired by Docker Compose and is an extension of the package manager idea behind Helm itself.
+Helm Compose is a tool for managing multiple releases of one or many different Helm charts. It is heavily inspired by Docker Compose and is an extension of the package manager idea behind Helm itself. It allows for full configuration-as-code capabilities in an single yaml file.
 
 ## Installation
 
