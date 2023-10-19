@@ -31,4 +31,5 @@ updates:
     commit-message:
       prefix: "chore: "
     schedule:
-      interval: daily
+      interval: weekly
+      day: sunday
