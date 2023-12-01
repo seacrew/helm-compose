@@ -233,3 +233,109 @@ func helmExec(name string, args []string) {
 		cp.Printf(err.Error())
 	}
 }
+
+func templateHelmRelease(name string, release *cfg.Release) {
+	var args []string
+
+	args = append(args, "template")
+
+	if release.ChartVersion != "" {
+		args = append(args, fmt.Sprintf("--version=%s", release.ChartVersion))
+	}
+
+	if release.Namespace != "" {
+		args = append(args, fmt.Sprintf("--namespace=%s", release.Namespace))
+	}
+
+	if release.ForceUpdate {
+		args = append(args, "--force")
+	}
+
+	if release.HistoryMax < 0 {
+		args = append(args, fmt.Sprintf("--history-max=%d", 0))
+	} else if release.HistoryMax > 0 {
+		args = append(args, fmt.Sprintf("--history-max=%d", release.HistoryMax))
+	}
+
+	if release.CreateNamespace {
+		args = append(args, "--create-namespace")
+	}
+
+	if release.CleanUpOnFail {
+		args = append(args, "--cleanup-on-fail")
+	}
+
+	if release.DependencyUpdate {
+		args = append(args, "--dependency-update")
+	}
+
+	if release.SkipTLSVerify {
+		args = append(args, "--insecure-skip-tls-verify")
+	}
+
+	if release.SkipCRDs {
+		args = append(args, "--skip-crds")
+	}
+
+	if release.PostRenderer != "" {
+		args = append(args, fmt.Sprintf("--post-renderer=%s", release.PostRenderer))
+	}
+
+	if len(release.PostRendererArgs) > 0 {
+		args = append(args, fmt.Sprintf("--post-renderer-args=[%s]", strings.Join(release.PostRendererArgs, ",")))
+	}
+
+	if release.CAFile != "" {
+		args = append(args, fmt.Sprintf("--ca-file=%s", release.CAFile))
+	}
+
+	if release.CertFile != "" {
+		args = append(args, fmt.Sprintf("--cert-file=%s", release.CertFile))
+	}
+
+	if release.KeyFile != "" {
+		args = append(args, fmt.Sprintf("--key-file=%s", release.KeyFile))
+	}
+
+	if release.Timeout != "" {
+		args = append(args, fmt.Sprintf("--timeout=%s", release.Timeout))
+	}
+
+	if release.Wait {
+		args = append(args, "--wait")
+	}
+
+	if release.KubeConfig != "" {
+		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
+	}
+
+	if release.KubeContext != "" {
+		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
+	}
+
+	for _, file := range release.ValueFiles {
+		args = append(args, fmt.Sprintf("--values=%s", file))
+	}
+
+	var jsonValues []string
+	for key := range release.Values {
+		data := util.ConvertJson(release.Values[key])
+		values, err := json.Marshal(data)
+		if err != nil {
+			cp := util.NewColorPrinter(name)
+			cp.Printf("%s |\t\t%s", name, err)
+			return
+		}
+
+		jsonValues = append(jsonValues, fmt.Sprintf("%s=%s", key, values))
+	}
+
+	if len(jsonValues) > 0 {
+		args = append(args, fmt.Sprintf("--set-json=%s", strings.Join(jsonValues, ",")))
+	}
+
+	args = append(args, name)
+	args = append(args, release.Chart)
+
+	helmExec(name, args)
+}
