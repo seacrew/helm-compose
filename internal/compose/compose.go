@@ -127,7 +127,7 @@ func GetRevision(rev int, config *cfg.Config) error {
 	return nil
 }
 
-func Template(config *cfg.Config) error {
+func Template(config *cfg.Config, releases []string) error {
 	for name, url := range config.Repositories {
 		if err := addHelmRepository(name, url); err != nil {
 			return err
@@ -135,7 +135,16 @@ func Template(config *cfg.Config) error {
 	}
 
 	for name, release := range config.Releases {
-		templateHelmRelease(name, &release)
+		if len(releases) == 0 {
+			templateHelmRelease(name, &release)
+			continue
+		}
+
+		for _, rel := range releases {
+			if rel == name {
+				templateHelmRelease(name, &release)
+			}
+		}
 	}
 
 	return nil

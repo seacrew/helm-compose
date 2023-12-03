@@ -22,7 +22,7 @@ import (
 )
 
 var templateCmd = &cobra.Command{
-	Use:   "template",
+	Use:   "template [RELEASES...]",
 	Short: "Render templates for all releases locally and display the output.",
 	Long:  ``,
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -37,7 +37,7 @@ var templateCmd = &cobra.Command{
 			return err
 		}
 
-		return compose.Template(config)
+		return compose.Template(config, args)
 	},
 }
 

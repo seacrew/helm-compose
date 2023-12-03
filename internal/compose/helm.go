@@ -39,9 +39,9 @@ var (
 type HelmCommand string
 
 const (
-	HelmInstall   HelmCommand = "upgrade"
-	HelmUninstall HelmCommand = "uninstall"
-	HelmTemplate  HelmCommand = "template"
+	HELM_UPGRADE   HelmCommand = "upgrade"
+	HELM_UNINSTALL HelmCommand = "uninstall"
+	HELM_TEMPLATE  HelmCommand = "template"
 )
 
 func CompatibleHelmVersion() error {
@@ -82,7 +82,17 @@ func addHelmRepository(name string, url string) error {
 }
 
 func installHelmRelease(name string, release *cfg.Release) {
-	args, err := createHelmArguments(HelmInstall, name, release)
+	args, err := createHelmArguments(HELM_UPGRADE, name, release)
+	if err != nil {
+		cp := util.NewColorPrinter(name)
+		cp.Printf("%s |\t\t%s", name, err)
+	}
+
+	helmExec(name, args)
+}
+
+func templateHelmRelease(name string, release *cfg.Release) {
+	args, err := createHelmArguments(HELM_TEMPLATE, name, release)
 	if err != nil {
 		cp := util.NewColorPrinter(name)
 		cp.Printf("%s |\t\t%s", name, err)
@@ -129,38 +139,12 @@ func uninstallHelmRelease(name string, release *cfg.Release) {
 	helmExec(name, args)
 }
 
-func helmExec(name string, args []string) {
-	cp := util.NewColorPrinter(name)
-	output, _ := util.Execute(helm, args...)
-
-	scanner := bufio.NewScanner(strings.NewReader(output))
-	for scanner.Scan() {
-		cp.Printf("%s |\t\t%s", name, scanner.Text())
-	}
-
-	err := scanner.Err()
-
-	if err != nil {
-		cp.Printf(err.Error())
-	}
-}
-
-func templateHelmRelease(name string, release *cfg.Release) {
-	args, err := createHelmArguments(HelmTemplate, name, release)
-	if err != nil {
-		cp := util.NewColorPrinter(name)
-		cp.Printf("%s |\t\t%s", name, err)
-	}
-
-	helmExec(name, args)
-}
-
 func createHelmArguments(command HelmCommand, name string, release *cfg.Release) ([]string, error) {
 	var args []string
 
 	args = append(args, string(command))
 
-	if command == HelmInstall {
+	if command == HELM_UPGRADE {
 		args = append(args, "--install")
 	}
 
@@ -261,4 +245,20 @@ func createHelmArguments(command HelmCommand, name string, release *cfg.Release)
 	args = append(args, release.Chart)
 
 	return args, nil
+}
+
+func helmExec(name string, args []string) {
+	cp := util.NewColorPrinter(name)
+	output, _ := util.Execute(helm, args...)
+
+	scanner := bufio.NewScanner(strings.NewReader(output))
+	for scanner.Scan() {
+		cp.Printf("%s |\t\t%s", name, scanner.Text())
+	}
+
+	err := scanner.Err()
+
+	if err != nil {
+		cp.Printf(err.Error())
+	}
 }
