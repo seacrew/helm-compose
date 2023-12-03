@@ -95,10 +95,10 @@ func templateHelmRelease(name string, release *cfg.Release) {
 	args, err := createHelmArguments(HELM_TEMPLATE, name, release)
 	if err != nil {
 		cp := util.NewColorPrinter(name)
-		cp.Printf("%s |\t\t%s", name, err)
+		cp.Printf("# %s |\t\t%s", name, err)
 	}
 
-	helmExec(name, args)
+	helmExec("", args)
 }
 
 func uninstallHelmRelease(name string, release *cfg.Release) {
@@ -253,7 +253,11 @@ func helmExec(name string, args []string) {
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	for scanner.Scan() {
-		cp.Printf("%s |\t\t%s", name, scanner.Text())
+		if len(name) == 0 {
+			fmt.Printf("%s\n", scanner.Text())
+		} else {
+			cp.Printf("%s |\t\t%s", name, scanner.Text())
+		}
 	}
 
 	err := scanner.Err()
