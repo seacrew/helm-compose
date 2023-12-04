@@ -28,9 +28,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Create release branch
-          git checkout -b release/v${{ inputs.version }}
-
           # Update version in documentation and helm plugin config
           sed -i 's\--version .*\--version ${{ inputs.version }}\g' docs/quick-start.md
           sed -i 's\--version .*\--version ${{ inputs.version }}\g' README.md
@@ -54,9 +51,3 @@ jobs:
               --title="${TAG}" \
               --generate-notes \
               --prerelease
-
-      - name: Create PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh pr create -B main -H release/v${{ inputs.version }} --title 'docs: release ${{ inputs.version }}' --body 'Created by Github action'
