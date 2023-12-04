@@ -21,6 +21,7 @@ import (
 
 	cfg "github.com/seacrew/helm-compose/internal/config"
 	prov "github.com/seacrew/helm-compose/internal/provider"
+	"github.com/seacrew/helm-compose/internal/util"
 )
 
 func RunUp(config *cfg.Config) error {
@@ -123,6 +124,31 @@ func GetRevision(rev int, config *cfg.Config) error {
 	}
 
 	fmt.Printf("%s\n", *revision)
+
+	return nil
+}
+
+func Template(config *cfg.Config, releases []string) error {
+	util.PrintColors = false
+
+	for name, url := range config.Repositories {
+		if err := addHelmRepository(name, url); err != nil {
+			return err
+		}
+	}
+
+	for name, release := range config.Releases {
+		if len(releases) == 0 {
+			templateHelmRelease(name, &release)
+			continue
+		}
+
+		for _, rel := range releases {
+			if rel == name {
+				templateHelmRelease(name, &release)
+			}
+		}
+	}
 
 	return nil
 }

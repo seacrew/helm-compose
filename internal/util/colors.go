@@ -27,6 +27,8 @@ type ColorPrinter struct {
 	colorFunc func(...interface{}) string
 }
 
+var PrintColors = true
+
 func NewColorPrinter(s string) *ColorPrinter {
 	c := hashColor(s)
 	return &ColorPrinter{
@@ -35,7 +37,12 @@ func NewColorPrinter(s string) *ColorPrinter {
 }
 
 func (c ColorPrinter) Printf(format string, a ...any) {
-	fmt.Printf(c.colorFunc(format)+"\n", a...)
+	if PrintColors {
+		fmt.Printf(c.colorFunc(format)+"\n", a...)
+		return
+	}
+
+	fmt.Printf(format+"\n", a...)
 }
 
 var colorFuncs [](func(...interface{}) string) = [](func(...interface{}) string){

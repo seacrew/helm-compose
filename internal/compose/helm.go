@@ -36,25 +36,33 @@ var (
 	minVersion = semver.MustParse("v3.0.0")
 )
 
+type HelmCommand string
+
+const (
+	HELM_UPGRADE   HelmCommand = "upgrade"
+	HELM_UNINSTALL HelmCommand = "uninstall"
+	HELM_TEMPLATE  HelmCommand = "template"
+)
+
 func CompatibleHelmVersion() error {
 	cmd := exec.Command(helm, "version")
 	util.DebugPrint("Executing %s", strings.Join(cmd.Args, " "))
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("Failed to run `%s version`: %v", os.Getenv("HELM_BIN"), err)
+		return fmt.Errorf("failed to run `%s version`: %v", os.Getenv("HELM_BIN"), err)
 	}
 
 	versionOutput := string(output)
 
 	matches := versionRE.FindStringSubmatch(versionOutput)
 	if matches == nil {
-		return fmt.Errorf("Failed to find version in output %#v", versionOutput)
+		return fmt.Errorf("failed to find version in output %#v", versionOutput)
 	}
 
 	helmVersion, err := semver.NewVersion(matches[1])
 	if err != nil {
-		return fmt.Errorf("Failed to parse version %#v: %v", matches[1], err)
+		return fmt.Errorf("failed to parse version %#v: %v", matches[1], err)
 	}
 
 	if minVersion.GreaterThan(helmVersion) {
@@ -74,10 +82,71 @@ func addHelmRepository(name string, url string) error {
 }
 
 func installHelmRelease(name string, release *cfg.Release) {
+	args, err := createHelmArguments(HELM_UPGRADE, name, release)
+	if err != nil {
+		cp := util.NewColorPrinter(name)
+		cp.Printf("%s |\t\t%s", name, err)
+	}
+
+	helmExec(name, args)
+}
+
+func templateHelmRelease(name string, release *cfg.Release) {
+	args, err := createHelmArguments(HELM_TEMPLATE, name, release)
+	if err != nil {
+		cp := util.NewColorPrinter(name)
+		cp.Printf("# %s |\t\t%s", name, err)
+	}
+
+	helmExec("", args)
+}
+
+func uninstallHelmRelease(name string, release *cfg.Release) {
 	var args []string
 
-	args = append(args, "upgrade")
-	args = append(args, "--install")
+	args = append(args, "uninstall")
+
+	if release.Namespace != "" {
+		args = append(args, fmt.Sprintf("--namespace=%s", release.Namespace))
+	}
+
+	if release.KubeConfig != "" {
+		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
+	}
+
+	if release.KubeContext != "" {
+		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
+	}
+
+	if release.DeletionStrategy != "" {
+		args = append(args, fmt.Sprintf("--cascade=%s", release.DeletionStrategy))
+	}
+
+	if release.DeletionTimeout != "" {
+		args = append(args, fmt.Sprintf("--timeout=%s", release.DeletionTimeout))
+	}
+
+	if release.DeletionNoHooks {
+		args = append(args, "--no-hooks")
+	}
+
+	if release.KeepHistory {
+		args = append(args, "--keep-history")
+	}
+
+	args = append(args, name)
+
+	helmExec(name, args)
+}
+
+func createHelmArguments(command HelmCommand, name string, release *cfg.Release) ([]string, error) {
+	var args []string
+
+	args = append(args, string(command))
+
+	if command == HELM_UPGRADE {
+		args = append(args, "--install")
+	}
 
 	if release.ChartVersion != "" {
 		args = append(args, fmt.Sprintf("--version=%s", release.ChartVersion))
@@ -162,9 +231,7 @@ func installHelmRelease(name string, release *cfg.Release) {
 		data := util.ConvertJson(release.Values[key])
 		values, err := json.Marshal(data)
 		if err != nil {
-			cp := util.NewColorPrinter(name)
-			cp.Printf("%s |\t\t%s", name, err)
-			return
+			return nil, err
 		}
 
 		jsonValues = append(jsonValues, fmt.Sprintf("%s=%s", key, values))
@@ -177,45 +244,7 @@ func installHelmRelease(name string, release *cfg.Release) {
 	args = append(args, name)
 	args = append(args, release.Chart)
 
-	helmExec(name, args)
-}
-
-func uninstallHelmRelease(name string, release *cfg.Release) {
-	var args []string
-
-	args = append(args, "uninstall")
-
-	if release.Namespace != "" {
-		args = append(args, fmt.Sprintf("--namespace=%s", release.Namespace))
-	}
-
-	if release.KubeConfig != "" {
-		args = append(args, fmt.Sprintf("--kubeconfig=%s", release.KubeConfig))
-	}
-
-	if release.KubeContext != "" {
-		args = append(args, fmt.Sprintf("--kube-context=%s", release.KubeContext))
-	}
-
-	if release.DeletionStrategy != "" {
-		args = append(args, fmt.Sprintf("--cascade=%s", release.DeletionStrategy))
-	}
-
-	if release.DeletionTimeout != "" {
-		args = append(args, fmt.Sprintf("--timeout=%s", release.DeletionTimeout))
-	}
-
-	if release.DeletionNoHooks {
-		args = append(args, "--no-hooks")
-	}
-
-	if release.KeepHistory {
-		args = append(args, "--keep-history")
-	}
-
-	args = append(args, name)
-
-	helmExec(name, args)
+	return args, nil
 }
 
 func helmExec(name string, args []string) {
@@ -224,7 +253,11 @@ func helmExec(name string, args []string) {
 
 	scanner := bufio.NewScanner(strings.NewReader(output))
 	for scanner.Scan() {
-		cp.Printf("%s |\t\t%s", name, scanner.Text())
+		if len(name) == 0 {
+			fmt.Printf("%s\n", scanner.Text())
+		} else {
+			cp.Printf("%s |\t\t%s", name, scanner.Text())
+		}
 	}
 
 	err := scanner.Err()
