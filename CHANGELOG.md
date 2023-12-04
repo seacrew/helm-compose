@@ -1,4 +1,5 @@
-# Changes since 1.2.0
+# Changes since 1.3.0
+# 1.3.0
 - feat: add templating command
 
 # 1.2.0
