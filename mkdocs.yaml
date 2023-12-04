@@ -13,6 +13,7 @@ nav:
       - "helm compose down": "commands/down.md"
       - "helm compose list": "commands/list.md"
       - "helm compose get": "commands/get.md"
+      - "helm compose template": "commands/template.md"
 
 theme:
   name: material
