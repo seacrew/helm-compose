@@ -40,7 +40,7 @@ jobs:
           # Commit, tag and push
           git commit -am "docs: release ${{ inputs.version }}"
           git tag ${{ inputs.version }} -am "${{ inputs.version }}"
-          git push --follow-tags --set-upstream origin release/v${{ inputs.version }} 
+          git push --follow-tags 
 
       - name: Create release
         env:
