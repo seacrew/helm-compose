@@ -81,6 +81,10 @@ type Storage struct {
 	S3Insecure       bool   `yaml:"s3insecure,omitempty"`
 	S3DisableSSL     bool   `yaml:"s3disableSSL,omitempty"`
 	S3ForcePathStyle bool   `yaml:"s3forcePathStyle,omitempty"`
+	// GCS storage fields
+	GCSBucket          string `yaml:"gcsBucket,omitempty"`
+	GCSPrefix          string `yaml:"gcsPrefix,omitempty"`
+	GCSCredentialsFile string `yaml:"gcsCredentialsFile,omitempty"`
 }
 
 func (c *Config) Equal(o *Config) bool {
