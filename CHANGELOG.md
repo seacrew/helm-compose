@@ -1,4 +1,6 @@
 # Changes since 1.2.0
+- feat: add templating command
+
 # 1.2.0
 - feat: add wait option
 - feat: apiVersion 1.1 for wait option and add better version handling
