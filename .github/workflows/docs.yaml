@@ -26,7 +26,7 @@ jobs:
       - name: Run generate cache key
         run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           key: mkdocs-cache-${{ env.cache_id }}
           path: .cache
