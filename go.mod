@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go v1.49.9
 	github.com/jwalton/go-supportscolor v1.2.0
 	github.com/spf13/cobra v1.8.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/apimachinery v0.29.3
 	k8s.io/client-go v0.29.3
