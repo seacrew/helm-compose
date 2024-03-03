@@ -16,7 +16,7 @@ jobs:
           go-version: ">=1.19.0"
           check-latest: true
           cache: true
-      - uses: azure/setup-helm@v3
+      - uses: azure/setup-helm@v4
         with:
           version: v3.11.0
       - name: Install Helm Compose
