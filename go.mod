@@ -1,6 +1,7 @@
 module github.com/seacrew/helm-compose
 
 go 1.21
+toolchain go1.22.2
 
 require (
 	github.com/Masterminds/semver v1.5.0
@@ -9,7 +10,7 @@ require (
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.9.0
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/apimachinery v0.29.3
+	k8s.io/apimachinery v0.30.0
 	k8s.io/client-go v0.29.3
 )
 
