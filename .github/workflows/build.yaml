@@ -31,7 +31,7 @@ jobs:
 
       - uses: actions/setup-go@v5
         with:
-          go-version: ">=1.19.0"
+          go-version-file: go.mod
           check-latest: true
           cache: true
 
@@ -55,3 +55,4 @@ jobs:
           done
 
           gh release edit ${TAG} --latest --prerelease=false
+
