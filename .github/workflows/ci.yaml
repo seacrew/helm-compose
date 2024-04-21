@@ -11,16 +11,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-go@v5
         with:
-          go-version: ">=1.19.0"
+          go-version-file: go.mod
           check-latest: true
           cache: true
+
       - uses: azure/setup-helm@v4
         with:
           version: v3.11.0
+
       - name: Install Helm Compose
         run: make install
+
       - uses: helm/kind-action@v1.9.0
+      
       - name: Run Helm Compose
         run: helm compose up -f examples/simple-compose.yaml
+
