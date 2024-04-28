@@ -25,7 +25,7 @@ jobs:
       - name: Install Helm Compose
         run: make install
 
-      - uses: helm/kind-action@v1.9.0
+      - uses: helm/kind-action@v1.10.0
       
       - name: Run Helm Compose
         run: helm compose up -f examples/simple-compose.yaml
