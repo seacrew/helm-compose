@@ -1,4 +1,6 @@
 # Changes since 1.3.0
+- chore(deps): bump to golang 1.24
+
 # 1.3.0
 - feat: add templating command
 - chore: upgrade to golang 1.22

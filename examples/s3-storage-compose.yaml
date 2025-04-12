@@ -17,9 +17,9 @@ releases:
       - ./values/wordpress.yaml
     values:
       wordpressBlogName: Awesome Site
-      wordpressPassword: "${WORDPRESS_PASSWORD}}"
+      wordpressPassword: "${WORDPRESS_PASSWORD}"
       mariadb.auth:
-        rootPassword: "${MARIADB_ROOT_PASSWORD}}"
+        rootPassword: "${MARIADB_ROOT_PASSWORD}"
 
 repositories:
   bitnami: https://charts.bitnami.com/bitnami
