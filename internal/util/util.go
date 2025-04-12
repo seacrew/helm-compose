@@ -20,12 +20,9 @@ import (
 	"math"
 	"os"
 	"os/exec"
-	"regexp"
 	"strings"
-)
 
-var (
-	re = regexp.MustCompile(`\$\{(.*?)\}`)
+	"github.com/a8m/envsubst"
 )
 
 func IsDebug() bool {
@@ -69,12 +66,17 @@ func ConvertJson(obj interface{}) interface{} {
 		}
 	case string:
 		str := obj.(string)
-		matches := re.FindStringSubmatch(str)
-		for _, match := range matches {
-			str = strings.Replace(str, "${"+match+"}", os.Getenv(match), 1)
+
+		substituted, err := envsubst.String(str)
+		if err != nil {
+			if IsDebug() {
+				DebugPrint("Error while substituting environment variables for value '%s': %v", str, err)
+			}
+
+			return str
 		}
 
-		return str
+		return substituted
 	}
 	return obj
 }
