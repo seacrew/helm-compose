@@ -1,4 +1,5 @@
-# Changes since 1.3.0
+# Changes since 1.4.0
+# 1.4.0
 - chore(deps): bump to golang 1.24
 - feat: add full environment substitution
 
