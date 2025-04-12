@@ -20,8 +20,6 @@ jobs:
           fetch-tags: true
 
       - uses: actions/setup-python@v5
-        with:
-          python-version: 3.x
 
       - name: Run generate cache key
         run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
@@ -33,8 +31,9 @@ jobs:
           restore-keys: |
             mkdocs-
 
-      - name: Run setup mkdocs dependencies
-        run: pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio-file mkdocs-git-revision-date-localized-plugin fontawesome_markdown mike pymdown-extensions
+      - name: Install dependencies
+        run: |
+          pip install mkdocs mkdocs-material mkdocs-autolinks-plugin mkdocs-drawio mkdocs-git-revision-date-localized-plugin fontawesome_markdown mike pymdown-extensions
 
       - name: Run mkdocs deployment
         run: |
@@ -52,4 +51,3 @@ jobs:
           SHORT_VERSION=${LATEST_TAG%.*}
 
           mike deploy -b gh-pages -p -F mkdocs.yaml -u ${SHORT_VERSION} latest
-

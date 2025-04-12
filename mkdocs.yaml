@@ -47,8 +47,8 @@ extra_css:
 
 plugins:
   - search
+  - drawio
   - autolinks
-  - drawio_file
   - git-revision-date-localized
 
 markdown_extensions:
