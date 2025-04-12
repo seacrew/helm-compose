@@ -61,9 +61,21 @@ repositories:
 
 ### Environment variables
 
-`helm-compose` is able to inject environment variables inside your values block to deal with secrets that shouldn't be committed to your source control.
+`helm-compose` utilizes [a8m/envsubst](https://github.com/a8m/envsubst?tab=readme-ov-file#docs) to substitute environment variables inside your values block. This allows for better dealing with secrets that shouldn't be committed to your source control.
 
-Syntax: `${MY_ENV_VARIABLE}`.
+|__Expression__     | __Meaning__    |
+| ----------------- | -------------- |
+|`${var}`           | Value of var (same as `$var`)
+|`${var-$DEFAULT}`  | If var not set, evaluate expression as $DEFAULT
+|`${var:-$DEFAULT}` | If var not set or is empty, evaluate expression as $DEFAULT
+|`${var=$DEFAULT}`  | If var not set, evaluate expression as $DEFAULT
+|`${var:=$DEFAULT}` | If var not set or is empty, evaluate expression as $DEFAULT
+|`${var+$OTHER}`    | If var set, evaluate expression as $OTHER, otherwise as empty string
+|`${var:+$OTHER}`   | If var set, evaluate expression as $OTHER, otherwise as empty string
+|`$${var}`            | Escape expressions. Result will be `${var}`. 
+
+<sub>Most of the rows in this table were taken from [here](http://www.tldp.org/LDP/abs/html/refcards.html#AEN22728)</sub>
+
 
 ```bash
 export WORDPRESS_ADMIN_PASSWORD="xxx"
