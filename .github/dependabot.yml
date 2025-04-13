@@ -7,7 +7,7 @@ updates:
       - actions
       - Skip Changelog
     commit-message:
-      prefix: "chore: "
+      prefix: "chore(actions): "
     schedule:
       interval: weekly
       day: sunday
@@ -18,7 +18,7 @@ updates:
       - docker
       - Skip Changelog
     commit-message:
-      prefix: "chore: "
+      prefix: "chore(deps): "
     schedule:
       interval: weekly
       day: sunday
@@ -29,7 +29,7 @@ updates:
       - go
       - Skip Changelog
     commit-message:
-      prefix: "chore: "
+      prefix: "chore(deps): "
     schedule:
       interval: weekly
       day: sunday
