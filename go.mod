@@ -1,20 +1,20 @@
 module github.com/seacrew/helm-compose
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/Masterminds/semver v1.5.0
+	github.com/a8m/envsubst v1.4.3
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/jwalton/go-supportscolor v1.2.0
 	github.com/spf13/cobra v1.9.1
 	github.com/stretchr/testify v1.10.0
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/apimachinery v0.32.3
+	k8s.io/apimachinery v0.33.4
 	k8s.io/client-go v0.32.3
 )
 
 require (
-	github.com/a8m/envsubst v1.4.3 // indirect
 	github.com/fxamacker/cbor/v2 v2.8.0 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
@@ -35,7 +35,6 @@ require (
 	github.com/go-openapi/swag v0.23.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
-	github.com/google/gofuzz v1.2.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
