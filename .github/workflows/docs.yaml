@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
 
       - name: Run generate cache key
         run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
