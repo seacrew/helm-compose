@@ -4,17 +4,17 @@ go 1.24
 
 require (
 	github.com/Masterminds/semver v1.5.0
+	github.com/a8m/envsubst v1.4.3
 	github.com/aws/aws-sdk-go v1.55.6
 	github.com/jwalton/go-supportscolor v1.2.0
 	github.com/spf13/cobra v1.9.1
-	github.com/stretchr/testify v1.10.0
+	github.com/stretchr/testify v1.11.1
 	gopkg.in/yaml.v2 v2.4.0
 	k8s.io/apimachinery v0.32.3
 	k8s.io/client-go v0.32.3
 )
 
 require (
-	github.com/a8m/envsubst v1.4.3 // indirect
 	github.com/fxamacker/cbor/v2 v2.8.0 // indirect
 	github.com/google/gnostic-models v0.6.9 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
