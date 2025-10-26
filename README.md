@@ -1,3 +1,12 @@
+# ⚠️ Project Discontinued
+
+This open-source project is **no longer actively maintained**.
+
+- No new features or bug fixes will be added.
+- Pull requests and issues may not receive responses.
+
+---
+
 ![helm-compose-banner](https://user-images.githubusercontent.com/18513179/240495789-e76890d3-f0f9-48b9-9d18-89e53effe65b.png)
 
 [![Build Status](https://github.com/seacrew/helm-compose/actions/workflows/build.yaml/badge.svg)](https://github.com/seacrew/helm-compose/actions/workflows/build.yaml)
